@@ -39,3 +39,22 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# local presentation and report artifacts
+.prototype-shots/
+araria_pdf/
+araria_render/
+araria_render_quicklook/
+OSC_*.docx
+osc_casewise_success_stories*.zip
+osc_casewise_success_stories/
+osc_casewise_success_stories_final/
+osc_casewise_success_stories_final_report/
+osc_casewise_success_stories_ready_for_submission/
+osc_report_assets/
+output/
+outputs/
+tmp/
+build_araria_osc_report.py
+jan-sahayak-pro-complete.tsx
+render_pdf_pages.swift

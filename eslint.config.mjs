@@ -12,6 +12,8 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    "jan-sahayak-pro-complete.tsx",
+    "src/components/admin/jan-sahayak-pro-app.jsx",
   ]),
 ]);
 

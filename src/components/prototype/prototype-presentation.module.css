@@ -1,0 +1,603 @@
+.page {
+  width: min(1380px, calc(100vw - 40px));
+  margin: 0 auto;
+  padding: 36px 0 56px;
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+.hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1.45fr) minmax(320px, 0.9fr);
+  gap: 18px;
+  align-items: stretch;
+}
+
+.heroCopy,
+.heroPanel,
+.storyPanel,
+.consoleFrame,
+.presenterTip,
+.roadmapSection {
+  border: 1px solid rgba(53, 76, 118, 0.62);
+  border-radius: 26px;
+  background:
+    linear-gradient(180deg, rgba(24, 32, 48, 0.95), rgba(11, 18, 32, 0.98)),
+    radial-gradient(circle at top left, rgba(232, 162, 67, 0.12), transparent 34%);
+  box-shadow: 0 30px 90px rgba(2, 6, 18, 0.28);
+}
+
+.heroCopy {
+  padding: 28px 28px 26px;
+}
+
+.heroPanel {
+  padding: 18px;
+  display: flex;
+  align-items: stretch;
+}
+
+.eyebrow,
+.storyKicker,
+.phoneEyebrow,
+.consoleEyebrow {
+  display: inline-flex;
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: 0.24em;
+  font-size: 0.68rem;
+  font-weight: 700;
+}
+
+.title {
+  margin-top: 12px;
+  font-family: var(--font-display), Georgia, serif;
+  font-size: clamp(2.5rem, 4vw, 4.2rem);
+  line-height: 0.98;
+  max-width: 15ch;
+}
+
+.lede {
+  margin-top: 16px;
+  color: var(--dim);
+  font-size: 1rem;
+  line-height: 1.7;
+  max-width: 62ch;
+}
+
+.actionRow {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 22px;
+}
+
+.metaRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 18px;
+  margin-top: 18px;
+  color: var(--dim);
+  font-size: 0.8rem;
+}
+
+.summaryGrid {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.summaryTile,
+.proofCard,
+.roadmapCard,
+.phoneCard,
+.consoleSection {
+  border: 1px solid rgba(69, 95, 146, 0.34);
+  background: rgba(10, 16, 28, 0.76);
+  border-radius: 20px;
+}
+
+.summaryTile {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.summaryTile span,
+.proofCard span {
+  font-size: 0.76rem;
+  color: var(--dim);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+}
+
+.summaryTile strong,
+.proofCard strong {
+  font-size: 1.22rem;
+  line-height: 1.1;
+}
+
+.slidePicker {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.slideButton {
+  padding: 14px 16px;
+  border-radius: 18px;
+  border: 1px solid rgba(56, 80, 123, 0.55);
+  background: rgba(10, 16, 28, 0.7);
+  color: var(--dim);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  text-align: left;
+  cursor: pointer;
+  transition:
+    transform 0.18s ease,
+    border-color 0.18s ease,
+    background 0.18s ease,
+    color 0.18s ease;
+}
+
+.slideButton:hover {
+  transform: translateY(-2px);
+  border-color: rgba(232, 162, 67, 0.36);
+  color: var(--text);
+}
+
+.slideButton[data-active="true"] {
+  color: #fff7ea;
+  border-color: rgba(232, 162, 67, 0.5);
+  background:
+    linear-gradient(180deg, rgba(232, 162, 67, 0.18), rgba(17, 22, 34, 0.92)),
+    rgba(10, 16, 28, 0.7);
+}
+
+.slideNumber {
+  color: var(--accent);
+  font-size: 0.68rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.slideLabel {
+  font-size: 0.94rem;
+  font-weight: 700;
+}
+
+.stage {
+  --scene-accent: var(--accent);
+  --scene-soft: rgba(232, 162, 67, 0.1);
+  --scene-glow: rgba(232, 162, 67, 0.14);
+  display: grid;
+  grid-template-columns: minmax(300px, 0.92fr) minmax(300px, 0.84fr) minmax(320px, 1fr);
+  gap: 18px;
+  align-items: start;
+}
+
+.stage[data-tone="public"] {
+  --scene-accent: #c84b31;
+  --scene-soft: rgba(200, 75, 49, 0.12);
+  --scene-glow: rgba(230, 122, 86, 0.16);
+}
+
+.stage[data-tone="workspace"] {
+  --scene-accent: #e8a243;
+  --scene-soft: rgba(232, 162, 67, 0.12);
+  --scene-glow: rgba(232, 162, 67, 0.16);
+}
+
+.stage[data-tone="pipeline"] {
+  --scene-accent: #4caf82;
+  --scene-soft: rgba(76, 175, 130, 0.14);
+  --scene-glow: rgba(76, 175, 130, 0.18);
+}
+
+.stage[data-tone="ios"] {
+  --scene-accent: #4a90d9;
+  --scene-soft: rgba(74, 144, 217, 0.14);
+  --scene-glow: rgba(74, 144, 217, 0.18);
+}
+
+.storyPanel,
+.consoleFrame,
+.presenterTip {
+  padding: 24px;
+}
+
+.storyTitle {
+  margin-top: 10px;
+  font-family: var(--font-display), Georgia, serif;
+  font-size: clamp(1.65rem, 2.2vw, 2.35rem);
+  line-height: 1.06;
+}
+
+.storyCopy {
+  margin-top: 12px;
+  color: var(--dim);
+  line-height: 1.72;
+}
+
+.storyMeta {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+  margin-top: 20px;
+}
+
+.storyMeta p,
+.presenterTip p,
+.consoleSection p,
+.roadmapCopy {
+  color: var(--dim);
+  line-height: 1.65;
+}
+
+.metaLabel {
+  display: inline-flex;
+  margin-bottom: 8px;
+  color: var(--scene-accent);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.highlightBlock {
+  margin-top: 20px;
+}
+
+.highlightList {
+  display: grid;
+  gap: 10px;
+  margin-top: 4px;
+  list-style: none;
+}
+
+.highlightList li {
+  position: relative;
+  padding-left: 18px;
+  line-height: 1.65;
+}
+
+.highlightList li::before {
+  content: "";
+  position: absolute;
+  top: 0.65rem;
+  left: 0;
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: var(--scene-accent);
+  box-shadow: 0 0 0 6px var(--scene-soft);
+}
+
+.proofGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.proofCard {
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.mockColumn {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.phoneFrame {
+  position: relative;
+  padding: 22px;
+  border-radius: 34px;
+  background:
+    radial-gradient(circle at top center, var(--scene-glow), transparent 56%),
+    linear-gradient(180deg, rgba(16, 23, 36, 0.98), rgba(8, 13, 24, 0.98));
+  border: 1px solid rgba(58, 82, 126, 0.58);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+}
+
+.phoneBezel {
+  border-radius: 32px;
+  padding: 18px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.04), transparent 20%),
+    linear-gradient(180deg, rgba(11, 18, 32, 0.96), rgba(7, 12, 22, 0.98));
+  border: 1px solid rgba(74, 101, 150, 0.4);
+}
+
+.phoneNotch {
+  width: 126px;
+  height: 22px;
+  margin: 0 auto 18px;
+  border-radius: 999px;
+  background: rgba(6, 10, 18, 0.95);
+  border: 1px solid rgba(53, 74, 112, 0.42);
+}
+
+.phoneHeader {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+.phoneHeader h3,
+.consoleTopbar h3,
+.roadmapTitle {
+  margin-top: 6px;
+  font-size: 1.14rem;
+  line-height: 1.2;
+}
+
+.signalDot {
+  width: 12px;
+  height: 12px;
+  border-radius: 999px;
+  background: var(--scene-accent);
+  box-shadow: 0 0 0 8px var(--scene-soft);
+  margin-top: 4px;
+}
+
+.phoneGrid {
+  margin-top: 18px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.phoneCard {
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-height: 138px;
+}
+
+.phoneCard[data-wide="true"] {
+  grid-column: span 2;
+  min-height: 122px;
+}
+
+.phoneCard span {
+  color: var(--scene-accent);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.phoneCard strong {
+  font-size: 1rem;
+  line-height: 1.2;
+}
+
+.phoneCard p {
+  color: var(--dim);
+  font-size: 0.84rem;
+  line-height: 1.55;
+}
+
+.phoneCard[data-tone="accent"] {
+  background:
+    linear-gradient(180deg, color-mix(in srgb, var(--scene-accent) 22%, transparent), rgba(10, 16, 28, 0.86)),
+    rgba(10, 16, 28, 0.76);
+}
+
+.phoneCard[data-tone="green"] {
+  background:
+    linear-gradient(180deg, rgba(76, 175, 130, 0.18), rgba(10, 16, 28, 0.86)),
+    rgba(10, 16, 28, 0.76);
+}
+
+.phoneCard[data-tone="blue"] {
+  background:
+    linear-gradient(180deg, rgba(74, 144, 217, 0.18), rgba(10, 16, 28, 0.86)),
+    rgba(10, 16, 28, 0.76);
+}
+
+.phoneCard[data-tone="purple"] {
+  background:
+    linear-gradient(180deg, rgba(155, 114, 207, 0.18), rgba(10, 16, 28, 0.86)),
+    rgba(10, 16, 28, 0.76);
+}
+
+.phoneFooter {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
+  margin-top: 16px;
+  padding-top: 14px;
+  border-top: 1px solid rgba(72, 97, 145, 0.3);
+}
+
+.phoneFooter span {
+  font-size: 0.74rem;
+  color: var(--dim);
+  text-align: center;
+}
+
+.presenterTip {
+  position: relative;
+  overflow: hidden;
+}
+
+.presenterTip::after {
+  content: "";
+  position: absolute;
+  inset: auto -50px -70px auto;
+  width: 160px;
+  height: 160px;
+  border-radius: 999px;
+  background: var(--scene-glow);
+  filter: blur(10px);
+}
+
+.consoleFrame {
+  min-height: 100%;
+}
+
+.consoleTopbar {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  align-items: flex-start;
+}
+
+.consolePills,
+.consoleTags {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.consolePills span,
+.consoleTags span,
+.roadmapIndex {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 999px;
+  padding: 6px 10px;
+  background: var(--scene-soft);
+  border: 1px solid color-mix(in srgb, var(--scene-accent) 30%, transparent);
+  color: var(--scene-accent);
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+
+.consoleMetrics {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.consoleSectionList {
+  display: grid;
+  gap: 12px;
+  margin-top: 18px;
+}
+
+.consoleSection {
+  padding: 16px;
+}
+
+.consoleSectionHeader {
+  display: flex;
+  justify-content: space-between;
+  gap: 14px;
+  align-items: flex-start;
+  margin-bottom: 10px;
+}
+
+.consoleSectionHeader h4,
+.roadmapCard h3 {
+  font-size: 1rem;
+  line-height: 1.25;
+}
+
+.roadmapSection {
+  padding: 24px;
+}
+
+.roadmapHeader {
+  display: grid;
+  grid-template-columns: minmax(0, 0.88fr) minmax(0, 1fr);
+  gap: 18px;
+  align-items: end;
+}
+
+.roadmapCopy {
+  max-width: 60ch;
+}
+
+.roadmapGrid {
+  margin-top: 18px;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.roadmapCard {
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.roadmapCard p {
+  color: var(--dim);
+  line-height: 1.6;
+}
+
+@media (max-width: 1180px) {
+  .hero,
+  .stage,
+  .roadmapHeader {
+    grid-template-columns: 1fr;
+  }
+
+  .stage {
+    align-items: stretch;
+  }
+}
+
+@media (max-width: 980px) {
+  .slidePicker,
+  .roadmapGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .proofGrid,
+  .summaryGrid,
+  .consoleMetrics,
+  .storyMeta {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 720px) {
+  .page {
+    width: min(100vw - 24px, 100%);
+    padding: 22px 0 40px;
+  }
+
+  .heroCopy,
+  .heroPanel,
+  .storyPanel,
+  .consoleFrame,
+  .presenterTip,
+  .roadmapSection {
+    padding: 20px;
+    border-radius: 22px;
+  }
+
+  .title {
+    font-size: 2.2rem;
+  }
+
+  .slidePicker,
+  .roadmapGrid,
+  .phoneGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .phoneCard[data-wide="true"] {
+    grid-column: span 1;
+  }
+
+  .phoneFooter {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
