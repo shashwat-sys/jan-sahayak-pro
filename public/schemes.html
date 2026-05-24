@@ -1,0 +1,880 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="à¤à¥à¤à¤¦à¥à¤° à¤à¤° à¤¬à¤¿à¤¹à¤¾à¤° à¤¸à¤°à¤à¤¾à¤° à¤à¥ 30+ à¤à¤²à¥à¤¯à¤¾à¤£à¤à¤¾à¤°à¥ à¤¯à¥à¤à¤¨à¤¾à¤à¤ â Jan Sahayak | Janman People's Foundation">
+<title>à¤¸à¤°à¤à¤¾à¤°à¥ à¤¯à¥à¤à¤¨à¤¾à¤à¤ | Jan Sahayak</title>
+<style>
+:root{
+  --bg:#0a0f1e;
+  --surface:#111827;
+  --surface2:#1e2a3a;
+  --border:#1e3a5f;
+  --accent:#3b82f6;
+  --accent2:#10b981;
+  --gold:#f59e0b;
+  --red:#ef4444;
+  --text:#f1f5f9;
+  --muted:#94a3b8;
+  --terra:#ff6b4a;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'Segoe UI',Arial,sans-serif;min-height:100vh;}
+
+/* NAV */
+.topbar{
+  background:var(--surface);
+  border-bottom:1px solid var(--border);
+  padding:12px 16px;
+  display:flex;align-items:center;justify-content:space-between;
+  position:sticky;top:0;z-index:100;
+}
+.topbar-left{display:flex;align-items:center;gap:10px;}
+.logo-icon{font-size:22px;}
+.topbar-title{font-size:15px;font-weight:700;color:var(--text);}
+.topbar-sub{font-size:11px;color:var(--muted);}
+.nav-back{
+  background:var(--surface2);color:var(--muted);
+  border:1px solid var(--border);border-radius:8px;
+  padding:6px 14px;font-size:13px;text-decoration:none;
+  display:flex;align-items:center;gap:6px;
+}
+.nav-back:hover{color:var(--text);}
+.lang-toggle{
+  background:var(--accent);color:#fff;border:none;border-radius:20px;
+  padding:5px 14px;font-size:12px;font-weight:700;cursor:pointer;
+}
+
+/* HERO */
+.hero{
+  background:linear-gradient(135deg,var(--surface) 0%,var(--surface2) 100%);
+  border-bottom:1px solid var(--border);
+  padding:24px 16px;text-align:center;
+}
+.hero h1{
+  font-size:clamp(20px,4vw,32px);font-weight:800;
+  background:linear-gradient(135deg,var(--accent),var(--accent2));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  background-clip:text;margin-bottom:6px;
+}
+.hero p{font-size:14px;color:var(--muted);margin-bottom:14px;}
+.hero-badges{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;}
+.hero-badge{
+  background:var(--surface2);border:1px solid var(--border);
+  border-radius:20px;padding:4px 12px;font-size:12px;color:var(--muted);
+}
+.rights-bar{
+  background:linear-gradient(90deg,var(--terra),var(--gold));
+  color:#fff;font-size:12px;font-weight:700;text-align:center;padding:6px;
+}
+
+/* SEARCH */
+.search-wrap{max-width:600px;margin:16px auto;padding:0 16px;}
+.search-input{
+  width:100%;padding:12px 18px;
+  background:var(--surface);border:1px solid var(--border);border-radius:12px;
+  color:var(--text);font-size:15px;outline:none;
+  transition:border-color .2s;
+}
+.search-input:focus{border-color:var(--accent);}
+.search-input::placeholder{color:var(--muted);}
+
+/* CATEGORY TABS */
+.cat-wrap{
+  display:flex;flex-wrap:wrap;gap:6px;
+  padding:12px 16px;max-width:1000px;margin:0 auto;
+  justify-content:center;
+}
+.cat-chip{
+  background:var(--surface2);border:1px solid var(--border);
+  color:var(--muted);border-radius:20px;
+  padding:6px 14px;font-size:12px;cursor:pointer;
+  transition:all .15s;white-space:nowrap;
+}
+.cat-chip:hover,.cat-chip.active{
+  background:var(--accent);border-color:var(--accent);
+  color:#fff;font-weight:700;
+}
+
+/* SCHEME GRID */
+.main{max-width:1000px;margin:0 auto;padding:0 16px 40px;}
+.section-head{
+  color:var(--accent);font-size:14px;font-weight:800;
+  letter-spacing:.5px;text-transform:uppercase;
+  margin:24px 0 10px;border-left:3px solid var(--accent);
+  padding-left:10px;display:flex;align-items:center;gap:8px;
+}
+.scheme-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(300px,1fr));
+  gap:12px;
+}
+.scheme-card{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:12px;overflow:hidden;
+  transition:border-color .15s,transform .15s;
+}
+.scheme-card:hover{border-color:var(--accent);transform:translateY(-2px);}
+.sc-top{
+  padding:12px 14px;border-bottom:1px solid var(--border);
+  display:flex;justify-content:space-between;align-items:flex-start;gap:6px;
+}
+.sc-name{font-size:13px;font-weight:700;color:var(--text);line-height:1.4;}
+.sc-law{
+  font-size:10px;background:rgba(59,130,246,.15);color:var(--accent);
+  border-radius:8px;padding:2px 8px;white-space:nowrap;flex-shrink:0;
+  border:1px solid rgba(59,130,246,.3);
+}
+.sc-body{padding:10px 14px;}
+.sc-row{display:flex;gap:8px;margin-bottom:8px;font-size:12px;align-items:flex-start;}
+.sc-icon{
+  width:22px;height:22px;border-radius:50%;
+  background:rgba(59,130,246,.15);
+  display:flex;align-items:center;justify-content:center;
+  font-size:11px;flex-shrink:0;color:var(--accent);
+}
+.sc-label{font-size:10px;font-weight:700;color:var(--accent);margin-bottom:1px;}
+.sc-val{color:#cbd5e1;line-height:1.4;}
+.sc-amount{font-weight:700;color:var(--accent2);}
+.sc-footer{
+  border-top:1px solid var(--border);
+  padding:8px 14px;display:flex;
+  justify-content:space-between;align-items:center;
+}
+.portal-link{font-size:11px;color:var(--accent);text-decoration:none;font-weight:600;}
+.letter-btn{
+  background:rgba(59,130,246,.15);color:var(--accent);
+  border:1px solid rgba(59,130,246,.3);border-radius:20px;
+  padding:4px 12px;font-size:11px;cursor:pointer;
+  transition:all .1s;
+}
+.letter-btn:hover{background:var(--accent);color:#fff;}
+
+/* CHECKER */
+.checker-wrap{
+  background:var(--surface);border:1px solid var(--accent);
+  border-radius:12px;padding:20px;margin-bottom:20px;
+}
+.checker-title{font-size:16px;font-weight:700;color:var(--accent);margin-bottom:12px;}
+.checker-select,.checker-inp{
+  width:100%;padding:10px;background:var(--surface2);
+  border:1px solid var(--border);border-radius:8px;
+  color:var(--text);font-size:14px;margin-bottom:10px;
+}
+.checker-label{font-size:13px;color:var(--muted);margin-bottom:4px;display:block;}
+.check-btn{
+  width:100%;background:var(--accent);color:#fff;border:none;
+  border-radius:8px;padding:12px;font-size:15px;font-weight:700;
+  cursor:pointer;transition:opacity .1s;
+}
+.check-btn:hover{opacity:.9;}
+.result-ok{
+  background:rgba(16,185,129,.1);border:1px solid var(--accent2);
+  border-radius:8px;padding:14px;margin-top:12px;
+}
+.result-fail{
+  background:rgba(239,68,68,.1);border:1px solid var(--red);
+  border-radius:8px;padding:14px;margin-top:12px;color:#fca5a5;
+}
+.result-title{font-weight:700;margin-bottom:8px;color:var(--accent2);}
+.result-row{display:flex;align-items:center;gap:8px;padding:4px 0;font-size:13px;color:#a7f3d0;}
+
+/* MODAL */
+.modal-overlay{
+  display:none;position:fixed;inset:0;
+  background:rgba(0,0,0,.8);z-index:999;
+  align-items:center;justify-content:center;
+}
+.modal-overlay.active{display:flex;}
+.modal{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:12px;max-width:680px;width:92vw;max-height:85vh;
+  overflow:hidden;display:flex;flex-direction:column;
+}
+.modal-hd{
+  background:linear-gradient(90deg,var(--accent),var(--accent2));
+  padding:14px 18px;display:flex;justify-content:space-between;align-items:center;
+}
+.modal-hd h3{font-size:14px;font-weight:700;}
+.modal-close{background:none;border:none;color:#fff;font-size:20px;cursor:pointer;}
+.modal-tabs{display:flex;border-bottom:1px solid var(--border);}
+.modal-tab{
+  flex:1;padding:10px;border:none;background:transparent;
+  color:var(--muted);font-size:13px;cursor:pointer;border-bottom:2px solid transparent;
+}
+.modal-tab.active{color:var(--accent);border-bottom-color:var(--accent);}
+.modal-body{padding:16px;overflow-y:auto;flex:1;}
+.letter-text{
+  background:var(--surface2);border:1px solid var(--border);border-radius:8px;
+  padding:14px;font-size:12px;line-height:1.8;white-space:pre-wrap;
+  font-family:monospace;max-height:280px;overflow-y:auto;color:#cbd5e1;
+}
+.copy-btn{
+  width:100%;margin-top:10px;background:var(--accent2);color:#fff;
+  border:none;border-radius:8px;padding:10px;font-size:14px;font-weight:700;cursor:pointer;
+}
+
+/* HELPLINES */
+.helplines{
+  background:var(--surface);border-top:1px solid var(--border);
+  padding:16px;text-align:center;
+}
+.helplines h3{color:var(--muted);font-size:12px;margin-bottom:8px;text-transform:uppercase;}
+.hl-grid{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;}
+.hl-badge{
+  background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.3);
+  color:#fca5a5;border-radius:8px;padding:4px 12px;font-size:12px;font-weight:700;
+}
+
+/* NO RESULTS */
+.no-res{text-align:center;padding:40px;color:var(--muted);display:none;}
+.no-res.show{display:block;}
+
+/* LANG CONTROL */
+[data-l="en"]{display:none}
+html[data-lang="en"] [data-l="hi"]{display:none}
+html[data-lang="en"] [data-l="en"]{display:inline}
+.bl-en{display:none}
+.bl-hi{display:inline}
+html[data-lang="en"] .bl-en{display:block}
+html[data-lang="en"] .bl-hi{display:none}
+
+@media(max-width:600px){
+  .scheme-grid{grid-template-columns:1fr;}
+  .cat-chip{font-size:11px;padding:5px 10px;}
+}
+</style>
+</head>
+<body>
+
+<!-- TOPBAR -->
+<div class="topbar">
+  <div class="topbar-left">
+    <span class="logo-icon">ð</span>
+    <div>
+      <div class="topbar-title"><span data-l="hi">à¤¸à¤°à¤à¤¾à¤°à¥ à¤¯à¥à¤à¤¨à¤¾à¤à¤</span><span data-l="en">Government Schemes</span></div>
+      <div class="topbar-sub">Jan Sahayak Â· Janman People's Foundation</div>
+    </div>
+  </div>
+  <div style="display:flex;gap:8px;align-items:center">
+    <button class="lang-toggle" onclick="toggleLang()" id="langBtn">EN</button>
+    <a href="https://jan-sahayak-pro.vercel.app" class="nav-back">â <span data-l="hi">à¤¹à¥à¤®</span><span data-l="en">Home</span></a>
+  </div>
+</div>
+
+<!-- RIGHTS BAR -->
+<div class="rights-bar">
+  <span data-l="hi">âï¸ à¤¯à¤¹ à¤à¤ªà¤à¤¾ à¤à¤¾à¤¨à¥à¤¨à¥ à¤à¤§à¤¿à¤à¤¾à¤° à¤¹à¥ â à¤à¤¨à¥à¤à¥à¤à¥à¤¦ 21 | Jan Nyaya Abhiyan</span>
+  <span data-l="en">âï¸ This is your legal right â Article 21 | Jan Nyaya Abhiyan</span>
+</div>
+
+<!-- HERO -->
+<div class="hero">
+  <h1><span data-l="hi">à¤à¥à¤à¤¦à¥à¤° + à¤¬à¤¿à¤¹à¤¾à¤° à¤à¥ à¤à¤²à¥à¤¯à¤¾à¤£ à¤¯à¥à¤à¤¨à¤¾à¤à¤</span><span data-l="en">Central + Bihar Welfare Schemes</span></h1>
+  <p><span data-l="hi">30+ à¤¯à¥à¤à¤¨à¤¾à¤à¤ â à¤ªà¥à¤à¤¶à¤¨, à¤°à¤¾à¤¶à¤¨, à¤¸à¥à¤µà¤¾à¤¸à¥à¤¥à¥à¤¯, à¤®à¤¹à¤¿à¤²à¤¾, à¤¦à¤¿à¤µà¥à¤¯à¤¾à¤à¤, à¤à¤µà¤¾à¤¸, à¤¶à¥à¤°à¤®</span><span data-l="en">30+ schemes â Pensions, Food, Health, Women, Disability, Housing, Labour</span></p>
+  <div class="hero-badges">
+    <span class="hero-badge">ð§ Pensions</span>
+    <span class="hero-badge">ð¾ Food</span>
+    <span class="hero-badge">ð© Women</span>
+    <span class="hero-badge">â¿ Disability</span>
+    <span class="hero-badge">ð¥ Health</span>
+    <span class="hero-badge">ð  Housing</span>
+    <span class="hero-badge">ð¨ Labour</span>
+    <span class="hero-badge">â Eligibility Check</span>
+  </div>
+</div>
+
+<!-- SEARCH -->
+<div class="search-wrap">
+  <input class="search-input" id="searchInput" type="text"
+    placeholder="à¤¯à¥à¤à¤¨à¤¾ à¤à¥à¤à¥à¤... / Search schemes..." oninput="filterAll()">
+</div>
+
+<!-- CATEGORY CHIPS -->
+<div class="cat-wrap" id="catWrap">
+  <button class="cat-chip active" data-cat="all" onclick="setCat('all',this)">ð <span data-l="hi">à¤¸à¤­à¥</span><span data-l="en">All</span></button>
+  <button class="cat-chip" data-cat="pension" onclick="setCat('pension',this)">ð§ <span data-l="hi">à¤ªà¥à¤à¤¶à¤¨</span><span data-l="en">Pension</span></button>
+  <button class="cat-chip" data-cat="food" onclick="setCat('food',this)">ð¾ <span data-l="hi">à¤à¤¾à¤¦à¥à¤¯</span><span data-l="en">Food</span></button>
+  <button class="cat-chip" data-cat="women" onclick="setCat('women',this)">ð© <span data-l="hi">à¤®à¤¹à¤¿à¤²à¤¾</span><span data-l="en">Women</span></button>
+  <button class="cat-chip" data-cat="maternity" onclick="setCat('maternity',this)">ð¤± <span data-l="hi">à¤®à¤¾à¤¤à¥à¤¤à¥à¤µ</span><span data-l="en">Maternity</span></button>
+  <button class="cat-chip" data-cat="disability" onclick="setCat('disability',this)">â¿ <span data-l="hi">à¤¦à¤¿à¤µà¥à¤¯à¤¾à¤à¤</span><span data-l="en">Disability</span></button>
+  <button class="cat-chip" data-cat="health" onclick="setCat('health',this)">ð¥ <span data-l="hi">à¤¸à¥à¤µà¤¾à¤¸à¥à¤¥à¥à¤¯</span><span data-l="en">Health</span></button>
+  <button class="cat-chip" data-cat="housing" onclick="setCat('housing',this)">ð  <span data-l="hi">à¤à¤µà¤¾à¤¸</span><span data-l="en">Housing</span></button>
+  <button class="cat-chip" data-cat="labour" onclick="setCat('labour',this)">ð¨ <span data-l="hi">à¤¶à¥à¤°à¤®</span><span data-l="en">Labour</span></button>
+  <button class="cat-chip" data-cat="tribal" onclick="setCat('tribal',this)">ð¿ <span data-l="hi">à¤à¤¦à¤¿à¤µà¤¾à¤¸à¥</span><span data-l="en">Tribal</span></button>
+  <button class="cat-chip" data-cat="bonded" onclick="setCat('bonded',this)">âï¸ <span data-l="hi">à¤¬à¤à¤§à¤</span><span data-l="en">Bonded</span></button>
+  <button class="cat-chip" data-cat="children" onclick="setCat('children',this)">ð§ <span data-l="hi">à¤¬à¤à¥à¤à¥</span><span data-l="en">Children</span></button>
+</div>
+
+<!-- MAIN -->
+<div class="main">
+  <!-- CHECKER -->
+  <div class="checker-wrap" id="checkerWrap" style="display:none">
+    <div class="checker-title">â <span data-l="hi">à¤ªà¤¾à¤¤à¥à¤°à¤¤à¤¾ à¤à¤¾à¤à¤</span><span data-l="en">Eligibility Check</span></div>
+    <label class="checker-label"><span data-l="hi">à¤¯à¥à¤à¤¨à¤¾ à¤à¥à¤¨à¥à¤</span><span data-l="en">Select Scheme</span></label>
+    <select class="checker-select" id="cScheme" onchange="loadCq()">
+      <option value="">â <span>Select / à¤à¥à¤¨à¥à¤</span> â</option>
+      <option value="ignoaps">IGNOAPS â à¤µà¥à¤¦à¥à¤§à¤¾à¤µà¤¸à¥à¤¥à¤¾ à¤ªà¥à¤à¤¶à¤¨</option>
+      <option value="pmmvy">PMMVY â à¤®à¤¾à¤¤à¥à¤¤à¥à¤µ à¤µà¤à¤¦à¤¨à¤¾</option>
+      <option value="nfsa">NFSA â à¤°à¤¾à¤¶à¤¨ à¤à¤¾à¤°à¥à¤¡</option>
+      <option value="mgnregs">MGNREGS â à¤à¥à¤¬ à¤à¤¾à¤°à¥à¤¡</option>
+    </select>
+    <div id="cqWrap"></div>
+    <button class="check-btn" id="cBtn" style="display:none" onclick="runCheck()">
+      <span data-l="hi">à¤ªà¤¾à¤¤à¥à¤°à¤¤à¤¾ à¤à¤¾à¤à¤à¥à¤</span><span data-l="en">Check Eligibility</span>
+    </button>
+    <div id="cResult"></div>
+  </div>
+
+  <!-- SCHEME CONTAINER -->
+  <div id="schemeContainer"></div>
+  <div class="no-res" id="noRes"><span data-l="hi">à¤à¥à¤ à¤¯à¥à¤à¤¨à¤¾ à¤¨à¤¹à¥à¤ à¤®à¤¿à¤²à¥à¥¤</span><span data-l="en">No schemes found.</span></div>
+</div>
+
+<!-- HELPLINES -->
+<div class="helplines">
+  <h3><span data-l="hi">à¤à¤ªà¤¾à¤¤à¤à¤¾à¤²à¥à¤¨ à¤¹à¥à¤²à¥à¤ªà¤²à¤¾à¤à¤¨</span><span data-l="en">Emergency Helplines</span></h3>
+  <div class="hl-grid">
+    <span class="hl-badge">112 â Police</span>
+    <span class="hl-badge">181 â Women</span>
+    <span class="hl-badge">1098 â Childline</span>
+    <span class="hl-badge">108 â Ambulance</span>
+    <span class="hl-badge">14567 â Senior Citizens</span>
+    <span class="hl-badge">15100 â Legal Aid</span>
+    <span class="hl-badge">1800-111-565 â PM-JAY</span>
+    <span class="hl-badge">1800-11-2002 â MGNREGS</span>
+  </div>
+  <div style="margin-top:10px;font-size:11px;color:var(--muted)">
+    <a href="https://pgportal.gov.in" style="color:var(--accent);text-decoration:none" target="_blank">CPGRAMS</a> Â·
+    <a href="https://rtpsappeal.bihar.gov.in" style="color:var(--accent);text-decoration:none" target="_blank">RTPS Appeal Bihar</a> Â·
+    <a href="https://serviceonline.bihar.gov.in" style="color:var(--accent);text-decoration:none" target="_blank">Service Online Bihar</a>
+  </div>
+</div>
+
+<!-- LETTER MODAL -->
+<div class="modal-overlay" id="lModal">
+  <div class="modal">
+    <div class="modal-hd">
+      <h3 id="mTitle">Letter</h3>
+      <button class="modal-close" onclick="closeM()">â</button>
+    </div>
+    <div class="modal-tabs">
+      <button class="modal-tab active" id="tApp" onclick="swTab('app')"><span data-l="hi">à¤à¤µà¥à¤¦à¤¨</span><span data-l="en">Application</span></button>
+      <button class="modal-tab" id="tGriev" onclick="swTab('griev')"><span data-l="hi">à¤¶à¤¿à¤à¤¾à¤¯à¤¤</span><span data-l="en">Grievance</span></button>
+      <button class="modal-tab" id="tRti" onclick="swTab('rti')">RTI</button>
+    </div>
+    <div class="modal-body">
+      <div class="letter-text" id="mText"></div>
+      <button class="copy-btn" onclick="cpLetter()">ð <span data-l="hi">à¤à¥à¤ªà¥ à¤à¤°à¥à¤</span><span data-l="en">Copy</span></button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ============ FULL SCHEMES DATA ============
+const SD = [
+  {id:"ignoaps",cat:"pension",
+   name:{hi:"IGNOAPS â à¤à¤à¤¦à¤¿à¤°à¤¾ à¤à¤¾à¤à¤§à¥ à¤°à¤¾à¤·à¥à¤à¥à¤°à¥à¤¯ à¤µà¥à¤¦à¥à¤§à¤¾à¤µà¤¸à¥à¤¥à¤¾ à¤ªà¥à¤à¤¶à¤¨",en:"IGNOAPS â National Old Age Pension"},
+   what:{hi:"â¹500/à¤®à¤¾à¤¹ (60-79 à¤µà¤°à¥à¤·) | â¹800/à¤®à¤¾à¤¹ (80+ à¤µà¤°à¥à¤·)",en:"â¹500/month (60-79 yrs) | â¹800/month (80+ yrs)"},
+   who:{hi:"60+ à¤µà¤°à¥à¤·, BPL à¤ªà¤°à¤¿à¤µà¤¾à¤°",en:"60+ years, BPL family"},
+   docs:{hi:"à¤à¤§à¤¾à¤°, à¤à¤¯à¥ à¤ªà¥à¤°à¤®à¤¾à¤£, BPL à¤°à¤¾à¤¶à¤¨ à¤à¤¾à¤°à¥à¤¡, à¤¬à¥à¤à¤ à¤ªà¤¾à¤¸à¤¬à¥à¤",en:"Aadhaar, age proof, BPL ration card, bank passbook"},
+   where:{hi:"BDO / RTPS à¤ªà¥à¤°à¥à¤à¤²",en:"BDO / RTPS Portal"},
+   refused:{hi:"à¤à¤¿à¤²à¤¾ à¤¸à¤¾à¤®à¤¾à¤à¤¿à¤ à¤¸à¥à¤°à¤à¥à¤·à¤¾ à¤à¥à¤·à¤¾à¤à¤; CPGRAMS; RTPS à¤à¤ªà¥à¤²",en:"District Social Security Cell; CPGRAMS; RTPS appeal"},
+   law:"NSAP 1995",portal:"sspmis.in",
+   app_hi:`à¤¸à¥à¤µà¤¾ à¤®à¥à¤,
+à¤¶à¥à¤°à¥à¤®à¤¾à¤¨ à¤ªà¥à¤°à¤à¤à¤¡ à¤µà¤¿à¤à¤¾à¤¸ à¤ªà¤¦à¤¾à¤§à¤¿à¤à¤¾à¤°à¥,
+[à¤ªà¥à¤°à¤à¤à¤¡], [à¤à¤¿à¤²à¤¾], à¤¬à¤¿à¤¹à¤¾à¤°
+
+à¤µà¤¿à¤·à¤¯: IGNOAPS à¤ªà¥à¤à¤¶à¤¨ à¤¹à¥à¤¤à¥ à¤à¤µà¥à¤¦à¤¨
+
+à¤®à¤¹à¥à¤¦à¤¯,
+à¤®à¥à¤ [à¤¨à¤¾à¤®], à¤à¤®à¥à¤° [à¤à¤¯à¥], à¤à¥à¤°à¤¾à¤® [à¤à¤¾à¤à¤µ], à¤à¤¿à¤²à¤¾ [à¤à¤¿à¤²à¤¾]à¥¤
+à¤®à¥à¤°à¥ à¤à¤¨à¥à¤®à¤¤à¤¿à¤¥à¤¿ [__] à¤¹à¥, BPL à¤°à¤¾à¤¶à¤¨ à¤à¤¾à¤°à¥à¤¡ à¤¸à¤à¤à¥à¤¯à¤¾ [__]à¥¤
+
+NSAP 1995 à¤à¥ à¤à¤à¤¤à¤°à¥à¤à¤¤ à¤®à¥à¤ IGNOAPS à¤ªà¥à¤à¤¶à¤¨ à¤à¤¾ à¤ªà¤¾à¤¤à¥à¤°/à¤ªà¤¾à¤¤à¥à¤°à¤¾ à¤¹à¥à¤à¥¤
+
+à¤¨à¤¿à¤µà¥à¤¦à¤¨ à¤¹à¥ à¤à¤¿ à¤ªà¥à¤à¤¶à¤¨ à¤¬à¥à¤à¤ à¤à¤¾à¤¤à¤¾ [__] à¤®à¥à¤ à¤à¥à¤¡à¤¼à¥à¤à¥¤
+à¤¬à¤¿à¤¹à¤¾à¤° RTPS 2011: 45 à¤¦à¤¿à¤¨ à¤®à¥à¤ à¤¸à¥à¤µà¤¾ à¤à¤¨à¤¿à¤µà¤¾à¤°à¥à¤¯à¥¤
+
+à¤¸à¤à¤²à¤à¥à¤¨: à¤à¤§à¤¾à¤°, à¤à¤¯à¥ à¤ªà¥à¤°à¤®à¤¾à¤£, BPL à¤à¤¾à¤°à¥à¤¡, à¤ªà¤¾à¤¸à¤¬à¥à¤à¥¤
+
+à¤­à¤µà¤¦à¥à¤¯,
+[à¤¨à¤¾à¤®] | [à¤¦à¤¿à¤¨à¤¾à¤à¤]`,
+   griev_hi:`à¤¸à¥à¤µà¤¾ à¤®à¥à¤,
+à¤à¤¿à¤²à¤¾ à¤¸à¤¾à¤®à¤¾à¤à¤¿à¤ à¤¸à¥à¤°à¤à¥à¤·à¤¾ à¤à¥à¤·à¤¾à¤à¤, [à¤à¤¿à¤²à¤¾]
+
+à¤µà¤¿à¤·à¤¯: IGNOAPS â à¤à¤¸à¥à¤µà¥à¤à¥à¤¤à¤¿/à¤¦à¥à¤°à¥ à¤¶à¤¿à¤à¤¾à¤¯à¤¤
+
+à¤®à¥à¤°à¤¾ à¤à¤µà¥à¤¦à¤¨ à¤¦à¤¿à¤¨à¤¾à¤à¤ [__] à¤¸à¥ à¤²à¤à¤¬à¤¿à¤¤ à¤¹à¥à¥¤
+NSAP 1995 à¤à¤µà¤ RTPS 2011 à¤à¥ à¤¤à¤¹à¤¤ 45 à¤¦à¤¿à¤¨ à¤à¥ à¤¸à¥à¤®à¤¾ à¤¬à¥à¤¤ à¤à¥à¤à¥ à¤¹à¥à¥¤
+
+à¤®à¤¾à¤à¤: 15 à¤¦à¤¿à¤¨ à¤®à¥à¤ à¤ªà¥à¤à¤¶à¤¨ à¤¸à¥à¤µà¥à¤à¥à¤¤à¤¿ + à¤¬à¤à¤¾à¤¯à¤¾ à¤­à¥à¤à¤¤à¤¾à¤¨à¥¤
+
+[à¤¨à¤¾à¤®] | [à¤¦à¤¿à¤¨à¤¾à¤à¤]`,
+   rti_hi:`RTH 2005 à¤à¥ à¤¤à¤¹à¤¤ à¤à¤µà¥à¤¦à¤¨
+
+PIO, à¤¸à¤¾à¤®à¤¾à¤à¤¿à¤ à¤¸à¥à¤°à¤à¥à¤·à¤¾ à¤à¥à¤·à¤¾à¤à¤, [à¤à¤¿à¤²à¤¾]
+
+à¤à¤¾à¤¹à¤¿à¤:
+1. [à¤à¤¿à¤²à¥] à¤®à¥à¤ IGNOAPS à¤²à¤¾à¤­à¤¾à¤°à¥à¤¥à¤¿à¤¯à¥à¤ à¤à¥ à¤¸à¤à¤à¥à¤¯à¤¾
+2. [à¤µà¤°à¥à¤·] à¤¸à¥ à¤²à¤à¤¬à¤¿à¤¤ à¤à¤µà¥à¤¦à¤¨à¥à¤ à¤à¥ à¤¸à¥à¤à¥
+3. à¤®à¥à¤°à¥ à¤à¤µà¥à¤¦à¤¨ ([à¤¦à¤¿à¤¨à¤¾à¤à¤]) à¤à¥ à¤¸à¥à¤¥à¤¿à¤¤à¤¿
+
+[à¤¨à¤¾à¤®] | [à¤¦à¤¿à¤¨à¤¾à¤à¤]`},
+
+  {id:"ignwps",cat:"pension",
+   name:{hi:"IGNWPS â à¤µà¤¿à¤§à¤µà¤¾ à¤ªà¥à¤à¤¶à¤¨",en:"IGNWPS â Widow Pension"},
+   what:{hi:"â¹700/à¤®à¤¾à¤¹ (40-79 à¤µà¤°à¥à¤· à¤µà¤¿à¤§à¤µà¤¾)",en:"â¹700/month (widow aged 40-79 years)"},
+   who:{hi:"40-79 à¤µà¤°à¥à¤· à¤µà¤¿à¤§à¤µà¤¾, BPL à¤ªà¤°à¤¿à¤µà¤¾à¤°",en:"Widow 40-79 years, BPL family"},
+   docs:{hi:"à¤à¤§à¤¾à¤°, à¤ªà¤¤à¤¿ à¤à¤¾ à¤®à¥à¤¤à¥à¤¯à¥ à¤ªà¥à¤°à¤®à¤¾à¤£, BPL à¤à¤¾à¤°à¥à¤¡, à¤¬à¥à¤à¤ à¤ªà¤¾à¤¸à¤¬à¥à¤",en:"Aadhaar, husband death certificate, BPL card, bank passbook"},
+   where:{hi:"BDO / sspmis.in",en:"BDO / sspmis.in"},
+   refused:{hi:"à¤à¤¿à¤²à¤¾ à¤¸à¤¾à¤®à¤¾à¤à¤¿à¤ à¤¸à¥à¤°à¤à¥à¤·à¤¾ à¤à¥à¤·à¤¾à¤à¤; CPGRAMS",en:"District Social Security Cell; CPGRAMS"},
+   law:"NSAP 1995",portal:"sspmis.in"},
+
+  {id:"igndps",cat:"pension",
+   name:{hi:"IGNDPS â à¤¦à¤¿à¤µà¥à¤¯à¤¾à¤à¤ à¤ªà¥à¤à¤¶à¤¨",en:"IGNDPS â Disability Pension"},
+   what:{hi:"â¹700/à¤®à¤¾à¤¹ (18-79 à¤µà¤°à¥à¤·, 80%+ à¤¦à¤¿à¤µà¥à¤¯à¤¾à¤à¤à¤¤à¤¾)",en:"â¹700/month (18-79 yrs, 80%+ disability)"},
+   who:{hi:"18-79 à¤µà¤°à¥à¤·, 80%+ à¤¦à¤¿à¤µà¥à¤¯à¤¾à¤à¤à¤¤à¤¾, BPL",en:"18-79 years, 80%+ benchmark disability, BPL"},
+   docs:{hi:"à¤à¤§à¤¾à¤°, UDID, BPL à¤à¤¾à¤°à¥à¤¡, à¤¬à¥à¤à¤ à¤ªà¤¾à¤¸à¤¬à¥à¤",en:"Aadhaar, UDID, BPL card, bank passbook"},
+   where:{hi:"BDO / RTPS",en:"BDO / RTPS Portal"},
+   refused:{hi:"à¤à¤¿à¤²à¤¾ à¤¦à¤¿à¤µà¥à¤¯à¤¾à¤à¤ à¤¸à¤¶à¤à¥à¤¤à¥à¤à¤°à¤£ à¤à¤¾à¤°à¥à¤¯à¤¾à¤²à¤¯; CPGRAMS",en:"CCPD; CPGRAMS"},
+   law:"NSAP 1995; RPwD 2016",portal:"sspmis.in"},
+
+  {id:"nfbs",cat:"pension",
+   name:{hi:"NFBS â à¤°à¤¾à¤·à¥à¤à¥à¤°à¥à¤¯ à¤ªà¤°à¤¿à¤µà¤¾à¤° à¤²à¤¾à¤­",en:"NFBS â National Family Benefit"},
+   what:{hi:"â¹20,000 à¤à¤à¤®à¥à¤¶à¥à¤¤ (à¤®à¥à¤à¤¿à¤¯à¤¾ à¤à¥ à¤®à¥à¤¤à¥à¤¯à¥ à¤ªà¤°)",en:"â¹20,000 one-time (on breadwinner's death)"},
+   who:{hi:"BPL à¤ªà¤°à¤¿à¤µà¤¾à¤°, à¤®à¥à¤à¤¿à¤¯à¤¾ 18-60 à¤®à¥à¤ à¤®à¥à¤¤",en:"BPL family, breadwinner died aged 18-60"},
+   docs:{hi:"à¤à¤§à¤¾à¤°, à¤®à¥à¤¤à¥à¤¯à¥ à¤ªà¥à¤°à¤®à¤¾à¤£, BPL à¤à¤¾à¤°à¥à¤¡, à¤¬à¥à¤à¤ à¤ªà¤¾à¤¸à¤¬à¥à¤",en:"Aadhaar, death certificate, BPL card, bank passbook"},
+   where:{hi:"BDO / RTPS",en:"BDO / RTPS"},
+   refused:{hi:"à¤à¤¿à¤²à¤¾ à¤¸à¤¾à¤®à¤¾à¤à¤¿à¤ à¤¸à¥à¤°à¤à¥à¤·à¤¾ à¤à¥à¤·à¤¾à¤à¤",en:"District Social Security Cell"},
+   law:"NSAP 1995",portal:"serviceonline.bihar.gov.in"},
+
+  {id:"nfsa",cat:"food",
+   name:{hi:"NFSA â PHH à¤°à¤¾à¤¶à¤¨",en:"NFSA â Priority Household Ration"},
+   what:{hi:"5 à¤à¤¿à¤²à¥/à¤µà¥à¤¯à¤à¥à¤¤à¤¿/à¤®à¤¾à¤¹ @ â¹3/â¹2/â¹1",en:"5 kg/person/month @ â¹3/â¹2/â¹1"},
+   who:{hi:"PHH à¤°à¤¾à¤¶à¤¨ à¤à¤¾à¤°à¥à¤¡ à¤§à¤¾à¤°à¤",en:"Priority Household ration card holders"},
+   docs:{hi:"à¤à¤§à¤¾à¤°, à¤°à¤¾à¤¶à¤¨ à¤à¤¾à¤°à¥à¤¡",en:"Aadhaar, ration card"},
+   where:{hi:"à¤à¤à¤¿à¤¤ à¤®à¥à¤²à¥à¤¯ à¤à¥ à¤¦à¥à¤à¤¾à¤¨ (FPS)",en:"Fair Price Shop (FPS)"},
+   refused:{hi:"à¤à¤¿à¤²à¤¾ à¤à¤ªà¥à¤°à¥à¤¤à¤¿ à¤à¤§à¤¿à¤à¤¾à¤°à¥; à¤°à¤¾à¤à¥à¤¯ à¤à¤¾à¤¦à¥à¤¯ à¤à¤¯à¥à¤",en:"District Supply Officer; State Food Commission"},
+   law:"NFSA 2013",portal:"epds.bihar.gov.in"},
+
+  {id:"aay",cat:"food",
+   name:{hi:"AAY â à¤à¤à¤¤à¥à¤¯à¥à¤¦à¤¯ à¤à¤¨à¥à¤¨ à¤¯à¥à¤à¤¨à¤¾",en:"AAY â Antyodaya Anna Yojana"},
+   what:{hi:"35 à¤à¤¿à¤²à¥/à¤ªà¤°à¤¿à¤µà¤¾à¤°/à¤®à¤¾à¤¹ @ â¹3/â¹2/â¹1",en:"35 kg/family/month @ â¹3/â¹2/â¹1"},
+   who:{hi:"à¤¸à¤¬à¤¸à¥ à¤à¤°à¥à¤¬: à¤­à¥à¤®à¤¿à¤¹à¥à¤¨, à¤µà¤¿à¤§à¤µà¤¾, à¤¬à¥à¤¸à¤¹à¤¾à¤°à¤¾ à¤µà¥à¤¦à¥à¤§, à¤¦à¤¿à¤µà¥à¤¯à¤¾à¤à¤",en:"Poorest of poor: landless, widows, destitute elderly, disabled"},
+   docs:{hi:"AAY à¤°à¤¾à¤¶à¤¨ à¤à¤¾à¤°à¥à¤¡ (à¤ªà¥à¤²à¤¾), à¤à¤§à¤¾à¤°",en:"AAY ration card (yellow), Aadhaar"},
+   where:{hi:"à¤à¤à¤¿à¤¤ à¤®à¥à¤²à¥à¤¯ à¤à¥ à¤¦à¥à¤à¤¾à¤¨",en:"Fair Price Shop"},
+   refused:{hi:"à¤à¤¿à¤²à¤¾ à¤à¤ªà¥à¤°à¥à¤¤à¤¿ à¤à¤§à¤¿à¤à¤¾à¤°à¥; à¤°à¤¾à¤à¥à¤¯ à¤à¤¾à¤¦à¥à¤¯ à¤à¤¯à¥à¤",en:"District Supply Officer; State Food Commission"},
+   law:"NFSA 2013 S.3(2)",portal:"epds.bihar.gov.in"},
+
+  {id:"pmgkay",cat:"food",
+   name:{hi:"PMGKAY â à¤¨à¤¿à¤à¤¶à¥à¤²à¥à¤ à¤à¤¨à¤¾à¤",en:"PMGKAY â Free Grain Scheme"},
+   what:{hi:"5 à¤à¤¿à¤²à¥/à¤µà¥à¤¯à¤à¥à¤¤à¤¿/à¤®à¤¾à¤¹ â à¤¬à¤¿à¤²à¥à¤à¥à¤² à¤®à¥à¤«à¥à¤¤ (à¤¦à¤¿à¤¸à¤à¤¬à¤° 2028 à¤¤à¤)",en:"5 kg/person/month â completely FREE (till December 2028)"},
+   who:{hi:"à¤¸à¤­à¥ NFSA (PHH + AAY) à¤²à¤¾à¤­à¤¾à¤°à¥à¤¥à¥",en:"All NFSA beneficiaries (PHH + AAY)"},
+   docs:{hi:"à¤°à¤¾à¤¶à¤¨ à¤à¤¾à¤°à¥à¤¡, à¤à¤§à¤¾à¤°",en:"Ration card, Aadhaar"},
+   where:{hi:"à¤à¤à¤¿à¤¤ à¤®à¥à¤²à¥à¤¯ à¤à¥ à¤¦à¥à¤à¤¾à¤¨",en:"Fair Price Shop"},
+   refused:{hi:"à¤à¤¿à¤²à¤¾ à¤à¤ªà¥à¤°à¥à¤¤à¤¿ à¤à¤§à¤¿à¤à¤¾à¤°à¥",en:"District Supply Officer"},
+   law:"NFSA 2013 (2022-2028 ext.)",portal:"pmgkay.nic.in"},
+
+  {id:"msakti",cat:"women",
+   name:{hi:"à¤®à¤¿à¤¶à¤¨ à¤¶à¤à¥à¤¤à¤¿ â à¤¸à¤®à¥à¤¬à¤² + à¤¸à¤¾à¤®à¤°à¥à¤¥à¥à¤¯",en:"Mission Shakti â Sambal + Samarthya"},
+   what:{hi:"OSC, à¤¹à¥à¤²à¥à¤ªà¤²à¤¾à¤à¤¨ 181, PMVVF, à¤¨à¤¾à¤°à¥ à¤à¤¦à¤¾à¤²à¤¤, SHG, STEP",en:"OSC, Helpline 181, PMVVF, Nari Adalat, SHG support, STEP"},
+   who:{hi:"à¤¸à¤­à¥ à¤®à¤¹à¤¿à¤²à¤¾à¤à¤; à¤¹à¤¿à¤à¤¸à¤¾ à¤ªà¥à¤¡à¤¼à¤¿à¤¤ à¤µà¤¿à¤¶à¥à¤· à¤°à¥à¤ª à¤¸à¥",en:"All women; especially survivors of violence"},
+   docs:{hi:"OSC à¤à¥ à¤²à¤¿à¤ à¤à¥à¤ à¤¦à¤¸à¥à¤¤à¤¾à¤µà¥à¤à¤¼ à¤à¤µà¤¶à¥à¤¯à¤ à¤¨à¤¹à¥à¤",en:"No documents required for OSC"},
+   where:{hi:"à¤µà¤¨ à¤¸à¥à¤à¥à¤ª à¤¸à¥à¤à¤à¤°; à¤®à¤¹à¤¿à¤²à¤¾ à¤¹à¥à¤²à¥à¤ªà¤²à¤¾à¤à¤¨ 181",en:"One Stop Centre; Women Helpline 181"},
+   refused:{hi:"à¤°à¤¾à¤à¥à¤¯ WCD à¤¸à¤à¤¿à¤µ; NCPCR; NHRC",en:"State WCD Secretary; NCPCR; NHRC"},
+   law:"Mission Shakti 2022; PWDVA 2005",portal:"wcd.nic.in/missionshakti"},
+
+  {id:"ujjwala",cat:"women",
+   name:{hi:"PM à¤à¤à¥à¤à¥à¤µà¤²à¤¾ à¤¯à¥à¤à¤¨à¤¾ 2.0",en:"PM Ujjwala Yojana 2.0"},
+   what:{hi:"à¤®à¥à¤«à¥à¤¤ LPG à¤à¤¨à¥à¤à¥à¤¶à¤¨ + à¤ªà¤¹à¤²à¤¾ à¤¸à¤¿à¤²à¥à¤à¤¡à¤° + à¤¸à¥à¤à¥à¤µ (â¹1600 à¤¸à¤¹à¤¾à¤¯à¤¤)",en:"Free LPG connection + first cylinder + stove (â¹1600 subsidy)"},
+   who:{hi:"BPL/SECC à¤®à¤¹à¤¿à¤²à¤¾; à¤ªà¥à¤°à¤µà¤¾à¤¸à¥ à¤ªà¤°à¤¿à¤µà¤¾à¤° (à¤¬à¤¿à¤¨à¤¾ à¤¸à¥à¤¥à¤¾à¤¯à¥ à¤ªà¤¤à¥ à¤à¥ à¤­à¥)",en:"BPL/SECC women; migrant households (even without permanent address)"},
+   docs:{hi:"à¤à¤§à¤¾à¤°, BPL/à¤°à¤¾à¤¶à¤¨ à¤à¤¾à¤°à¥à¤¡, à¤¬à¥à¤à¤ à¤ªà¤¾à¤¸à¤¬à¥à¤",en:"Aadhaar, BPL/ration card, bank passbook"},
+   where:{hi:"à¤¨à¤à¤¦à¥à¤à¥ LPG à¤µà¤¿à¤¤à¤°à¤ / pmuy.gov.in",en:"Nearest LPG distributor / pmuy.gov.in"},
+   refused:{hi:"CPGRAMS; LPG à¤ªà¥à¤°à¥à¤à¤² à¤¶à¤¿à¤à¤¾à¤¯à¤¤",en:"CPGRAMS; LPG portal grievance"},
+   law:"PMUY 2016/2021",portal:"pmuy.gov.in"},
+
+  {id:"pmmvy",cat:"maternity",
+   name:{hi:"PMMVY â à¤®à¤¾à¤¤à¥à¤¤à¥à¤µ à¤µà¤à¤¦à¤¨à¤¾ à¤¯à¥à¤à¤¨à¤¾",en:"PMMVY â Maternity Benefit Scheme"},
+   what:{hi:"à¤ªà¤¹à¤²à¤¾ à¤¬à¤à¥à¤à¤¾: â¹5000 | à¤¦à¥à¤¸à¤°à¥ à¤¬à¤¾à¤²à¤¿à¤à¤¾: â¹6000",en:"1st child: â¹5000 | 2nd child (girl): â¹6000"},
+   who:{hi:"19+ à¤µà¤°à¥à¤· à¤à¤°à¥à¤­à¤µà¤¤à¥/à¤¸à¥à¤¤à¤¨à¤ªà¤¾à¤¨ à¤®à¤¹à¤¿à¤²à¤¾; à¤à¥à¤°à¤®-à¤¸à¤°à¤à¤¾à¤°à¥",en:"19+ years pregnant/lactating women; non-govt employees"},
+   docs:{hi:"MCP à¤à¤¾à¤°à¥à¤¡, à¤à¤§à¤¾à¤°, à¤¬à¥à¤à¤ à¤ªà¤¾à¤¸à¤¬à¥à¤, à¤°à¤¾à¤¶à¤¨ à¤à¤¾à¤°à¥à¤¡",en:"MCP card, Aadhaar, bank passbook, ration card"},
+   where:{hi:"à¤à¤à¤à¤¨à¤µà¤¾à¤¡à¤¼à¥ à¤à¥à¤à¤¦à¥à¤° / CDPO / pmmvy.nic.in",en:"Anganwadi centre / CDPO / pmmvy.nic.in"},
+   refused:{hi:"à¤à¤¿à¤²à¤¾ WCD; CPGRAMS",en:"District WCD; CPGRAMS"},
+   law:"PMMVY Rules 2017; MBA 1961",portal:"pmmvy.nic.in",
+   app_hi:`à¤¸à¥à¤µà¤¾ à¤®à¥à¤,
+à¤®à¥à¤à¥à¤¯ à¤¸à¥à¤µà¤¿à¤à¤¾ / CDPO,
+[à¤à¤à¤à¤¨à¤µà¤¾à¤¡à¤¼à¥ à¤à¥à¤à¤¦à¥à¤° / à¤ªà¥à¤°à¤à¤à¤¡], [à¤à¤¿à¤²à¤¾]
+
+à¤µà¤¿à¤·à¤¯: PMMVY à¤²à¤¾à¤­ à¤¹à¥à¤¤à¥ à¤à¤µà¥à¤¦à¤¨
+
+à¤®à¥à¤°à¤¾ à¤¨à¤¾à¤® [à¤¨à¤¾à¤®], à¤à¤®à¥à¤° [à¤à¤¯à¥], à¤ªà¤¤à¤¾ [à¤ªà¤¤à¤¾]à¥¤
+à¤®à¥à¤°à¥ à¤ªà¥à¤°à¤¸à¤µ à¤¤à¤¿à¤¥à¤¿ / à¤à¤°à¥à¤­à¤§à¤¾à¤°à¤£ à¤¤à¤¿à¤¥à¤¿ [__]à¥¤
+à¤¯à¤¹ à¤®à¥à¤°à¤¾ [à¤ªà¤¹à¤²à¤¾ / à¤¦à¥à¤¸à¤°à¤¾] à¤¬à¤à¥à¤à¤¾ à¤¹à¥à¥¤
+
+PMMVY Rules 2017 à¤à¥ à¤à¤à¤¤à¤°à¥à¤à¤¤ à¤®à¥à¤ â¹[5000/6000] à¤à¥ à¤ªà¤¾à¤¤à¥à¤° à¤¹à¥à¤à¥¤
+
+MCP à¤à¤¾à¤°à¥à¤¡, à¤à¤§à¤¾à¤°, à¤¬à¥à¤à¤ à¤ªà¤¾à¤¸à¤¬à¥à¤ à¤¸à¤à¤²à¤à¥à¤¨à¥¤
+
+[à¤¨à¤¾à¤®] | [à¤¦à¤¿à¤¨à¤¾à¤à¤]`},
+
+  {id:"jsy",cat:"maternity",
+   name:{hi:"JSY â à¤à¤¨à¤¨à¥ à¤¸à¥à¤°à¤à¥à¤·à¤¾ à¤¯à¥à¤à¤¨à¤¾",en:"JSY â Janani Suraksha Yojana"},
+   what:{hi:"à¤à¥à¤°à¤¾à¤®à¥à¤£: â¹1400 | à¤¶à¤¹à¤°à¥: â¹1000 (à¤¸à¤à¤¸à¥à¤¥à¤¾à¤à¤¤ à¤ªà¥à¤°à¤¸à¤µ à¤ªà¤°)",en:"Rural: â¹1400 | Urban: â¹1000 (on institutional delivery)"},
+   who:{hi:"à¤à¤°à¥à¤­à¤µà¤¤à¥ à¤®à¤¹à¤¿à¤²à¤¾ à¤à¥ à¤¸à¤°à¤à¤¾à¤°à¥ à¤¸à¤à¤¸à¥à¤¥à¤¾ à¤®à¥à¤ à¤ªà¥à¤°à¤¸à¤µ à¤à¤°à¤¾à¤",en:"Pregnant women delivering at govt/accredited institution"},
+   docs:{hi:"JSY à¤à¤¾à¤°à¥à¤¡, MCP à¤à¤¾à¤°à¥à¤¡, à¤à¤§à¤¾à¤°",en:"JSY card, MCP card, Aadhaar"},
+   where:{hi:"ASHA / à¤¸à¥à¤µà¤¾à¤¸à¥à¤¥à¥à¤¯ à¤à¥à¤à¤¦à¥à¤°",en:"ASHA worker / Health Centre"},
+   refused:{hi:"CMO à¤à¤¿à¤²à¤¾",en:"Chief Medical Officer"},
+   law:"NHM-JSY 2005",portal:"nhm.gov.in"},
+
+  {id:"jssk",cat:"maternity",
+   name:{hi:"JSSK â à¤à¤¨à¤¨à¥ à¤¶à¤¿à¤¶à¥ à¤¸à¥à¤°à¤à¥à¤·à¤¾ à¤à¤¾à¤°à¥à¤¯à¤à¥à¤°à¤®",en:"JSSK â Free Maternal & Infant Care"},
+   what:{hi:"à¤¨à¤¿à¤à¤¶à¥à¤²à¥à¤: à¤¦à¤µà¤¾à¤, à¤à¤¾à¤à¤, à¤°à¤à¥à¤¤, à¤­à¥à¤à¤¨, à¤ªà¤°à¤¿à¤µà¤¹à¤¨, à¤¸à¤¿à¤à¥à¤°à¤¿à¤¯à¤¨ (à¤¨à¤µà¤à¤¾à¤¤ 30 à¤¦à¤¿à¤¨ à¤¤à¤ à¤­à¥)",en:"Free: medicines, diagnostics, blood, diet, transport, C-section (newborn too up to 30 days)"},
+   who:{hi:"à¤¸à¤°à¤à¤¾à¤°à¥ à¤¸à¤à¤¸à¥à¤¥à¤¾ à¤®à¥à¤ à¤ªà¥à¤°à¤¸à¤µ à¤à¤°à¤¾à¤¨à¥ à¤µà¤¾à¤²à¥ à¤¸à¤­à¥ à¤®à¤¹à¤¿à¤²à¤¾à¤à¤",en:"All women delivering at govt institution"},
+   docs:{hi:"à¤à¥à¤ à¤­à¥ ID â à¤¦à¤¸à¥à¤¤à¤¾à¤µà¥à¤à¤¼ à¤®à¤¾à¤à¤à¤¨à¤¾ à¤à¥à¤°à¤à¤¾à¤¨à¥à¤¨à¥ à¤¹à¥",en:"Any ID â demanding documents is illegal under JSSK"},
+   where:{hi:"à¤¨à¤à¤¦à¥à¤à¥ à¤¸à¤°à¤à¤¾à¤°à¥ à¤à¤¸à¥à¤ªà¤¤à¤¾à¤² / PHC / CHC",en:"Nearest govt hospital / PHC / CHC"},
+   refused:{hi:"CMO; NHM à¤°à¤¾à¤à¥à¤¯ à¤¨à¤¿à¤¦à¥à¤¶à¤",en:"CMO; NHM State Mission Director"},
+   law:"JSSK 2011; NHM",portal:"nhm.gov.in"},
+
+  {id:"udid",cat:"disability",
+   name:{hi:"UDID â à¤¯à¥à¤¨à¤¿à¤ à¤¦à¤¿à¤µà¥à¤¯à¤¾à¤à¤ ID à¤à¤¾à¤°à¥à¤¡",en:"UDID â Unique Disability ID Card"},
+   what:{hi:"à¤¦à¤¿à¤µà¥à¤¯à¤¾à¤à¤ à¤ªà¤¹à¤à¤¾à¤¨ à¤ªà¤¤à¥à¤° â à¤¸à¤­à¥ PwD à¤¯à¥à¤à¤¨à¤¾à¤à¤ à¤à¤¾ à¤ªà¥à¤°à¤µà¥à¤¶ à¤¦à¥à¤µà¤¾à¤°",en:"Disability ID card â gateway to all PwD schemes"},
+   who:{hi:"RPwD Act 2016 à¤à¥ 21 à¤¶à¥à¤°à¥à¤£à¤¿à¤¯à¥à¤ à¤®à¥à¤ à¤¦à¤¿à¤µà¥à¤¯à¤¾à¤à¤ à¤µà¥à¤¯à¤à¥à¤¤à¤¿",en:"Any person with 21 categories of disability under RPwD 2016"},
+   docs:{hi:"à¤à¤§à¤¾à¤°, à¤«à¥à¤à¥, à¤®à¥à¤¡à¤¿à¤à¤² à¤°à¤¿à¤à¥à¤°à¥à¤¡",en:"Aadhaar, photograph, medical records"},
+   where:{hi:"DDRC / udid.gov.in",en:"DDRC / udid.gov.in"},
+   refused:{hi:"CCPD; à¤°à¤¾à¤à¥à¤¯ à¤¦à¤¿à¤µà¥à¤¯à¤¾à¤à¤ à¤à¤¯à¥à¤à¥à¤¤",en:"CCPD; State Commissioner for PwD"},
+   law:"RPwD Act 2016 S.57-58",portal:"udid.gov.in"},
+
+  {id:"adip",cat:"disability",
+   name:{hi:"ADIP â à¤¦à¤¿à¤µà¥à¤¯à¤¾à¤à¤ à¤¸à¤¹à¤¾à¤¯à¤ à¤à¤ªà¤à¤°à¤£",en:"ADIP â Assistive Devices for PwD"},
+   what:{hi:"à¤µà¥à¤¹à¥à¤²à¤à¥à¤¯à¤°, à¤¬à¥à¤¸à¤¾à¤à¥, à¤¸à¥à¤¨à¤¨à¥ à¤à¥ à¤®à¤¶à¥à¤¨, à¤à¥à¤¤à¥à¤°à¤¿à¤® à¤à¤à¤ â à¤¨à¤¿à¤à¤¶à¥à¤²à¥à¤",en:"Wheelchair, crutches, hearing aids, prosthetics â free"},
+   who:{hi:"BPL à¤¦à¤¿à¤µà¥à¤¯à¤¾à¤à¤ (â¹15,000/à¤®à¤¾à¤¹ à¤¤à¤ à¤à¤¯)",en:"BPL PwD (income up to â¹15,000/month)"},
+   docs:{hi:"UDID, à¤à¤§à¤¾à¤°, à¤à¤¯ à¤ªà¥à¤°à¤®à¤¾à¤£",en:"UDID, Aadhaar, income proof"},
+   where:{hi:"ALIMCO / DDRC / à¤à¤¿à¤²à¤¾ à¤¸à¤®à¤¾à¤ à¤à¤²à¥à¤¯à¤¾à¤£",en:"ALIMCO / DDRC / District Social Welfare"},
+   refused:{hi:"DDRC; ALIMCO",en:"DDRC; ALIMCO"},
+   law:"ADIP Scheme 2004; RPwD 2016",portal:"alimco.in"},
+
+  {id:"pmjay",cat:"health",
+   name:{hi:"à¤à¤¯à¥à¤·à¥à¤®à¤¾à¤¨ à¤­à¤¾à¤°à¤¤ â PM-JAY",en:"Ayushman Bharat â PM-JAY"},
+   what:{hi:"â¹5 à¤²à¤¾à¤/à¤µà¤°à¥à¤·/à¤ªà¤°à¤¿à¤µà¤¾à¤° â à¤¸à¤°à¤à¤¾à¤°à¥ à¤µ à¤¸à¥à¤à¥à¤¬à¤¦à¥à¤§ à¤à¤¸à¥à¤ªà¤¤à¤¾à¤²à¥à¤ à¤®à¥à¤ à¤¨à¤¿à¤à¤¶à¥à¤²à¥à¤",en:"â¹5 lakh/year/family â free at govt & listed hospitals"},
+   who:{hi:"SECC 2011 à¤¸à¥à¤à¥ à¤®à¥à¤ à¤ªà¤°à¤¿à¤µà¤¾à¤°; AB-MSBY (à¤¬à¤¿à¤¹à¤¾à¤°)",en:"Families in SECC 2011; AB-MSBY (Bihar)"},
+   docs:{hi:"à¤à¤§à¤¾à¤° / à¤à¥à¤ à¤­à¥ ID",en:"Aadhaar / any ID"},
+   where:{hi:"Ayushman Seva Kendra / 1800-111-565",en:"Ayushman Seva Kendra / 1800-111-565"},
+   refused:{hi:"SHA; NHRC",en:"State Health Agency; NHRC"},
+   law:"PM-JAY 2018; Bihar AB-MSBY",portal:"pmjay.gov.in"},
+
+  {id:"pmayg",cat:"housing",
+   name:{hi:"PMAY-G â à¤à¥à¤°à¤¾à¤®à¥à¤£ à¤à¤µà¤¾à¤¸",en:"PMAY-G â Rural Housing Scheme"},
+   what:{hi:"â¹1.20 à¤²à¤¾à¤ + SBM à¤¶à¥à¤à¤¾à¤²à¤¯ â¹12,000 + MGNREGS 95 à¤¦à¤¿à¤¨",en:"â¹1.20 lakh + SBM toilet â¹12,000 + MGNREGS 95 days wages"},
+   who:{hi:"SECC 2011 BPL, à¤à¤à¥à¤à¥ à¤à¤° à¤®à¥à¤ à¤°à¤¹à¤¨à¥ à¤µà¤¾à¤²à¥",en:"BPL in SECC 2011, living in kutcha house"},
+   docs:{hi:"à¤à¤§à¤¾à¤°, à¤¬à¥à¤à¤ à¤ªà¤¾à¤¸à¤¬à¥à¤, SECC à¤®à¥à¤ à¤¨à¤¾à¤®, à¤­à¥à¤®à¤¿ à¤¦à¤¸à¥à¤¤à¤¾à¤µà¥à¤",en:"Aadhaar, bank passbook, name in SECC, land documents"},
+   where:{hi:"à¤à¥à¤°à¤¾à¤® à¤ªà¤à¤à¤¾à¤¯à¤¤ / BDO / pmayg.nic.in",en:"Gram Panchayat / BDO / pmayg.nic.in"},
+   refused:{hi:"DRDA; CPGRAMS",en:"DRDA; CPGRAMS"},
+   law:"PMAY-G 2016; PMAY-G 2.0 2024",portal:"pmayg.nic.in"},
+
+  {id:"mgnregs",cat:"labour",
+   name:{hi:"MGNREGS â 100 à¤¦à¤¿à¤¨ à¤°à¥à¤à¤à¤¾à¤° à¤à¤¾à¤°à¤à¤à¥",en:"MGNREGS â 100-Day Employment Guarantee"},
+   what:{hi:"100 à¤¦à¤¿à¤¨/à¤µà¤°à¥à¤· @ â¹228/à¤¦à¤¿à¤¨; 15 à¤¦à¤¿à¤¨ à¤®à¥à¤ à¤¨ à¤®à¤¿à¤²à¥ â à¤¬à¥à¤°à¥à¤à¤à¤¾à¤°à¥ à¤­à¤¤à¥à¤¤à¤¾",en:"100 days/year @ â¹228/day; if work not given in 15 days â unemployment allowance"},
+   who:{hi:"à¤à¥à¤ à¤­à¥ à¤à¥à¤°à¤¾à¤®à¥à¤£ à¤µà¤¯à¤¸à¥à¤ à¤à¥ à¤à¤à¥à¤¶à¤² à¤à¤¾à¤® à¤à¤°à¤¨à¥ à¤à¥ à¤¤à¥à¤¯à¤¾à¤° à¤¹à¥",en:"Any adult rural household member willing to do unskilled manual work"},
+   docs:{hi:"à¤à¤§à¤¾à¤°, à¤¬à¥à¤à¤/à¤¡à¤¾à¤à¤à¤° à¤ªà¤¾à¤¸à¤¬à¥à¤; à¤à¥à¤¬ à¤à¤¾à¤°à¥à¤¡ (à¤®à¥à¤«à¥à¤¤)",en:"Aadhaar, bank/post office passbook; job card (free from GP)"},
+   where:{hi:"à¤à¥à¤°à¤¾à¤® à¤ªà¤à¤à¤¾à¤¯à¤¤ / BDO",en:"Gram Panchayat / BDO"},
+   refused:{hi:"DRDAO; MGNREGS Ombudsman; à¤°à¤¾à¤à¥à¤¯ à¤à¥à¤°à¤¾à¤®à¥à¤£ à¤µà¤¿à¤à¤¾à¤¸ à¤à¤¯à¥à¤à¥à¤¤",en:"DRDAO; MGNREGS Ombudsman; State Rural Dev Commissioner"},
+   law:"MGNREGA 2005 S.3",portal:"nrega.nic.in",
+   app_hi:`à¤¸à¥à¤µà¤¾ à¤®à¥à¤,
+à¤à¥à¤°à¤¾à¤® à¤ªà¤à¤à¤¾à¤¯à¤¤ à¤®à¥à¤à¤¿à¤¯à¤¾ / à¤à¥à¤°à¤¾à¤® à¤°à¥à¤à¤à¤¾à¤° à¤¸à¤¹à¤¾à¤¯à¤,
+[à¤à¥à¤°à¤¾à¤® à¤ªà¤à¤à¤¾à¤¯à¤¤], [à¤ªà¥à¤°à¤à¤à¤¡], [à¤à¤¿à¤²à¤¾]
+
+à¤µà¤¿à¤·à¤¯: MGNREGS à¤à¥à¤¬ à¤à¤¾à¤°à¥à¤¡ / à¤à¤¾à¤°à¥à¤¯ à¤®à¤¾à¤à¤ à¤¹à¥à¤¤à¥ à¤à¤µà¥à¤¦à¤¨
+
+à¤®à¥à¤°à¤¾ à¤¨à¤¾à¤® [à¤¨à¤¾à¤®], à¤ªà¤¤à¤¾ [à¤ªà¤¤à¤¾]à¥¤
+à¤®à¥à¤ [à¤¦à¤¿à¤¨à¤¾à¤à¤] à¤¸à¥ 100 à¤¦à¤¿à¤¨ à¤à¥ à¤°à¥à¤à¤à¤¾à¤° à¤à¥ à¤®à¤¾à¤à¤ à¤à¤°à¤¤à¤¾/à¤à¤°à¤¤à¥ à¤¹à¥à¤à¥¤
+
+MGNREGA 2005 à¤à¥ à¤§à¤¾à¤°à¤¾ 3 à¤à¥ à¤¤à¤¹à¤¤ à¤¯à¤¹ à¤®à¥à¤°à¤¾ à¤à¤¾à¤¨à¥à¤¨à¥ à¤à¤§à¤¿à¤à¤¾à¤° à¤¹à¥à¥¤
+15 à¤¦à¤¿à¤¨ à¤®à¥à¤ à¤à¤¾à¤® à¤¨ à¤®à¤¿à¤²à¤¨à¥ à¤ªà¤° à¤¬à¥à¤°à¥à¤à¤à¤¾à¤°à¥ à¤­à¤¤à¥à¤¤à¥ à¤à¤¾ à¤­à¥ à¤à¤§à¤¿à¤à¤¾à¤° à¤¹à¥à¥¤
+
+[à¤¨à¤¾à¤®] | [à¤¦à¤¿à¤¨à¤¾à¤à¤]`},
+
+  {id:"bocw",cat:"labour",
+   name:{hi:"BOCW â à¤¨à¤¿à¤°à¥à¤®à¤¾à¤£ à¤¶à¥à¤°à¤®à¤¿à¤ à¤à¤²à¥à¤¯à¤¾à¤£",en:"BOCW â Construction Workers Welfare"},
+   what:{hi:"à¤®à¥à¤¤à¥à¤¯à¥/à¤¦à¥à¤°à¥à¤à¤à¤¨à¤¿: â¹2-5 à¤²à¤¾à¤ | à¤ªà¥à¤°à¤¸à¥à¤¤à¤¿: â¹15,000 | à¤¶à¤¿à¤à¥à¤·à¤¾: â¹5000 | à¤ªà¥à¤à¤¶à¤¨: â¹500/à¤®à¤¾à¤¹",en:"Death/accident: â¹2-5 lakh | maternity: â¹15,000 | education: â¹5000 | pension: â¹500/month"},
+   who:{hi:"90+ à¤¦à¤¿à¤¨ à¤¨à¤¿à¤°à¥à¤®à¤¾à¤£ à¤à¤¾à¤°à¥à¤¯; BOCW à¤¬à¤¿à¤¹à¤¾à¤° à¤®à¥à¤ à¤ªà¤à¤à¥à¤à¥à¤¤",en:"90+ days construction work; registered with BOCW Bihar"},
+   docs:{hi:"à¤ªà¤à¤à¥à¤à¤°à¤£ (bocwbihar.in), à¤à¤§à¤¾à¤°, à¤¬à¥à¤à¤ à¤ªà¤¾à¤¸à¤¬à¥à¤, à¤¨à¤¿à¤¯à¥à¤à¥à¤¤à¤¾ à¤ªà¥à¤°à¤®à¤¾à¤£",en:"Registration (bocwbihar.in), Aadhaar, bank passbook, employer certificate"},
+   where:{hi:"bocwbihar.in / à¤à¤¿à¤²à¤¾ à¤¶à¥à¤°à¤® à¤à¤¾à¤°à¥à¤¯à¤¾à¤²à¤¯",en:"bocwbihar.in / District Labour Office"},
+   refused:{hi:"BOCW Board; à¤¶à¥à¤°à¤® à¤à¤§à¥à¤à¥à¤·à¤",en:"BOCW Board; Labour Superintendent"},
+   law:"BOCW Act 1996; Bihar BOCW Rules 2011",portal:"bocwbihar.in"},
+
+  {id:"pmvishwakarma",cat:"labour",
+   name:{hi:"PM à¤µà¤¿à¤¶à¥à¤µà¤à¤°à¥à¤®à¤¾ â à¤à¤¾à¤°à¥à¤à¤° à¤¯à¥à¤à¤¨à¤¾",en:"PM Vishwakarma â Artisan Scheme"},
+   what:{hi:"â¹15,000 à¤à¥à¤²à¤à¤¿à¤ | à¤ªà¥à¤°à¤¶à¤¿à¤à¥à¤·à¤£ â¹500/à¤¦à¤¿à¤¨ | â¹1 à¤²à¤¾à¤ â â¹2 à¤²à¤¾à¤ à¤à¤£ @ 5%",en:"â¹15,000 toolkit | training â¹500/day | â¹1 lakh â â¹2 lakh loan at 5%"},
+   who:{hi:"18 à¤ªà¤¾à¤°à¤à¤ªà¤°à¤¿à¤ à¤µà¥à¤¯à¤¾à¤ªà¤¾à¤°: à¤¬à¤¢à¤¼à¤, à¤²à¥à¤¹à¤¾à¤°, à¤à¥à¤®à¥à¤¹à¤¾à¤°, à¤¨à¤¾à¤, à¤®à¥à¤à¥, à¤§à¥à¤¬à¥ à¤à¤¦à¤¿",en:"18 traditional trades: carpenter, blacksmith, potter, barber, cobbler, washerman etc."},
+   docs:{hi:"à¤à¤§à¤¾à¤°, à¤®à¥à¤¬à¤¾à¤à¤², à¤¬à¥à¤à¤ à¤ªà¤¾à¤¸à¤¬à¥à¤, à¤ªà¥à¤¶à¥ à¤à¤¾ à¤ªà¥à¤°à¤®à¤¾à¤£",en:"Aadhaar, mobile, bank passbook, proof of trade"},
+   where:{hi:"pmvishwakarma.gov.in / CSC à¤à¥à¤à¤¦à¥à¤°",en:"pmvishwakarma.gov.in / CSC Centre"},
+   refused:{hi:"à¤à¤¿à¤²à¤¾ à¤à¤¦à¥à¤¯à¥à¤ à¤à¥à¤à¤¦à¥à¤° (DIC)",en:"District Industries Centre"},
+   law:"PM Vishwakarma 2023",portal:"pmvishwakarma.gov.in"},
+
+  {id:"pmsym",cat:"labour",
+   name:{hi:"PM à¤¶à¥à¤°à¤® à¤¯à¥à¤à¥ à¤®à¤¾à¤¨à¤§à¤¨ (PM-SYM)",en:"PM Shram Yogi Maan-Dhan (PM-SYM)"},
+   what:{hi:"â¹3000/à¤®à¤¾à¤¹ à¤ªà¥à¤à¤¶à¤¨ 60 à¤µà¤°à¥à¤· à¤¬à¤¾à¤¦ | à¤à¤à¤¶à¤¦à¤¾à¤¨ â¹55-â¹200/à¤®à¤¾à¤¹",en:"â¹3000/month pension after 60 | contribution â¹55-â¹200/month"},
+   who:{hi:"18-40 à¤µà¤°à¥à¤· à¤à¤¸à¤à¤à¤ à¤¿à¤¤ à¤¶à¥à¤°à¤®à¤¿à¤, â¹15,000/à¤®à¤¾à¤¹ à¤¸à¥ à¤à¤® à¤à¤¯",en:"18-40 years unorganised worker, income below â¹15,000/month"},
+   docs:{hi:"à¤à¤§à¤¾à¤°, à¤¬à¥à¤à¤/à¤¡à¤¾à¤à¤à¤° à¤à¤¾à¤¤à¤¾",en:"Aadhaar, bank/post office account"},
+   where:{hi:"CSC / maandhan.in",en:"CSC / maandhan.in"},
+   refused:{hi:"à¤à¤¿à¤²à¤¾ à¤¶à¥à¤°à¤® à¤à¤¾à¤°à¥à¤¯à¤¾à¤²à¤¯",en:"District Labour Office"},
+   law:"PM-SYM 2019",portal:"maandhan.in"},
+
+  {id:"daynrlm",cat:"labour",
+   name:{hi:"DAY-NRLM â JEEViKA (à¤¬à¤¿à¤¹à¤¾à¤°)",en:"DAY-NRLM â JEEViKA (Bihar)"},
+   what:{hi:"SHG à¤à¤ à¤¨ | â¹15,000 à¤°à¤¿à¤µà¥à¤²à¥à¤µà¤¿à¤à¤ à¤«à¤à¤¡ | à¤¬à¥à¤à¤ à¤²à¤¿à¤à¤à¥à¤ â¹1-3 à¤²à¤¾à¤ | à¤à¥à¤¶à¤² à¤ªà¥à¤°à¤¶à¤¿à¤à¥à¤·à¤£",en:"SHG formation | â¹15,000 revolving fund | bank linkage â¹1-3 lakh | skill training"},
+   who:{hi:"à¤à¥à¤°à¤¾à¤®à¥à¤£ à¤®à¤¹à¤¿à¤²à¤¾; à¤µà¤¿à¤¶à¥à¤· à¤°à¥à¤ª à¤¸à¥ SC/ST/BPL; SHG (10-15 à¤¸à¤¦à¤¸à¥à¤¯)",en:"Rural women; especially SC/ST/BPL; SHG of 10-15 members"},
+   docs:{hi:"à¤à¤§à¤¾à¤°, à¤¬à¥à¤à¤ à¤à¤¾à¤¤à¤¾, SHG à¤ªà¤à¤à¥à¤à¤°à¤£",en:"Aadhaar, bank account, SHG registration"},
+   where:{hi:"à¤à¥à¤°à¤¾à¤® à¤ªà¤à¤à¤¾à¤¯à¤¤ / BRLPS / JEEViKA / aajeevika.gov.in",en:"Gram Panchayat / BRLPS / JEEViKA"},
+   refused:{hi:"à¤à¤¿à¤²à¤¾ à¤à¤¾à¤°à¥à¤¯à¤à¥à¤°à¤® à¤ªà¥à¤°à¤¬à¤à¤§à¤",en:"District Programme Manager"},
+   law:"NRLM 2011",portal:"aajeevika.gov.in"},
+
+  {id:"cblrp",cat:"bonded",
+   name:{hi:"CBLRP 2016 â à¤¬à¤à¤§à¤ à¤®à¤à¤¦à¥à¤° à¤ªà¥à¤¨à¤°à¥à¤µà¤¾à¤¸",en:"CBLRP 2016 â Bonded Labour Rehabilitation"},
+   what:{hi:"à¤¬à¤à¥à¤à¥/à¤à¤¿à¤¶à¥à¤°: â¹3 à¤²à¤¾à¤ | à¤µà¤¯à¤¸à¥à¤ (à¤ªà¤°à¤¿à¤µà¤¾à¤° à¤¸à¤¹à¤¿à¤¤): â¹2 à¤²à¤¾à¤ | à¤à¤¤à¥à¤¯à¤¾à¤à¤¾à¤° à¤®à¤¹à¤¿à¤²à¤¾: â¹3 à¤²à¤¾à¤",en:"Child/adolescent: â¹3 lakh | adult with family: â¹2 lakh | trafficked woman: â¹3 lakh"},
+   who:{hi:"BLSA 1976 à¤à¥ à¤¤à¤¹à¤¤ DM à¤¦à¥à¤µà¤¾à¤°à¤¾ à¤®à¥à¤à¥à¤¤ à¤à¤¿à¤ à¤à¤ à¤¬à¤à¤§à¤ à¤¶à¥à¤°à¤®à¤¿à¤",en:"Bonded labourers freed by DM under BLSA 1976"},
+   docs:{hi:"DM à¤¦à¥à¤µà¤¾à¤°à¤¾ à¤®à¥à¤à¥à¤¤à¤¿ à¤ªà¥à¤°à¤®à¤¾à¤£-à¤ªà¤¤à¥à¤°, à¤à¤§à¤¾à¤°, à¤¬à¥à¤à¤ à¤ªà¤¾à¤¸à¤¬à¥à¤",en:"Liberation certificate from DM, Aadhaar, bank passbook"},
+   where:{hi:"à¤à¤¿à¤²à¤¾à¤§à¤¿à¤à¤¾à¤°à¥ (DM) â à¤à¤à¤®à¤¾à¤¤à¥à¤° à¤¸à¤à¥à¤·à¤® à¤ªà¥à¤°à¤¾à¤§à¤¿à¤à¤¾à¤°à¥",en:"District Magistrate (DM) â sole releasing authority"},
+   refused:{hi:"à¤°à¤¾à¤à¥à¤¯ à¤¶à¥à¤°à¤® à¤¸à¤à¤¿à¤µ; HC writ Art.226; NHRC",en:"State Labour Secretary; HC writ Art.226; NHRC"},
+   law:"BLSA 1976; CBLRP 2016; Art.23",portal:"labour.gov.in/bondedlabour"},
+
+  {id:"pmjanman",cat:"tribal",
+   name:{hi:"PM JANMAN â PVTG à¤à¤²à¥à¤¯à¤¾à¤£",en:"PM JANMAN â Particularly Vulnerable Tribal Groups"},
+   what:{hi:"â¹24,104 à¤à¤°à¥à¤¡à¤¼ â à¤ªà¤à¥à¤à¤¾ à¤à¤°, à¤¸à¤¡à¤¼à¤, à¤¬à¤¿à¤à¤²à¥, à¤ªà¤¾à¤¨à¥, à¤¸à¥à¤µà¤¾à¤¸à¥à¤¥à¥à¤¯, à¤¶à¤¿à¤à¥à¤·à¤¾, à¤à¤à¥à¤µà¤¿à¤à¤¾",en:"â¹24,104 crore â pucca house, road, electricity, water, health, education, livelihood"},
+   who:{hi:"à¤¬à¤¿à¤¹à¤¾à¤° PVTG: à¤¬à¤¿à¤°à¤¹à¥à¤°, à¤à¥à¤°à¤µà¤¾, à¤¸à¥à¤°à¤¿à¤¯à¤¾ à¤ªà¤¹à¤¾à¤¡à¤¼à¤¿à¤¯à¤¾, à¤®à¤¾à¤² à¤ªà¤¹à¤¾à¤¡à¤¼à¤¿à¤¯à¤¾, à¤¹à¤¿à¤² à¤à¤¡à¤¼à¤¿à¤¯à¤¾",en:"Bihar PVTGs: Birhor, Korwa, Sauria Paharia, Mal Paharia, Hill Kharia"},
+   docs:{hi:"ST à¤ªà¥à¤°à¤®à¤¾à¤£-à¤ªà¤¤à¥à¤°, à¤à¤§à¤¾à¤°, PVTG à¤¸à¤°à¥à¤µà¥ à¤®à¥à¤ à¤¨à¤¾à¤®",en:"ST certificate, Aadhaar, name in PVTG survey"},
+   where:{hi:"à¤à¤¿à¤²à¤¾ à¤à¤²à¥à¤¯à¤¾à¤£ à¤à¤§à¤¿à¤à¤¾à¤°à¥ (Tribal) / MoTA",en:"District Welfare Officer (Tribal) / MoTA"},
+   refused:{hi:"à¤°à¤¾à¤à¥à¤¯ à¤à¤¨à¤à¤¾à¤¤à¥à¤¯ à¤à¤¯à¥à¤; MoTA",en:"State Tribal Commission; MoTA"},
+   law:"PESA 1996; FRA 2006; PM JANMAN 2023",portal:"tribal.gov.in"},
+
+  {id:"pmposhan",cat:"children",
+   name:{hi:"PM à¤ªà¥à¤·à¤£ (à¤®à¤§à¥à¤¯à¤¾à¤¹à¥à¤¨ à¤­à¥à¤à¤¨)",en:"PM POSHAN (Mid-Day Meal Scheme)"},
+   what:{hi:"à¤à¤à¥à¤·à¤¾ 1-8 â à¤¨à¤¿à¤à¤¶à¥à¤²à¥à¤ à¤ªà¤à¤¾ à¤¹à¥à¤ à¤­à¥à¤à¤¨ à¤ªà¥à¤°à¤¤à¤¿à¤¦à¤¿à¤¨",en:"Classes 1-8 â free cooked meal every school day"},
+   who:{hi:"à¤¸à¤°à¤à¤¾à¤°à¥ à¤µ à¤¸à¤¹à¤¾à¤¯à¤¤à¤¾ à¤ªà¥à¤°à¤¾à¤ªà¥à¤¤ à¤µà¤¿à¤¦à¥à¤¯à¤¾à¤²à¤¯à¥à¤ à¤à¥ à¤¸à¤­à¥ à¤¬à¤à¥à¤à¥",en:"All children in govt & aided schools (classes 1-8)"},
+   docs:{hi:"à¤¸à¥à¤à¥à¤² à¤¨à¤¾à¤®à¤¾à¤à¤à¤¨ â à¤à¥à¤ à¤à¤¤à¤¿à¤°à¤¿à¤à¥à¤¤ à¤¦à¤¸à¥à¤¤à¤¾à¤µà¥à¤à¤¼ à¤¨à¤¹à¥à¤",en:"School enrollment â no extra documents"},
+   where:{hi:"à¤¸à¥à¤à¥à¤² / à¤ªà¥à¤°à¤§à¤¾à¤¨à¤¾à¤à¤¾à¤°à¥à¤¯",en:"School / Headmaster"},
+   refused:{hi:"à¤à¤¿à¤²à¤¾ à¤¶à¤¿à¤à¥à¤·à¤¾ à¤à¤§à¤¿à¤à¤¾à¤°à¥; CPGRAMS",en:"District Education Officer; CPGRAMS"},
+   law:"PM POSHAN 2021",portal:"pmposhan.education.gov.in"},
+
+  {id:"avyay",cat:"pension",
+   name:{hi:"AVYAY â à¤µà¤°à¤¿à¤·à¥à¤  à¤¨à¤¾à¤à¤°à¤¿à¤ à¤à¤²à¥à¤¯à¤¾à¤£",en:"AVYAY â Senior Citizen Welfare Umbrella"},
+   what:{hi:"6 à¤à¤à¤: à¤°à¤¾à¤·à¥à¤à¥à¤°à¥à¤¯ à¤µà¤¯à¥à¤¶à¥à¤°à¥ à¤à¤ªà¤à¤°à¤£ | SACRED à¤°à¥à¤à¤à¤¾à¤° | Elder Line 14567 | à¤µà¤°à¤¿à¤·à¥à¤  à¤à¥à¤¹",en:"6 components: Rashtriya Vayoshri devices | SACRED employment | Elder Line 14567 | Senior homes"},
+   who:{hi:"60+ à¤µà¤°à¥à¤·; BPL à¤à¥ à¤µà¤¿à¤¶à¥à¤· à¤ªà¥à¤°à¤¾à¤¥à¤®à¤¿à¤à¤¤à¤¾",en:"60+ years; special priority for BPL"},
+   docs:{hi:"à¤à¤§à¤¾à¤°, à¤à¤¯à¥ à¤ªà¥à¤°à¤®à¤¾à¤£, BPL/à¤à¤¯ à¤ªà¥à¤°à¤®à¤¾à¤£",en:"Aadhaar, age proof, BPL/income proof"},
+   where:{hi:"à¤à¤¿à¤²à¤¾ à¤¸à¤®à¤¾à¤ à¤à¤²à¥à¤¯à¤¾à¤£; Elder Line 14567",en:"District Social Welfare; Elder Line 14567"},
+   refused:{hi:"MoSJE; NHRC",en:"MoSJE; NHRC"},
+   law:"Maintenance of Parents Act 2007; AVYAY 2021",portal:"elderline.gov.in"}
+];
+
+// ============ STATE ============
+let lang="hi", curCat="all", curScheme=null, activeTab="app";
+
+// ============ INIT ============
+document.addEventListener("DOMContentLoaded",()=>{render("all","");});
+
+// ============ LANG ============
+function toggleLang(){
+  lang=lang==="hi"?"en":"hi";
+  document.documentElement.setAttribute("data-lang",lang);
+  document.getElementById("langBtn").textContent=lang==="hi"?"EN":"à¤¹à¤¿";
+  render(curCat, document.getElementById("searchInput").value);
+}
+
+// ============ CATEGORY ============
+function setCat(cat,btn){
+  document.querySelectorAll(".cat-chip").forEach(b=>b.classList.remove("active"));
+  btn.classList.add("active");
+  curCat=cat;
+  // checker special category
+  document.getElementById("checkerWrap").style.display="none";
+  render(cat, document.getElementById("searchInput").value);
+}
+
+// ============ FILTER & RENDER ============
+function filterAll(){render(curCat, document.getElementById("searchInput").value);}
+
+function render(cat,q){
+  let data=SD.filter(s=>{
+    const catOk=cat==="all"||s.cat===cat;
+    if(!q) return catOk;
+    const ql=q.toLowerCase();
+    return catOk&&(
+      s.name.hi.toLowerCase().includes(ql)||s.name.en.toLowerCase().includes(ql)||
+      s.what.hi.toLowerCase().includes(ql)||s.what.en.toLowerCase().includes(ql)||
+      (s.law||"").toLowerCase().includes(ql)
+    );
+  });
+
+  const noRes=document.getElementById("noRes");
+  const cont=document.getElementById("schemeContainer");
+  if(!data.length){cont.innerHTML="";noRes.classList.add("show");return;}
+  noRes.classList.remove("show");
+
+  const catInfo={
+    pension:{hi:"ð§ à¤ªà¥à¤à¤¶à¤¨ à¤¯à¥à¤à¤¨à¤¾à¤à¤",en:"ð§ Pension Schemes"},
+    food:{hi:"ð¾ à¤à¤¾à¤¦à¥à¤¯ à¤à¤µà¤ à¤°à¤¾à¤¶à¤¨",en:"ð¾ Food & Ration"},
+    women:{hi:"ð© à¤®à¤¹à¤¿à¤²à¤¾ à¤à¤²à¥à¤¯à¤¾à¤£",en:"ð© Women's Welfare"},
+    maternity:{hi:"ð¤± à¤®à¤¾à¤¤à¥à¤¤à¥à¤µ à¤²à¤¾à¤­",en:"ð¤± Maternity Benefits"},
+    disability:{hi:"â¿ à¤¦à¤¿à¤µà¥à¤¯à¤¾à¤à¤ à¤à¤²à¥à¤¯à¤¾à¤£",en:"â¿ Disability Welfare"},
+    health:{hi:"ð¥ à¤¸à¥à¤µà¤¾à¤¸à¥à¤¥à¥à¤¯ à¤¬à¥à¤®à¤¾",en:"ð¥ Health Insurance"},
+    housing:{hi:"ð  à¤à¤µà¤¾à¤¸ à¤¯à¥à¤à¤¨à¤¾à¤à¤",en:"ð  Housing Schemes"},
+    labour:{hi:"ð¨ à¤¶à¥à¤°à¤® à¤à¤µà¤ à¤°à¥à¤à¤à¤¾à¤°",en:"ð¨ Labour & Livelihood"},
+    tribal:{hi:"ð¿ à¤à¤¦à¤¿à¤µà¤¾à¤¼à¥ à¤à¤²à¥à¤¯à¤¾à¤£",en:"ð¿ Tribal Welfare"},
+    bonded:{hi:"âï¸ à¤¬à¤à¤§à¤ à¤®à¤à¤¦à¥à¤°",en:"âï¸ Bonded Labour"},
+    children:{hi:"ð§ à¤¬à¤à¥à¤à¥ à¤à¤µà¤ à¤¶à¤¿à¤à¥à¤·à¤¾",en:"ð§ Children & Education"}
+  };
+
+  const groups={};
+  data.forEach(s=>{if(!groups[s.cat])groups[s.cat]=[];groups[s.cat].push(s);});
+  let html="";
+  Object.keys(groups).forEach(c=>{
+    const lbl=catInfo[c]||{hi:c,en:c};
+    html+=`<div class="section-head">
+      <span>${lang==="hi"?lbl.hi:lbl.en}</span>
+      <span style="background:var(--surface2);border:1px solid var(--border);border-radius:12px;padding:1px 10px;font-size:11px;color:var(--muted)">${groups[c].length}</span>
+    </div><div class="scheme-grid">`;
+    groups[c].forEach(s=>html+=card(s));
+    html+="</div>";
+  });
+  cont.innerHTML=html;
+}
+
+function t(obj){return lang==="hi"?obj.hi:obj.en;}
+
+function card(s){
+  const hasLetter=!!(s.app_hi||s.griev_hi||s.rti_hi);
+  return `<div class="scheme-card">
+    <div class="sc-top">
+      <div class="sc-name">${t(s.name)}</div>
+      ${s.law?`<span class="sc-law">${s.law}</span>`:""}
+    </div>
+    <div class="sc-body">
+      <div class="sc-row"><div class="sc-icon">â¹</div><div><div class="sc-label">${lang==="hi"?"à¤à¥à¤¯à¤¾ à¤®à¤¿à¤²à¥à¤à¤¾":"What you get"}</div><div class="sc-val sc-amount">${t(s.what)}</div></div></div>
+      <div class="sc-row"><div class="sc-icon">â</div><div><div class="sc-label">${lang==="hi"?"à¤à¥à¤¨ à¤ªà¤¾à¤¯à¥à¤à¤¾":"Who qualifies"}</div><div class="sc-val">${t(s.who)}</div></div></div>
+      <div class="sc-row"><div class="sc-icon">ð</div><div><div class="sc-label">${lang==="hi"?"à¤¦à¤¸à¥à¤¤à¤¾à¤µà¥à¤à¤¼":"Documents"}</div><div class="sc-val">${t(s.docs)}</div></div></div>
+      <div class="sc-row"><div class="sc-icon">ð¢</div><div><div class="sc-label">${lang==="hi"?"à¤à¤¹à¤¾à¤ à¤à¤¾à¤¯à¥à¤":"Where to apply"}</div><div class="sc-val">${t(s.where)}</div></div></div>
+      <div class="sc-row"><div class="sc-icon">â</div><div><div class="sc-label">${lang==="hi"?"à¤®à¤¨à¤¾ à¤¹à¥ à¤¤à¥":"If refused"}</div><div class="sc-val">${t(s.refused)}</div></div></div>
+    </div>
+    <div class="sc-footer">
+      ${s.portal?`<a class="portal-link" href="https://${s.portal.split('/')[0]}" target="_blank">ð ${s.portal.split('/')[0]}</a>`:"<span></span>"}
+      ${hasLetter?`<button class="letter-btn" onclick="openM('${s.id}')">â ${lang==="hi"?"à¤ªà¤¤à¥à¤°":"Letter"}</button>`:""}
+    </div>
+  </div>`;
+}
+
+// ============ MODAL ============
+function openM(id){
+  curScheme=SD.find(x=>x.id===id);
+  if(!curScheme)return;
+  document.getElementById("mTitle").textContent=t(curScheme.name);
+  document.getElementById("lModal").classList.add("active");
+  swTab("app");
+}
+function closeM(){document.getElementById("lModal").classList.remove("active");}
+function swTab(tab){
+  activeTab=tab;
+  ["App","Griev","Rti"].forEach(n=>{
+    document.getElementById("t"+n).classList.toggle("active",n.toLowerCase()===tab||(tab==="app"&&n==="App")||(tab==="griev"&&n==="Griev")||(tab==="rti"&&n==="Rti"));
+  });
+  let txt="";
+  const s=curScheme;
+  if(tab==="app") txt=s.app_hi||"[à¤ªà¥à¤°à¤¾à¤°à¥à¤ª à¤à¤ªà¤²à¤¬à¥à¤§ à¤¨à¤¹à¥à¤ / Template not available]";
+  if(tab==="griev") txt=s.griev_hi||"[à¤¶à¤¿à¤à¤¾à¤¯à¤¤ à¤ªà¥à¤°à¤¾à¤°à¥à¤ª à¤¨à¤¹à¥à¤ / Grievance template not available]";
+  if(tab==="rti") txt=s.rti_hi||"[RTI à¤ªà¥à¤°à¤¾à¤°à¥à¤ª à¤¨à¤¹à¥à¤ / RTI template not available]";
+  document.getElementById("mText").textContent=txt;
+}
+function cpLetter(){
+  navigator.clipboard.writeText(document.getElementById("mText").textContent)
+    .then(()=>{const b=document.querySelector(".copy-btn");b.textContent="â Copied!";setTimeout(()=>b.innerHTML=`ð <span>Copy</span>`,1800);});
+}
+document.getElementById("lModal").addEventListener("click",function(e){if(e.target===this)closeM();});
+
+// ============ CHECKER ============
+const CK={
+  ignoaps:{qs:[
+    {id:"age",l:"à¤à¤®à¥à¤° / Age",type:"number"},
+    {id:"bpl",l:"BPL/AAY à¤°à¤¾à¤¶à¤¨ à¤à¤¾à¤°à¥à¤¡ à¤¹à¥? / Have BPL card?",type:"sel",opts:["à¤¹à¤¾à¤/Yes","à¤¨à¤¹à¥à¤/No"]}
+  ],check:(v)=>{
+    if(parseInt(v.age)<60) return {ok:false,msg:"60 à¤µà¤°à¥à¤· à¤¸à¥ à¤à¤® â à¤à¤­à¥ à¤ªà¤¾à¤¤à¥à¤° à¤¨à¤¹à¥à¤ / Below 60 â not yet eligible"};
+    if(v.bpl&&v.bpl.startsWith("à¤¨à¤¹à¥à¤")) return {ok:false,msg:"BPL à¤à¤¾à¤°à¥à¤¡ à¤à¤µà¤¶à¥à¤¯à¤ / BPL card required"};
+    const a=parseInt(v.age); return {ok:true,schemes:[`IHNOAPS: â ${a>=80?"â¹800/à¤®à¤¾à¤¹":"â¹500/à¤®à¤¾à¤¹"}`,`MVPY à¤¬à¤¿à¤¹à¤¾à¤° à¤à¥à¤ª-à¤à¤ª: â à¤¸à¥à¤µà¤à¤¾à¤²à¤¿à¤¤`]};
+  }},
+  pmmvy:{qs:[
+    {id:"preg",l:"à¤à¤°à¥à¤­à¤µà¤¤à¥/à¤¹à¤¾à¤² à¤ªà¥à¤°à¤¸à¤µ? / Pregnant/recently delivered?",type:"sel",opts:["à¤¹à¤¾à¤/Yes","à¤¨à¤¹à¥à¤/No"]},
+    {id:"age",l:"à¤à¤®à¥à¤° / Age",type:"number"},
+    {id:"govt",l:"à¤¸à¤°à¤à¤¾à¤°à¥ à¤à¤°à¥à¤®à¤à¤¾à¤°à¥? / Govt employee?",type:"sel",opts:["à¤¹à¤¾à¤/Yes","à¤¨à¤¹à¥à¤/No"]},
+    {id:"child",l:"à¤à¥à¤¨ à¤¸à¤¾ à¤¬à¤à¥à¤à¤¾? / Which birth?",type:"sel",opts:["à¤ªà¤¹à¤²à¤¾/1st","à¤¦à¥à¤¸à¤°à¤¾/2nd","à¤¤à¥à¤¸à¤°à¤¾+/3rd+"]}
+  ],check:(v)=>{
+    if(!v.preg||v.preg.startsWith("à¤¨à¤¹à¥à¤")) return {ok:false,msg:"PMMVY à¤à¤°à¥à¤­à¤µà¤¤à¥/à¤¨à¤µ-à¤ªà¥à¤°à¤¸à¥à¤¤à¤¾ à¤®à¤¹à¤¿à¤²à¤¾à¤à¤ à¤à¥ à¤²à¤¿à¤ à¤¹à¥"};
+    if(parseInt(v.age)<19) return {ok:false,msg:"à¤¨à¥à¤¯à¥à¤¨à¤¤à¤® à¤à¤¯à¥ 19 à¤µà¤°à¥à¤· / Minimum age 19 years"};
+    if(v.govt&&v.govt.startsWith("à¤¹à¤¾à¤")) return {ok:false,msg:"à¤¸à¤°à¤à¤¾à¤°à¥ à¤à¤°à¥à¤®à¤à¤¾à¤°à¥ à¤ªà¤¾à¤¤à¥à¤° à¤¨à¤¹à¥à¤ / Govt employees ineligible"};
+    if(v.child&&v.child.includes("3rd")) return {ok:false,msg:"PMMVY à¤ªà¤¹à¤²à¥ 2 à¤¬à¤à¥à¤à¥à¤ à¤à¥ à¤²à¤¿à¤ / PMMVY for first 2 children only"};
+    const second=v.child&&v.child.startsWith("à¤¦à¥à¤¸à¤°à¤¾");
+    return {ok:true,schemes:[`PMMVY: â ${second?"â¹6000 (à¤¯à¤¦à¤¿ à¤¬à¤¾à¤²à¤¿à¤à¤¾)":"â¹5000"}`,"JSY: â â¹1400 (à¤à¥à¤°à¤¾à¤®à¥à¤£ à¤ªà¥à¤°à¤¸à¤µ à¤ªà¤°)","JSSK: â à¤¨à¤¿à¤à¤¶à¥à¤²à¥à¤ à¤¦à¤µà¤¾à¤, à¤ªà¤°à¤¿à¤µà¤¹à¤¨, à¤­à¥à¤à¤¨"]};
+  }},
+  nfsa:{qs:[
+    {id:"card",l:"à¤°à¤¾à¤¶à¤¨ à¤à¤¾à¤°à¥à¤¡ à¤¹à¥? / Have ration card?",type:"sel",opts:["à¤¹à¤¾à¤-PHH","à¤¹à¤¾à¤-AAY","à¤¨à¤¹à¥à¤/No"]}
+  ],check:(v)=>{
+    if(!v.card||v.card.startsWith("à¤¨à¤¹à¥à¤")) return {ok:false,msg:"à¤°à¤¾à¤¶à¤¨ à¤à¤¾à¤°à¥à¤¡ à¤¨à¤¹à¥à¤ à¤¹à¥ â BDO/RTPS à¤ªà¤° à¤à¤µà¥à¤¦à¤¨ à¤à¤°à¥à¤ / Apply for ration card at BDO/RTPS"};
+    const isAAY=v.card.includes("AAY");
+    return {ok:true,schemes:[isAAY?"AAY: â 35 à¤à¤¿à¤²à¥/à¤ªà¤°à¤¿à¤µà¤¾à¤°/à¤®à¤¾à¤¹":"PHH: â 5 à¤à¤¿à¤²à¥/à¤µà¥à¤¯à¤à¥à¤¤à¤¿/à¤®à¤¾à¤¹","PMGKAY: â 5 à¤à¤¿à¤²à¥ à¤à¤¤à¤¿à¤°à¤¿à¤à¥à¤¤ à¤¨à¤¿à¤à¤¶à¥à¤²à¥à¤ (Dec 2028)"]};
+  }},
+  mgnregs:{qs:[
+    {id:"rural",l:"à¤à¥à¤°à¤¾à¤®à¥à¤£ à¤à¥à¤·à¥à¤¤à¥à¤° à¤®à¥à¤ à¤°à¤¹à¤¤à¥ à¤¹à¥à¤? / Rural area?",type:"sel",opts:["à¤¹à¤¾à¤/Yes","à¤¨à¤¹à¥à¤/No"]},
+    {id:"adult",l:"18 à¤µà¤°à¥à¤·+ à¤¹à¥à¤? / 18+ years?",type:"sel",opts:["à¤¹à¤¾à¤/Yes","à¤¨à¤¹à¥à¤/No"]}
+  ],check:(v)=>{
+    if(v.rural&&v.rural.startsWith("à¤¨à¤¹à¥à¤")) return {ok:false,msg:"MGNREGS à¤à¥à¤°à¤¾à¤®à¥à¤£ à¤à¥à¤·à¥à¤¤à¥à¤° à¤à¥ à¤²à¤¿à¤ à¤¹à¥ / MGNREGS is for rural areas"};
+    if(v.adult&&v.adult.startsWith("à¤¨à¤¹à¥à¤")) return {ok:false,msg:"18 à¤µà¤°à¥à¤· à¤¸à¥ à¤à¤® â MGNREGS à¤à¥ à¤²à¤¿à¤ à¤à¤ªà¤¾à¤¤à¥à¤°"};
+    return {ok:true,schemes:["MGNREGS: â 100 à¤¦à¤¿à¤¨ @ â¹228/à¤¦à¤¿à¤¨","à¤à¥à¤¬ à¤à¤¾à¤°à¥à¤¡: â à¤à¥à¤°à¤¾à¤® à¤ªà¤à¤à¤¾à¤¯à¤¤ à¤¸à¥ à¤®à¥à¤«à¥à¤¤","à¤¬à¥à¤°à¥à¤à¤à¤¾à¤°à¥ à¤­à¤¤à¥à¤¤à¤¾: â à¤¯à¤¦à¤¿ 15 à¤¦à¤¿à¤¨ à¤®à¥à¤ à¤à¤¾à¤® à¤¨ à¤®à¤¿à¤²à¥"]};
+  }}
+};
+
+function loadCq(){
+  const id=document.getElementById("cScheme").value;
+  const wrap=document.getElementById("cqWrap");
+  const btn=document.getElementById("cBtn");
+  document.getElementById("cResult").innerHTML="";
+  if(!id||!CK[id]){wrap.innerHTML="";btn.style.display="none";return;}
+  let html="";
+  CK[id].qs.forEach(q=>{
+    html+=`<label class="checker-label" for="cq_${q.id}">${q.l}</label>`;
+    if(q.type==="sel"){
+      html+=`<select class="checker-select" id="cq_${q.id}"><option value="">â Select â</option>`;
+      q.opts.forEach(o=>html+=`<option value="${o}">${o}</option>`);
+      html+="</select>";
+    } else {
+      html+=`<input type="number" class="checker-inp" id="cq_${q.id}" min="0" max="120" placeholder="${q.l}">`;
+    }
+  });
+  wrap.innerHTML=html;
+  btn.style.display="block";
+}
+
+function runCheck(){
+  const id=document.getElementById("cScheme").value;
+  if(!id||!CK[id]) return;
+  const vals={};
+  CK[id].qs.forEach(q=>{
+    const el=document.getElementById("cq_"+q.id);
+    if(el) vals[q.id]=el.value;
+  });
+  const res=CK[id].check(vals);
+  const div=document.getElementById("cResult");
+  if(!res.ok){
+    div.innerHTML=`<div class="result-fail">â ${res.msg}</div>`;
+  } else {
+    let rows=res.schemes.map(s=>`<div class="result-row"><span style="color:var(--accent2)">â</span>${s}</div>`).join("");
+    div.innerHTML=`<div class="result-ok"><div class="result-title">â ${lang==="hi"?"à¤à¤ª à¤à¤¨ à¤¯à¥à¤à¤¨à¤¾à¤à¤ à¤à¥ à¤ªà¤¾à¤¤à¥à¤° à¤¹à¥à¤:":"You are eligible for:"}</div>${rows}
+      <p style="font-size:11px;color:var(--muted);margin-top:8px">${lang==="hi"?"BDO / RTPS à¤ªà¥à¤°à¥à¤à¤² à¤ªà¤° à¤à¤µà¥à¤¦à¤¨ à¤à¤°à¥à¤à¥¤ à¤à¤¸à¥à¤µà¥à¤à¥à¤¤à¤¿ à¤ªà¤° CPGRAMS à¤¶à¤¿à¤à¤¾à¤¯à¤¤à¥¤":"Apply at BDO / RTPS portal. If refused, file on CPGRAMS."}</p></div>`;
+  }
+}
+
+/* Expose for jan-sahayak-pro integration */
+window.JANMAN_SCHEMES_DATA = SD;
+window.JANMAN_LANG = ()=>lang;
+</script>
+</body>
+</html>
