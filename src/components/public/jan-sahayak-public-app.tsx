@@ -995,19 +995,16 @@ function FieldSelect({ label, value, onChange, options }: FieldSelectProps) {
 
 function TrainingCourseCard({
   course,
-  isHindi,
   onOpen,
 }: {
   course: TrainingCourse;
-  isHindi: boolean;
   onOpen: (url: string) => void;
 }) {
   const statusLabel =
     course.status === "coming_soon"
-      ? isHindi
-        ? "जल्द"
-        : "Coming Soon"
-      : course.badge ?? (isHindi ? "लाइव" : "Live");
+      ? "Coming Soon"
+      : course.badge ?? "Live";
+  const callToAction = course.ctaLabel ?? "Open Course →";
 
   return (
     <div
@@ -1022,29 +1019,54 @@ function TrainingCourseCard({
     >
       <div
         style={{
-          height: 6,
-          background: course.accent,
+          minHeight: 84,
+          background: `linear-gradient(135deg, ${course.accent}, ${course.accent}DD)`,
+          padding: "14px 16px",
+          display: "flex",
+          alignItems: "flex-start",
+          justifyContent: "space-between",
+          gap: 12,
         }}
-      />
-      <div style={{ padding: "15px 16px 16px" }}>
-        <div style={{ display: "flex", justifyContent: "space-between", gap: 12, alignItems: "flex-start" }}>
-          <div style={{ flex: 1 }}>
-            <div style={{ fontSize: 14, fontWeight: 700, color: PALETTE.text }}>{isHindi ? course.hi : course.title}</div>
-            <div style={{ fontSize: 12, color: PALETTE.dim, lineHeight: 1.6, marginTop: 4 }}>{course.summary}</div>
-          </div>
+      >
+        <div style={{ fontSize: 28, lineHeight: 1 }}>{course.icon}</div>
+        <div style={{ display: "flex", gap: 6, flexWrap: "wrap", justifyContent: "flex-end" }}>
           <span
             style={{
               borderRadius: 999,
-              padding: "5px 9px",
-              background: `${course.accent}15`,
+              padding: "4px 8px",
+              background: "rgba(255,255,255,0.92)",
               color: course.accent,
               fontSize: 10,
-              fontWeight: 700,
+              fontWeight: 800,
               whiteSpace: "nowrap",
             }}
           >
             {statusLabel}
           </span>
+          {course.status === "live" && course.certificate ? (
+            <span
+              style={{
+                borderRadius: 999,
+                padding: "4px 8px",
+                background: "rgba(255,255,255,0.16)",
+                color: "#fff",
+                fontSize: 10,
+                fontWeight: 700,
+                whiteSpace: "nowrap",
+              }}
+            >
+              {course.certificate}
+            </span>
+          ) : null}
+        </div>
+      </div>
+      <div style={{ padding: "15px 16px 16px" }}>
+        <div style={{ display: "flex", gap: 12, alignItems: "flex-start" }}>
+          <div style={{ flex: 1 }}>
+            <div style={{ fontSize: 15, fontWeight: 800, color: PALETTE.text, lineHeight: 1.35 }}>{course.title}</div>
+            <div style={{ fontSize: 12, color: PALETTE.dim, marginTop: 4 }}>{course.hi}</div>
+            <div style={{ fontSize: 12.5, color: PALETTE.dim, lineHeight: 1.65, marginTop: 8 }}>{course.summary}</div>
+          </div>
         </div>
 
         <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginTop: 10 }}>
@@ -1062,28 +1084,34 @@ function TrainingCourseCard({
                   color: badge.color,
                 }}
               >
-                {isHindi ? badge.hindi : badge.english}
+                {badge.english}
               </span>
             );
           })}
         </div>
 
         <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginTop: 10 }}>
-          {[course.levelsLabel, course.durationLabel, course.certificate].filter(Boolean).map((meta) => (
-            <span
-              key={`${course.id}-${meta}`}
-              style={{
-                borderRadius: 999,
-                padding: "4px 8px",
-                background: "#F8F3EF",
-                color: PALETTE.dim,
-                fontSize: 10,
-                fontWeight: 700,
-              }}
-            >
-              {meta}
-            </span>
-          ))}
+          {[
+            course.levelsLabel,
+            course.durationLabel,
+            course.status === "coming_soon" ? null : course.certificate,
+          ]
+            .filter(Boolean)
+            .map((meta) => (
+              <span
+                key={`${course.id}-${meta}`}
+                style={{
+                  borderRadius: 999,
+                  padding: "4px 8px",
+                  background: "#F8F3EF",
+                  color: PALETTE.dim,
+                  fontSize: 10,
+                  fontWeight: 700,
+                }}
+              >
+                {meta}
+              </span>
+            ))}
         </div>
 
         <button
@@ -1103,17 +1131,11 @@ function TrainingCourseCard({
             color: course.href ? "#fff" : PALETTE.muted,
             padding: "11px 12px",
             fontSize: 13,
-            fontWeight: 700,
+            fontWeight: 800,
             cursor: course.href ? "pointer" : "not-allowed",
           }}
         >
-          {course.href
-            ? isHindi
-              ? "कोर्स खोलें →"
-              : "Open Course →"
-            : isHindi
-              ? "जल्द उपलब्ध होगा"
-              : "Available Soon"}
+          {course.href ? callToAction : "Coming Soon"}
         </button>
       </div>
     </div>
@@ -1196,6 +1218,7 @@ export default function JanSahayakPublicApp() {
   });
   const liveTrainingCourses = filteredTrainingCourses.filter((course) => course.status === "live");
   const upcomingTrainingCourses = filteredTrainingCourses.filter((course) => course.status === "coming_soon");
+  const plvFlagshipTrack = FLAGSHIP_PLV_TRACKS[0];
 
   const trainingAudienceCounts: Record<TrainingAudience, number> = {
     all: TRAINING_LIBRARY_COURSES.length,
@@ -2331,12 +2354,12 @@ export default function JanSahayakPublicApp() {
         <div style={{ ...sharedStyles.container, padding: "16px 16px 80px" }}>
           <div
             style={{
-              background: "linear-gradient(135deg,#1E1B4B 0%,#312E81 45%,#4C1D95 100%)",
+              background: "#fff",
               borderRadius: 18,
               padding: "20px 18px",
-              color: "#fff",
               marginBottom: 16,
-              boxShadow: "0 14px 28px rgba(49,46,129,0.18)",
+              border: `1px solid ${PALETTE.border}`,
+              boxShadow: "0 10px 22px rgba(26,26,26,0.04)",
             }}
           >
             <div
@@ -2344,24 +2367,41 @@ export default function JanSahayakPublicApp() {
                 display: "inline-flex",
                 alignItems: "center",
                 gap: 8,
-                background: "rgba(255,255,255,0.12)",
+                background: PALETTE.accentSoft,
                 borderRadius: 999,
                 padding: "6px 12px",
                 fontSize: 11,
                 fontWeight: 700,
+                color: PALETTE.accent,
                 marginBottom: 12,
               }}
             >
               <span>📚</span>
               {tx("Jan Nyaya Resource Centre", "जन न्याय रिसोर्स सेंटर")}
             </div>
-            <div style={{ fontFamily: headingFont, fontSize: 22, fontWeight: 700, marginBottom: 6 }}>
+            <div style={{ fontFamily: headingFont, fontSize: 22, fontWeight: 700, color: PALETTE.text, marginBottom: 6 }}>
               {tx("PLV Academy", "PLV अकादमी")}
             </div>
-            <div style={{ fontSize: 13, lineHeight: 1.7, color: "rgba(255,255,255,0.86)", marginBottom: 16 }}>
+            <div style={{ fontSize: 13, lineHeight: 1.7, color: PALETTE.dim, marginBottom: 10 }}>
               {tx(
-                "Start with quick field modules inside Jan Sahayak, then move into structured Janman training tracks with levels, certificates, and role-based course paths for paralegals, social workers, students, and lawyers.",
-                "जन सहायक के छोटे फील्ड मॉड्यूल से शुरुआत करें, फिर Janman के विस्तृत प्रशिक्षण ट्रैक्स में जाएं जहाँ लेवल, सर्टिफिकेट और PLV, सामाजिक कार्यकर्ता, विधि छात्र और अधिवक्ताओं के लिए अलग-अलग कोर्स पथ हैं।",
+                "This section preserves the original Janman academy course language and structure so the legal curriculum stays precise while you learn inside Jan Sahayak.",
+                "यह अनुभाग Janman अकादमी के मूल कोर्स ढांचे और भाषा को सुरक्षित रखता है ताकि कानूनी पाठ्यक्रम की सटीकता बनी रहे और आप Jan Sahayak के भीतर सीख सकें।",
+              )}
+            </div>
+            <div
+              style={{
+                padding: "10px 12px",
+                borderRadius: 12,
+                background: "#F8F3EF",
+                fontSize: 12,
+                color: PALETTE.dim,
+                lineHeight: 1.6,
+                marginBottom: 14,
+              }}
+            >
+              {tx(
+                "Quick field modules below remain bilingual. The deeper academy tracks keep their original English course copy because that is the researched Jan Nyaya Resource Centre curriculum.",
+                "नीचे दिए गए त्वरित फील्ड मॉड्यूल द्विभाषी हैं। गहरे अकादमी ट्रैक अपने मूल English पाठ्यक्रम-लेखन में रखे गए हैं क्योंकि वही Jan Nyaya Resource Centre का शोध-आधारित मूल पाठ है।",
               )}
             </div>
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
@@ -2372,17 +2412,17 @@ export default function JanSahayakPublicApp() {
                 TRAINING_ACADEMY_STATS.caseAnalyses,
               ].map((entry) => (
                 <div
-                  key={entry}
+                  key={entry.en}
                   style={{
-                    background: "rgba(255,255,255,0.1)",
+                    background: "#F8F3EF",
                     borderRadius: 12,
                     padding: "10px 12px",
                     fontSize: 12,
                     fontWeight: 600,
-                    color: "rgba(255,255,255,0.9)",
+                    color: PALETTE.text,
                   }}
                 >
-                  {entry}
+                  {entry.en}
                 </div>
               ))}
             </div>
@@ -2394,15 +2434,15 @@ export default function JanSahayakPublicApp() {
                   flex: 1,
                   border: "none",
                   borderRadius: 10,
-                  background: "#fff",
-                  color: PALETTE.accent,
+                  background: PALETTE.accent,
+                  color: "#fff",
                   padding: "11px 12px",
                   fontSize: 13,
-                  fontWeight: 700,
+                  fontWeight: 800,
                   cursor: "pointer",
                 }}
               >
-                {tx("Open Full Resource Centre", "पूरा रिसोर्स सेंटर खोलें")}
+                {tx("Open Resource Centre", "रिसोर्स सेंटर खोलें")}
               </button>
               <button
                 type="button"
@@ -2410,12 +2450,12 @@ export default function JanSahayakPublicApp() {
                 style={{
                   flex: 1,
                   borderRadius: 10,
-                  border: "1px solid rgba(255,255,255,0.22)",
-                  background: "rgba(255,255,255,0.08)",
-                  color: "#fff",
+                  border: `1px solid ${PALETTE.border}`,
+                  background: "#fff",
+                  color: PALETTE.text,
                   padding: "11px 12px",
                   fontSize: 13,
-                  fontWeight: 700,
+                  fontWeight: 800,
                   cursor: "pointer",
                 }}
               >
@@ -2424,7 +2464,7 @@ export default function JanSahayakPublicApp() {
             </div>
           </div>
 
-          <div style={{ fontSize: 16, fontWeight: 700, color: PALETTE.text, marginBottom: 6 }}>
+          <div style={{ fontFamily: headingFont, fontSize: 17, fontWeight: 700, color: PALETTE.text, marginBottom: 6 }}>
             {tx("Quick Rights Modules", "त्वरित अधिकार मॉड्यूल")}
           </div>
           <div style={{ fontSize: 13, color: PALETTE.dim, marginBottom: 14, lineHeight: 1.6 }}>
@@ -2469,140 +2509,224 @@ export default function JanSahayakPublicApp() {
             </button>
           ))}
 
-          <div style={{ fontSize: 16, fontWeight: 700, color: PALETTE.text, marginTop: 18, marginBottom: 6 }}>
-            {tx("Flagship Tracks For PLVs", "PLV के लिए प्रमुख ट्रैक")}
+          <div
+            style={{ fontFamily: headingFont, fontSize: 17, fontWeight: 700, color: PALETTE.text, marginTop: 18, marginBottom: 6 }}
+          >
+            {tx("PLV Core Pathway", "PLV मुख्य प्रशिक्षण पथ")}
           </div>
           <div style={{ fontSize: 13, color: PALETTE.dim, marginBottom: 14, lineHeight: 1.6 }}>
             {tx(
-              "These deeper tracks from the Janman training centre are ideal for serious PLV onboarding and refresher cycles.",
-              "Janman प्रशिक्षण केंद्र के ये विस्तृत ट्रैक गंभीर PLV प्रशिक्षण और पुनर्पाठ के लिए उपयुक्त हैं।",
+              "This is the most relevant deeper pathway for a field PLV inside the Jan Nyaya Resource Centre.",
+              "यह Jan Nyaya Resource Centre के भीतर फील्ड PLV के लिए सबसे प्रासंगिक गहरा प्रशिक्षण-पथ है।",
             )}
           </div>
 
-          {FLAGSHIP_PLV_TRACKS.map((track) => (
+          <div
+            style={{
+              background: "#fff",
+              borderRadius: 16,
+              border: `1px solid ${PALETTE.border}`,
+              marginBottom: 14,
+              overflow: "hidden",
+              boxShadow: "0 10px 22px rgba(26,26,26,0.05)",
+            }}
+          >
             <div
-              key={track.id}
               style={{
-                background: "#fff",
-                borderRadius: 16,
-                border: `1px solid ${PALETTE.border}`,
-                marginBottom: 12,
-                overflow: "hidden",
-                boxShadow: "0 10px 22px rgba(26,26,26,0.05)",
+                padding: "18px",
+                background: `linear-gradient(135deg, ${plvFlagshipTrack.accent}18, ${plvFlagshipTrack.accent}08)`,
+                borderBottom: `1px solid ${PALETTE.border}`,
               }}
             >
-              <div
-                style={{
-                  padding: "16px 18px 14px",
-                  background: `${track.accent}12`,
-                  borderBottom: `1px solid ${PALETTE.border}`,
-                }}
-              >
-                <div style={{ display: "flex", gap: 12, alignItems: "flex-start" }}>
-                  <div
-                    style={{
-                      width: 42,
-                      height: 42,
-                      borderRadius: 12,
-                      background: track.accent,
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      color: "#fff",
-                      fontSize: 21,
-                      flexShrink: 0,
-                    }}
-                  >
-                    {track.icon}
+              <div style={{ display: "flex", gap: 12, alignItems: "flex-start" }}>
+                <div
+                  style={{
+                    width: 46,
+                    height: 46,
+                    borderRadius: 14,
+                    background: plvFlagshipTrack.accent,
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    color: "#fff",
+                    fontSize: 22,
+                    flexShrink: 0,
+                  }}
+                >
+                  {plvFlagshipTrack.icon}
+                </div>
+                <div style={{ flex: 1 }}>
+                  <div style={{ fontSize: 16, fontWeight: 800, color: PALETTE.text }}>{plvFlagshipTrack.title}</div>
+                  <div style={{ fontSize: 12, color: PALETTE.dim, marginTop: 3 }}>{plvFlagshipTrack.hi}</div>
+                  <div style={{ fontSize: 12.5, color: PALETTE.dim, marginTop: 8, lineHeight: 1.65 }}>
+                    {plvFlagshipTrack.summary}
                   </div>
-                  <div style={{ flex: 1 }}>
-                    <div style={{ fontWeight: 700, fontSize: 15, color: PALETTE.text }}>
-                      {isHindi ? track.hi : track.title}
-                    </div>
-                    <div style={{ fontSize: 12, color: PALETTE.dim, marginTop: 4, lineHeight: 1.6 }}>
-                      {track.summary}
-                    </div>
-                    <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginTop: 10 }}>
-                      {track.tags.map((tag) => (
-                        <span
-                          key={tag}
-                          style={{
-                            borderRadius: 999,
-                            padding: "4px 9px",
-                            fontSize: 10,
-                            fontWeight: 700,
-                            color: track.accent,
-                            background: "#fff",
-                          }}
-                        >
-                          {tag}
-                        </span>
-                      ))}
-                    </div>
+                  <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginTop: 10 }}>
+                    {plvFlagshipTrack.tags.map((tag) => (
+                      <span
+                        key={tag}
+                        style={{
+                          borderRadius: 999,
+                          padding: "4px 9px",
+                          fontSize: 10,
+                          fontWeight: 800,
+                          color: plvFlagshipTrack.accent,
+                          background: "#fff",
+                        }}
+                      >
+                        {tag}
+                      </span>
+                    ))}
                   </div>
                 </div>
               </div>
-              <div style={{ padding: "14px 18px 16px" }}>
-                {track.levels.map((level, index) => (
+            </div>
+            <div style={{ padding: "14px 18px 16px" }}>
+              {plvFlagshipTrack.levels.map((level, index) => (
+                <div
+                  key={`${plvFlagshipTrack.id}-${level.label}`}
+                  style={{
+                    display: "flex",
+                    gap: 10,
+                    paddingBottom: index === plvFlagshipTrack.levels.length - 1 ? 0 : 12,
+                    marginBottom: index === plvFlagshipTrack.levels.length - 1 ? 0 : 12,
+                    borderBottom:
+                      index === plvFlagshipTrack.levels.length - 1 ? "none" : `1px solid ${PALETTE.border}`,
+                  }}
+                >
                   <div
-                    key={`${track.id}-${level.label}`}
                     style={{
-                      display: "flex",
-                      gap: 10,
-                      paddingBottom: index === track.levels.length - 1 ? 0 : 12,
-                      marginBottom: index === track.levels.length - 1 ? 0 : 12,
-                      borderBottom: index === track.levels.length - 1 ? "none" : `1px solid ${PALETTE.border}`,
+                      minWidth: 82,
+                      fontSize: 11,
+                      fontWeight: 800,
+                      color: plvFlagshipTrack.accent,
+                      textTransform: "uppercase",
+                      paddingTop: 2,
                     }}
                   >
-                    <div
-                      style={{
-                        minWidth: 74,
-                        fontSize: 11,
-                        fontWeight: 700,
-                        color: track.accent,
-                        textTransform: "uppercase",
-                        paddingTop: 2,
-                      }}
-                    >
-                      {level.label}
-                    </div>
-                    <div>
-                      <div style={{ fontSize: 13, fontWeight: 700, color: PALETTE.text }}>{level.title}</div>
-                      <div style={{ fontSize: 12, color: PALETTE.dim, lineHeight: 1.6, marginTop: 3 }}>
-                        {level.summary}
-                      </div>
+                    {level.label}
+                  </div>
+                  <div>
+                    <div style={{ fontSize: 13, fontWeight: 800, color: PALETTE.text }}>{level.title}</div>
+                    <div style={{ fontSize: 12, color: PALETTE.dim, lineHeight: 1.6, marginTop: 3 }}>
+                      {level.summary}
                     </div>
                   </div>
-                ))}
+                </div>
+              ))}
+              <div style={{ display: "flex", gap: 8, marginTop: 14 }}>
                 <button
                   type="button"
-                  onClick={() => openExternalTraining(track.href)}
+                  onClick={() => openExternalTraining(plvFlagshipTrack.href)}
                   style={{
-                    width: "100%",
-                    marginTop: 14,
+                    flex: 1,
                     borderRadius: 10,
                     border: "none",
-                    background: track.accent,
+                    background: plvFlagshipTrack.accent,
                     color: "#fff",
                     padding: "12px",
                     fontSize: 13,
-                    fontWeight: 700,
+                    fontWeight: 800,
                     cursor: "pointer",
                   }}
                 >
-                  {tx("Open Detailed Track →", "विस्तृत ट्रैक खोलें →")}
+                  Explore PLV Track →
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setScreen("plvJoin")}
+                  style={{
+                    flex: 1,
+                    borderRadius: 10,
+                    border: `1px solid ${PALETTE.border}`,
+                    background: "#fff",
+                    color: PALETTE.text,
+                    padding: "12px",
+                    fontSize: 13,
+                    fontWeight: 800,
+                    cursor: "pointer",
+                  }}
+                >
+                  {tx("Register as PLV", "PLV के रूप में पंजीकरण")}
                 </button>
               </div>
             </div>
-          ))}
+          </div>
 
-          <div style={{ fontSize: 16, fontWeight: 700, color: PALETTE.text, marginTop: 18, marginBottom: 6 }}>
-            {tx("Role-Based Course Library", "भूमिका आधारित कोर्स लाइब्रेरी")}
+          <div
+            style={{
+              background: "linear-gradient(135deg,#0F172A 0%,#1E1B4B 100%)",
+              borderRadius: 16,
+              padding: "22px 20px",
+              color: "#fff",
+              marginBottom: 18,
+            }}
+          >
+            <div
+              style={{
+                display: "inline-block",
+                borderRadius: 999,
+                background: "rgba(99,102,241,0.22)",
+                color: "#E0E7FF",
+                padding: "4px 10px",
+                fontSize: 11,
+                fontWeight: 800,
+                marginBottom: 10,
+              }}
+            >
+              JUST LAUNCHED
+            </div>
+            <div style={{ fontSize: 20, fontWeight: 800, lineHeight: 1.3, marginBottom: 8 }}>
+              Child Rights & Protection — 4-Track Programme
+            </div>
+            <div style={{ fontSize: 13, color: "#C7D2FE", lineHeight: 1.65, marginBottom: 12 }}>
+              POCSO · JJ Act · Child Marriage · 2024 INSC 790 · 16 levels · 4 specialised tracks tailored to your role.
+            </div>
+            <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 14 }}>
+              {["Social Workers", "Paralegals", "Law Students", "Lawyers", "Free Certificate"].map((tag) => (
+                <span
+                  key={tag}
+                  style={{
+                    borderRadius: 999,
+                    padding: "4px 10px",
+                    border: "1px solid rgba(255,255,255,0.16)",
+                    background: "rgba(255,255,255,0.08)",
+                    color: "#E0E7FF",
+                    fontSize: 11,
+                    fontWeight: 700,
+                  }}
+                >
+                  {tag}
+                </span>
+              ))}
+            </div>
+            <button
+              type="button"
+              onClick={() => openExternalTraining("https://shashwat-sys.github.io/janman-training/child-rights/index.html")}
+              style={{
+                border: "none",
+                borderRadius: 10,
+                background: "#6366F1",
+                color: "#fff",
+                padding: "12px 18px",
+                fontSize: 13,
+                fontWeight: 800,
+                cursor: "pointer",
+              }}
+            >
+              Explore Programme →
+            </button>
+          </div>
+
+          <div
+            style={{ fontFamily: headingFont, fontSize: 17, fontWeight: 700, color: PALETTE.text, marginTop: 18, marginBottom: 6 }}
+          >
+            {tx("Course Library", "कोर्स लाइब्रेरी")}
           </div>
           <div style={{ fontSize: 13, color: PALETTE.dim, marginBottom: 12, lineHeight: 1.6 }}>
             {tx(
-              "Filter by audience and search by topic to find the right training path. The PLV filter is selected by default.",
-              "उपयुक्त प्रशिक्षण खोजने के लिए भूमिका अनुसार फ़िल्टर करें और विषय से खोजें। PLV फ़िल्टर डिफ़ॉल्ट रूप से चुना गया है।",
+              "These are the original Jan Nyaya Resource Centre course cards, cleaned up and connected to Jan Sahayak.",
+              "ये Jan Nyaya Resource Centre के मूल कोर्स कार्ड हैं, जिन्हें साफ़ रूप में Jan Sahayak से जोड़ा गया है।",
             )}
           </div>
 
@@ -2650,7 +2774,7 @@ export default function JanSahayakPublicApp() {
                 }}
               >
                 <span>{option.icon}</span>
-                <span>{isHindi ? option.hindi : option.english}</span>
+                <span>{option.english}</span>
                 <span
                   style={{
                     borderRadius: 999,
@@ -2687,41 +2811,33 @@ export default function JanSahayakPublicApp() {
 
           {liveTrainingCourses.length > 0 ? (
             <div style={{ fontSize: 14, fontWeight: 700, color: PALETTE.text, marginBottom: 8 }}>
-              {tx("Live Courses", "चालू कोर्स")}
+              Available Courses
             </div>
           ) : null}
 
           {liveTrainingCourses.map((course) => (
-            <TrainingCourseCard
-              key={course.id}
-              course={course}
-              isHindi={isHindi}
-              onOpen={openExternalTraining}
-            />
+            <TrainingCourseCard key={course.id} course={course} onOpen={openExternalTraining} />
           ))}
 
           {upcomingTrainingCourses.length > 0 ? (
             <div style={{ fontSize: 14, fontWeight: 700, color: PALETTE.text, marginTop: 14, marginBottom: 8 }}>
-              {tx("Coming Soon", "जल्द आने वाले")}
+              Coming Soon
             </div>
           ) : null}
 
           {upcomingTrainingCourses.map((course) => (
-            <TrainingCourseCard
-              key={course.id}
-              course={course}
-              isHindi={isHindi}
-              onOpen={openExternalTraining}
-            />
+            <TrainingCourseCard key={course.id} course={course} onOpen={openExternalTraining} />
           ))}
 
-          <div style={{ fontSize: 16, fontWeight: 700, color: PALETTE.text, marginTop: 20, marginBottom: 6 }}>
+          <div
+            style={{ fontFamily: headingFont, fontSize: 17, fontWeight: 700, color: PALETTE.text, marginTop: 20, marginBottom: 6 }}
+          >
             {tx("Learning Paths", "सीखने के पथ")}
           </div>
           <div style={{ fontSize: 13, color: PALETTE.dim, marginBottom: 12, lineHeight: 1.6 }}>
             {tx(
-              "Use these paths when you want a curated progression rather than one-off course browsing.",
-              "यदि आप अलग-अलग कोर्स की बजाय क्रमबद्ध सीखने का रास्ता चाहते हैं, तो इन पाथ का उपयोग करें।",
+              "Curated role-based journeys from the original Jan Nyaya Resource Centre.",
+              "मूल Jan Nyaya Resource Centre के भूमिका-आधारित चुने हुए सीखने के पथ।",
             )}
           </div>
 
@@ -2746,7 +2862,8 @@ export default function JanSahayakPublicApp() {
               <div style={{ display: "flex", alignItems: "flex-start", gap: 12 }}>
                 <div style={{ fontSize: 26, lineHeight: 1 }}>{path.icon}</div>
                 <div style={{ flex: 1 }}>
-                  <div style={{ fontSize: 15, fontWeight: 700 }}>{path.title}</div>
+                  <div style={{ fontSize: 15, fontWeight: 800 }}>{path.title}</div>
+                  <div style={{ fontSize: 12, color: "rgba(255,255,255,0.82)", marginTop: 3 }}>{path.hi_title}</div>
                   <div style={{ fontSize: 12, lineHeight: 1.6, color: "rgba(255,255,255,0.86)", marginTop: 5 }}>
                     {path.summary}
                   </div>
