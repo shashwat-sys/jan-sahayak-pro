@@ -4,6 +4,17 @@ import type { CSSProperties, ReactNode } from "react";
 import { useDeferredValue, useEffect, useState } from "react";
 
 import { BIHAR_DISTRICTS } from "@/lib/domain/constants";
+import {
+  FLAGSHIP_PLV_TRACKS,
+  QUICK_PLV_MODULES,
+  TRAINING_ACADEMY_STATS,
+  TRAINING_LIBRARY_COURSES,
+  TRAINING_LIBRARY_PATHS,
+  TRAINING_RESOURCE_CENTRE_URL,
+  type TrainingAudience,
+  type TrainingCourse,
+  type TrainingModule,
+} from "@/lib/domain/plv-training";
 
 const PALETTE = {
   bg: "#FFF8F0",
@@ -52,21 +63,6 @@ type LegalAct = {
   desc: string;
   hi_desc: string;
   faqs: Array<{ q: string; a: string }>;
-};
-
-type TrainingModule = {
-  id: string;
-  title: string;
-  hi: string;
-  icon: string;
-  content: string;
-  hi_content: string;
-  quiz: Array<{
-    q: string;
-    hi_q: string;
-    options: string[];
-    correct: number;
-  }>;
 };
 
 const CENTRAL_SCHEMES: Scheme[] = [
@@ -595,121 +591,6 @@ const LEGAL_ACTS: LegalAct[] = [
   },
 ];
 
-const PLV_MODULES: TrainingModule[] = [
-  {
-    id: "m1",
-    title: "FIR — Your Rights",
-    hi: "FIR — आपके अधिकार",
-    icon: "📋",
-    content:
-      "You have the RIGHT to file an FIR at any police station for any cognisable offence. Police cannot refuse. Zero FIR means any station must register for any area. If refused: go to DSP/SP office, write to the Magistrate, or file a private complaint under BNSS.",
-    hi_content:
-      "आपको किसी भी संज्ञेय अपराध के लिए किसी भी थाने में FIR दर्ज कराने का अधिकार है। पुलिस मना नहीं कर सकती। Zero FIR का मतलब है कि किसी भी जिले का मामला हो, कोई भी थाना FIR दर्ज करेगा। मना करने पर DSP/SP, मजिस्ट्रेट, या BNSS के तहत शिकायत करें।",
-    quiz: [
-      {
-        q: "Can police refuse to file Zero FIR?",
-        hi_q: "क्या पुलिस Zero FIR दर्ज करने से मना कर सकती है?",
-        options: [
-          "Yes, if it is another district",
-          "No — Zero FIR must be registered at any station",
-          "Only SP can decide",
-        ],
-        correct: 1,
-      },
-    ],
-  },
-  {
-    id: "m2",
-    title: "Rights of Arrested Person",
-    hi: "गिरफ्तार व्यक्ति के अधिकार",
-    icon: "⚖",
-    content:
-      "When arrested, you have the RIGHT to know the reason, inform family immediately, meet a lawyer, be produced before a Magistrate within 24 hours, not be tortured, and receive free legal aid if you cannot afford a lawyer.",
-    hi_content:
-      "गिरफ्तारी पर कारण जानने, परिवार को सूचित करने, वकील से मिलने, 24 घंटे में मजिस्ट्रेट के सामने पेश होने, यातना से सुरक्षा, और जरूरत पर मुफ्त कानूनी सहायता का अधिकार है।",
-    quiz: [
-      {
-        q: "Can police hold a person without producing before Magistrate for more than 24 hours?",
-        hi_q: "क्या पुलिस 24 घंटे से ज्यादा बिना मजिस्ट्रेट के किसी को रख सकती है?",
-        options: ["Yes, for 48 hours", "No, must produce within 24 hours", "Yes, up to 7 days"],
-        correct: 1,
-      },
-    ],
-  },
-  {
-    id: "m3",
-    title: "POCSO — Protecting Children",
-    hi: "POCSO — बच्चों की सुरक्षा",
-    icon: "🛡",
-    content:
-      "POCSO Act 2012 protects all persons under 18 from sexual abuse. Any person with knowledge of abuse must report it to police or DCPU. Never disclose a child's identity. Call 1098 immediately when urgent help is needed.",
-    hi_content:
-      "POCSO Act 2012 18 वर्ष से कम सभी बच्चों को यौन हिंसा से सुरक्षा देता है। किसी भी व्यक्ति को जानकारी होने पर रिपोर्ट करना जरूरी है। बच्चे की पहचान कभी उजागर न करें। तुरंत मदद के लिए 1098 पर कॉल करें।",
-    quiz: [
-      {
-        q: "If a teacher witnesses abuse of a student, must they report it?",
-        hi_q: "अगर शिक्षक बच्चे के साथ दुर्व्यवहार देखे, क्या उसे रिपोर्ट करना जरूरी है?",
-        options: ["Only if the parent asks", "No — it is optional", "Yes — reporting is mandatory"],
-        correct: 2,
-      },
-    ],
-  },
-  {
-    id: "m4",
-    title: "Domestic Violence — Protection",
-    hi: "घरेलू हिंसा — संरक्षण",
-    icon: "🏠",
-    content:
-      "PWDVA 2005 protects women from physical, emotional, sexual, verbal, and economic violence by family members. Remedies include protection orders, residence orders, monetary relief, and child custody support.",
-    hi_content:
-      "PWDVA 2005 परिवार के सदस्यों द्वारा शारीरिक, भावनात्मक, यौन, मौखिक और आर्थिक हिंसा से महिलाओं की रक्षा करता है। संरक्षण आदेश, निवास का अधिकार, मुआवजा और बच्चों की अभिरक्षा जैसी राहत मिल सकती है।",
-    quiz: [
-      {
-        q: "Does PWDVA cover a woman living in a live-in relationship?",
-        hi_q: "क्या PWDVA लिव-इन संबंध में रह रही महिला को भी सुरक्षा देता है?",
-        options: ["No — only married women", "Yes — covers married and live-in partners", "Only if they have children"],
-        correct: 1,
-      },
-    ],
-  },
-  {
-    id: "m5",
-    title: "SC/ST Atrocities Act",
-    hi: "SC/ST अत्याचार निवारण अधिनियम",
-    icon: "✊",
-    content:
-      "The SC/ST Prevention of Atrocities Act 1989 protects SC/ST communities from violence, land seizure, insults, and social exclusion. FIR registration is mandatory and anticipatory bail is heavily restricted.",
-    hi_content:
-      "SC/ST अत्याचार निवारण अधिनियम 1989 SC/ST समुदायों को हिंसा, जमीन छीनने, अपमान और सामाजिक बहिष्कार से सुरक्षा देता है। FIR अनिवार्य है और अग्रिम जमानत पर कड़ा प्रतिबंध है।",
-    quiz: [
-      {
-        q: "Can a person accused under the SC/ST Act get anticipatory bail?",
-        hi_q: "क्या SC/ST Act के आरोपी को अग्रिम जमानत मिल सकती है?",
-        options: ["Yes, from High Court", "No — anticipatory bail is not ordinarily available", "Only if victim agrees"],
-        correct: 1,
-      },
-    ],
-  },
-  {
-    id: "m6",
-    title: "Land Rights in Bihar",
-    hi: "बिहार में भूमि अधिकार",
-    icon: "🌾",
-    content:
-      "Every landless family should know about homestead land rights, mutation rights, and land restoration remedies. If land is forcibly taken, combine revenue remedies with criminal protection where applicable.",
-    hi_content:
-      "हर भूमिहीन परिवार को होमस्टेड भूमि, नामांतरण और जमीन वापस पाने के उपायों की जानकारी होनी चाहिए। जबरन कब्जा होने पर राजस्व और आपराधिक दोनों उपाय जरूरी हो सकते हैं।",
-    quiz: [
-      {
-        q: "Under Bihar Homestead protections, how much land is often discussed as a basic homestead entitlement?",
-        hi_q: "बिहार होमस्टेड अधिकारों में बुनियादी अधिकार के रूप में कितनी जमीन का उल्लेख आता है?",
-        options: ["10 decimals", "Up to 3 decimals", "1 bigha"],
-        correct: 1,
-      },
-    ],
-  },
-];
-
 type Screen =
   | "home"
   | "intake"
@@ -879,6 +760,49 @@ const sharedStyles: Record<string, CSSProperties> = {
 
 const bodyFont = "var(--font-public-body), var(--font-public-hindi), sans-serif";
 const headingFont = "var(--font-public-hindi), var(--font-public-body), sans-serif";
+
+const TRAINING_AUDIENCE_OPTIONS: Array<{
+  value: TrainingAudience;
+  icon: string;
+  english: string;
+  hindi: string;
+}> = [
+  { value: "all", icon: "🌐", english: "All", hindi: "सभी" },
+  { value: "pl", icon: "📋", english: "PLVs", hindi: "PLV" },
+  { value: "sw", icon: "👷", english: "Social workers", hindi: "सामाजिक कार्यकर्ता" },
+  { value: "ls", icon: "🎓", english: "Law students", hindi: "विधि छात्र" },
+  { value: "lw", icon: "⚖", english: "Lawyers", hindi: "अधिवक्ता" },
+];
+
+const TRAINING_AUDIENCE_BADGES: Record<
+  Exclude<TrainingAudience, "all">,
+  { english: string; hindi: string; background: string; color: string }
+> = {
+  pl: {
+    english: "Paralegal",
+    hindi: "पैरालीगल",
+    background: "rgba(46,125,50,0.1)",
+    color: PALETTE.green,
+  },
+  sw: {
+    english: "Social Worker",
+    hindi: "सामाजिक कार्यकर्ता",
+    background: "rgba(230,81,0,0.1)",
+    color: PALETTE.orange,
+  },
+  ls: {
+    english: "Law Student",
+    hindi: "विधि छात्र",
+    background: "rgba(21,101,192,0.1)",
+    color: PALETTE.blue,
+  },
+  lw: {
+    english: "Lawyer",
+    hindi: "अधिवक्ता",
+    background: "rgba(106,27,154,0.1)",
+    color: PALETTE.purple,
+  },
+};
 
 function createId() {
   return `${Date.now().toString(36)}${Math.random().toString(36).slice(2, 6)}`;
@@ -1069,6 +993,133 @@ function FieldSelect({ label, value, onChange, options }: FieldSelectProps) {
   );
 }
 
+function TrainingCourseCard({
+  course,
+  isHindi,
+  onOpen,
+}: {
+  course: TrainingCourse;
+  isHindi: boolean;
+  onOpen: (url: string) => void;
+}) {
+  const statusLabel =
+    course.status === "coming_soon"
+      ? isHindi
+        ? "जल्द"
+        : "Coming Soon"
+      : course.badge ?? (isHindi ? "लाइव" : "Live");
+
+  return (
+    <div
+      style={{
+        background: "#fff",
+        borderRadius: 15,
+        border: `1px solid ${PALETTE.border}`,
+        marginBottom: 10,
+        overflow: "hidden",
+        boxShadow: "0 10px 22px rgba(26,26,26,0.04)",
+      }}
+    >
+      <div
+        style={{
+          height: 6,
+          background: course.accent,
+        }}
+      />
+      <div style={{ padding: "15px 16px 16px" }}>
+        <div style={{ display: "flex", justifyContent: "space-between", gap: 12, alignItems: "flex-start" }}>
+          <div style={{ flex: 1 }}>
+            <div style={{ fontSize: 14, fontWeight: 700, color: PALETTE.text }}>{isHindi ? course.hi : course.title}</div>
+            <div style={{ fontSize: 12, color: PALETTE.dim, lineHeight: 1.6, marginTop: 4 }}>{course.summary}</div>
+          </div>
+          <span
+            style={{
+              borderRadius: 999,
+              padding: "5px 9px",
+              background: `${course.accent}15`,
+              color: course.accent,
+              fontSize: 10,
+              fontWeight: 700,
+              whiteSpace: "nowrap",
+            }}
+          >
+            {statusLabel}
+          </span>
+        </div>
+
+        <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginTop: 10 }}>
+          {course.audiences.map((audience) => {
+            const badge = TRAINING_AUDIENCE_BADGES[audience as Exclude<TrainingAudience, "all">];
+            return (
+              <span
+                key={`${course.id}-${audience}`}
+                style={{
+                  borderRadius: 999,
+                  padding: "4px 8px",
+                  fontSize: 10,
+                  fontWeight: 700,
+                  background: badge.background,
+                  color: badge.color,
+                }}
+              >
+                {isHindi ? badge.hindi : badge.english}
+              </span>
+            );
+          })}
+        </div>
+
+        <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginTop: 10 }}>
+          {[course.levelsLabel, course.durationLabel, course.certificate].filter(Boolean).map((meta) => (
+            <span
+              key={`${course.id}-${meta}`}
+              style={{
+                borderRadius: 999,
+                padding: "4px 8px",
+                background: "#F8F3EF",
+                color: PALETTE.dim,
+                fontSize: 10,
+                fontWeight: 700,
+              }}
+            >
+              {meta}
+            </span>
+          ))}
+        </div>
+
+        <button
+          type="button"
+          disabled={!course.href}
+          onClick={() => {
+            if (course.href) {
+              onOpen(course.href);
+            }
+          }}
+          style={{
+            width: "100%",
+            marginTop: 14,
+            borderRadius: 10,
+            border: course.href ? "none" : `1px solid ${PALETTE.border}`,
+            background: course.href ? course.accent : "#F3F4F6",
+            color: course.href ? "#fff" : PALETTE.muted,
+            padding: "11px 12px",
+            fontSize: 13,
+            fontWeight: 700,
+            cursor: course.href ? "pointer" : "not-allowed",
+          }}
+        >
+          {course.href
+            ? isHindi
+              ? "कोर्स खोलें →"
+              : "Open Course →"
+            : isHindi
+              ? "जल्द उपलब्ध होगा"
+              : "Available Soon"}
+        </button>
+      </div>
+    </div>
+  );
+}
+
 export default function JanSahayakPublicApp() {
   const [lang, setLang] = useState<Language>("hi");
   const [screen, setScreen] = useState<Screen>("home");
@@ -1083,6 +1134,8 @@ export default function JanSahayakPublicApp() {
   const [activeLaw, setActiveLaw] = useState<LegalAct | null>(null);
   const [lawSearch, setLawSearch] = useState("");
   const [activeModule, setActiveModule] = useState<TrainingModule | null>(null);
+  const [trainingAudience, setTrainingAudience] = useState<TrainingAudience>("pl");
+  const [trainingSearch, setTrainingSearch] = useState("");
   const [quizAnswer, setQuizAnswer] = useState<number | null>(null);
   const [referCode, setReferCode] = useState("");
   const [copyMessage, setCopyMessage] = useState("");
@@ -1091,6 +1144,7 @@ export default function JanSahayakPublicApp() {
 
   const deferredSchemeSearch = useDeferredValue(schemeSearch.trim().toLowerCase());
   const deferredLawSearch = useDeferredValue(lawSearch.trim().toLowerCase());
+  const deferredTrainingSearch = useDeferredValue(trainingSearch.trim().toLowerCase());
   const isHindi = lang === "hi";
   const districtOptions = mapDistrictOptions();
 
@@ -1127,6 +1181,29 @@ export default function JanSahayakPublicApp() {
         return haystack.includes(deferredLawSearch);
       })
     : LEGAL_ACTS;
+  const filteredTrainingCourses = TRAINING_LIBRARY_COURSES.filter((course) => {
+    const matchesAudience = trainingAudience === "all" || course.audiences.includes(trainingAudience);
+    if (!matchesAudience) {
+      return false;
+    }
+
+    if (!deferredTrainingSearch) {
+      return true;
+    }
+
+    const haystack = `${course.title} ${course.hi} ${course.summary} ${course.keywords.join(" ")}`.toLowerCase();
+    return haystack.includes(deferredTrainingSearch);
+  });
+  const liveTrainingCourses = filteredTrainingCourses.filter((course) => course.status === "live");
+  const upcomingTrainingCourses = filteredTrainingCourses.filter((course) => course.status === "coming_soon");
+
+  const trainingAudienceCounts: Record<TrainingAudience, number> = {
+    all: TRAINING_LIBRARY_COURSES.length,
+    sw: TRAINING_LIBRARY_COURSES.filter((course) => course.audiences.includes("sw")).length,
+    pl: TRAINING_LIBRARY_COURSES.filter((course) => course.audiences.includes("pl")).length,
+    ls: TRAINING_LIBRARY_COURSES.filter((course) => course.audiences.includes("ls")).length,
+    lw: TRAINING_LIBRARY_COURSES.filter((course) => course.audiences.includes("lw")).length,
+  };
 
   function updateForm(patch: Partial<HelpFormState>) {
     setForm((current) => ({ ...current, ...patch }));
@@ -1148,6 +1225,10 @@ export default function JanSahayakPublicApp() {
     setForm((current) => ({ ...current, issue, issueType }));
     setScreen("intake");
     setStep(hasIdentity ? 2 : 1);
+  }
+
+  function openExternalTraining(url: string) {
+    window.open(url, "_blank", "noopener,noreferrer");
   }
 
   async function submitIssue() {
@@ -1274,7 +1355,10 @@ export default function JanSahayakPublicApp() {
       {
         icon: "📚",
         label: tx("PLV Training Modules", "PLV प्रशिक्षण मॉड्यूल"),
-        sub: tx("Learn and teach rights in your community", "समुदाय में अधिकार सिखाएं"),
+        sub: tx(
+          "Quick modules plus Janman academy tracks and certificates",
+          "त्वरित मॉड्यूल, Janman अकादमी ट्रैक और सर्टिफिकेट",
+        ),
         action: () => setScreen("plvTrain"),
       },
       {
@@ -2245,14 +2329,112 @@ export default function JanSahayakPublicApp() {
           onToggleLanguage={() => setLang(lang === "hi" ? "en" : "hi")}
         />
         <div style={{ ...sharedStyles.container, padding: "16px 16px 80px" }}>
-          <div style={{ fontSize: 13, color: PALETTE.dim, marginBottom: 16, lineHeight: 1.6 }}>
+          <div
+            style={{
+              background: "linear-gradient(135deg,#1E1B4B 0%,#312E81 45%,#4C1D95 100%)",
+              borderRadius: 18,
+              padding: "20px 18px",
+              color: "#fff",
+              marginBottom: 16,
+              boxShadow: "0 14px 28px rgba(49,46,129,0.18)",
+            }}
+          >
+            <div
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                gap: 8,
+                background: "rgba(255,255,255,0.12)",
+                borderRadius: 999,
+                padding: "6px 12px",
+                fontSize: 11,
+                fontWeight: 700,
+                marginBottom: 12,
+              }}
+            >
+              <span>📚</span>
+              {tx("Jan Nyaya Resource Centre", "जन न्याय रिसोर्स सेंटर")}
+            </div>
+            <div style={{ fontFamily: headingFont, fontSize: 22, fontWeight: 700, marginBottom: 6 }}>
+              {tx("PLV Academy", "PLV अकादमी")}
+            </div>
+            <div style={{ fontSize: 13, lineHeight: 1.7, color: "rgba(255,255,255,0.86)", marginBottom: 16 }}>
+              {tx(
+                "Start with quick field modules inside Jan Sahayak, then move into structured Janman training tracks with levels, certificates, and role-based course paths for paralegals, social workers, students, and lawyers.",
+                "जन सहायक के छोटे फील्ड मॉड्यूल से शुरुआत करें, फिर Janman के विस्तृत प्रशिक्षण ट्रैक्स में जाएं जहाँ लेवल, सर्टिफिकेट और PLV, सामाजिक कार्यकर्ता, विधि छात्र और अधिवक्ताओं के लिए अलग-अलग कोर्स पथ हैं।",
+              )}
+            </div>
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
+              {[
+                TRAINING_ACADEMY_STATS.programmesLive,
+                TRAINING_ACADEMY_STATS.coursesAndTracks,
+                TRAINING_ACADEMY_STATS.hoursOfContent,
+                TRAINING_ACADEMY_STATS.caseAnalyses,
+              ].map((entry) => (
+                <div
+                  key={entry}
+                  style={{
+                    background: "rgba(255,255,255,0.1)",
+                    borderRadius: 12,
+                    padding: "10px 12px",
+                    fontSize: 12,
+                    fontWeight: 600,
+                    color: "rgba(255,255,255,0.9)",
+                  }}
+                >
+                  {entry}
+                </div>
+              ))}
+            </div>
+            <div style={{ display: "flex", gap: 8, marginTop: 14 }}>
+              <button
+                type="button"
+                onClick={() => openExternalTraining(TRAINING_RESOURCE_CENTRE_URL)}
+                style={{
+                  flex: 1,
+                  border: "none",
+                  borderRadius: 10,
+                  background: "#fff",
+                  color: PALETTE.accent,
+                  padding: "11px 12px",
+                  fontSize: 13,
+                  fontWeight: 700,
+                  cursor: "pointer",
+                }}
+              >
+                {tx("Open Full Resource Centre", "पूरा रिसोर्स सेंटर खोलें")}
+              </button>
+              <button
+                type="button"
+                onClick={() => setScreen("plvJoin")}
+                style={{
+                  flex: 1,
+                  borderRadius: 10,
+                  border: "1px solid rgba(255,255,255,0.22)",
+                  background: "rgba(255,255,255,0.08)",
+                  color: "#fff",
+                  padding: "11px 12px",
+                  fontSize: 13,
+                  fontWeight: 700,
+                  cursor: "pointer",
+                }}
+              >
+                {tx("Join as PLV", "PLV बनें")}
+              </button>
+            </div>
+          </div>
+
+          <div style={{ fontSize: 16, fontWeight: 700, color: PALETTE.text, marginBottom: 6 }}>
+            {tx("Quick Rights Modules", "त्वरित अधिकार मॉड्यूल")}
+          </div>
+          <div style={{ fontSize: 13, color: PALETTE.dim, marginBottom: 14, lineHeight: 1.6 }}>
             {tx(
-              "These modules train you to know and teach legal rights in your community. Complete each module and take the quiz.",
-              "ये मॉड्यूल आपको अपने समुदाय में कानूनी अधिकार सीखने और सिखाने के लिए प्रशिक्षित करते हैं।",
+              "Short modules for immediate field use. These are ideal for new PLVs, village meetings, and legal literacy sessions.",
+              "ये छोटे मॉड्यूल तुरंत फील्ड उपयोग के लिए हैं। नए PLV, गाँव बैठकों और कानूनी साक्षरता सत्रों के लिए उपयुक्त हैं।",
             )}
           </div>
 
-          {PLV_MODULES.map((module) => (
+          {QUICK_PLV_MODULES.map((module) => (
             <button
               key={module.id}
               type="button"
@@ -2286,6 +2468,365 @@ export default function JanSahayakPublicApp() {
               <span style={{ fontSize: 18, color: PALETTE.accent }}>→</span>
             </button>
           ))}
+
+          <div style={{ fontSize: 16, fontWeight: 700, color: PALETTE.text, marginTop: 18, marginBottom: 6 }}>
+            {tx("Flagship Tracks For PLVs", "PLV के लिए प्रमुख ट्रैक")}
+          </div>
+          <div style={{ fontSize: 13, color: PALETTE.dim, marginBottom: 14, lineHeight: 1.6 }}>
+            {tx(
+              "These deeper tracks from the Janman training centre are ideal for serious PLV onboarding and refresher cycles.",
+              "Janman प्रशिक्षण केंद्र के ये विस्तृत ट्रैक गंभीर PLV प्रशिक्षण और पुनर्पाठ के लिए उपयुक्त हैं।",
+            )}
+          </div>
+
+          {FLAGSHIP_PLV_TRACKS.map((track) => (
+            <div
+              key={track.id}
+              style={{
+                background: "#fff",
+                borderRadius: 16,
+                border: `1px solid ${PALETTE.border}`,
+                marginBottom: 12,
+                overflow: "hidden",
+                boxShadow: "0 10px 22px rgba(26,26,26,0.05)",
+              }}
+            >
+              <div
+                style={{
+                  padding: "16px 18px 14px",
+                  background: `${track.accent}12`,
+                  borderBottom: `1px solid ${PALETTE.border}`,
+                }}
+              >
+                <div style={{ display: "flex", gap: 12, alignItems: "flex-start" }}>
+                  <div
+                    style={{
+                      width: 42,
+                      height: 42,
+                      borderRadius: 12,
+                      background: track.accent,
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      color: "#fff",
+                      fontSize: 21,
+                      flexShrink: 0,
+                    }}
+                  >
+                    {track.icon}
+                  </div>
+                  <div style={{ flex: 1 }}>
+                    <div style={{ fontWeight: 700, fontSize: 15, color: PALETTE.text }}>
+                      {isHindi ? track.hi : track.title}
+                    </div>
+                    <div style={{ fontSize: 12, color: PALETTE.dim, marginTop: 4, lineHeight: 1.6 }}>
+                      {track.summary}
+                    </div>
+                    <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginTop: 10 }}>
+                      {track.tags.map((tag) => (
+                        <span
+                          key={tag}
+                          style={{
+                            borderRadius: 999,
+                            padding: "4px 9px",
+                            fontSize: 10,
+                            fontWeight: 700,
+                            color: track.accent,
+                            background: "#fff",
+                          }}
+                        >
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div style={{ padding: "14px 18px 16px" }}>
+                {track.levels.map((level, index) => (
+                  <div
+                    key={`${track.id}-${level.label}`}
+                    style={{
+                      display: "flex",
+                      gap: 10,
+                      paddingBottom: index === track.levels.length - 1 ? 0 : 12,
+                      marginBottom: index === track.levels.length - 1 ? 0 : 12,
+                      borderBottom: index === track.levels.length - 1 ? "none" : `1px solid ${PALETTE.border}`,
+                    }}
+                  >
+                    <div
+                      style={{
+                        minWidth: 74,
+                        fontSize: 11,
+                        fontWeight: 700,
+                        color: track.accent,
+                        textTransform: "uppercase",
+                        paddingTop: 2,
+                      }}
+                    >
+                      {level.label}
+                    </div>
+                    <div>
+                      <div style={{ fontSize: 13, fontWeight: 700, color: PALETTE.text }}>{level.title}</div>
+                      <div style={{ fontSize: 12, color: PALETTE.dim, lineHeight: 1.6, marginTop: 3 }}>
+                        {level.summary}
+                      </div>
+                    </div>
+                  </div>
+                ))}
+                <button
+                  type="button"
+                  onClick={() => openExternalTraining(track.href)}
+                  style={{
+                    width: "100%",
+                    marginTop: 14,
+                    borderRadius: 10,
+                    border: "none",
+                    background: track.accent,
+                    color: "#fff",
+                    padding: "12px",
+                    fontSize: 13,
+                    fontWeight: 700,
+                    cursor: "pointer",
+                  }}
+                >
+                  {tx("Open Detailed Track →", "विस्तृत ट्रैक खोलें →")}
+                </button>
+              </div>
+            </div>
+          ))}
+
+          <div style={{ fontSize: 16, fontWeight: 700, color: PALETTE.text, marginTop: 18, marginBottom: 6 }}>
+            {tx("Role-Based Course Library", "भूमिका आधारित कोर्स लाइब्रेरी")}
+          </div>
+          <div style={{ fontSize: 13, color: PALETTE.dim, marginBottom: 12, lineHeight: 1.6 }}>
+            {tx(
+              "Filter by audience and search by topic to find the right training path. The PLV filter is selected by default.",
+              "उपयुक्त प्रशिक्षण खोजने के लिए भूमिका अनुसार फ़िल्टर करें और विषय से खोजें। PLV फ़िल्टर डिफ़ॉल्ट रूप से चुना गया है।",
+            )}
+          </div>
+
+          <input
+            value={trainingSearch}
+            onChange={(event) => setTrainingSearch(event.target.value)}
+            placeholder={tx(
+              "Search: child rights, FIR, compensation, constitutional rights...",
+              "खोजें: child rights, FIR, compensation, constitutional rights...",
+            )}
+            style={{
+              width: "100%",
+              border: `2px solid ${PALETTE.border}`,
+              borderRadius: 12,
+              padding: "12px 14px",
+              fontSize: 14,
+              color: PALETTE.text,
+              marginBottom: 12,
+              boxSizing: "border-box",
+              background: "#fff",
+            }}
+          />
+
+          <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginBottom: 14 }}>
+            {TRAINING_AUDIENCE_OPTIONS.map((option) => (
+              <button
+                key={option.value}
+                type="button"
+                onClick={() => setTrainingAudience(option.value)}
+                style={{
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: 6,
+                  borderRadius: 999,
+                  border:
+                    trainingAudience === option.value
+                      ? `2px solid ${PALETTE.accent}`
+                      : `2px solid ${PALETTE.border}`,
+                  background: trainingAudience === option.value ? PALETTE.accentSoft : "#fff",
+                  color: trainingAudience === option.value ? PALETTE.accent : PALETTE.dim,
+                  padding: "8px 12px",
+                  fontSize: 12,
+                  fontWeight: 700,
+                  cursor: "pointer",
+                }}
+              >
+                <span>{option.icon}</span>
+                <span>{isHindi ? option.hindi : option.english}</span>
+                <span
+                  style={{
+                    borderRadius: 999,
+                    padding: "1px 7px",
+                    background: trainingAudience === option.value ? "#fff" : PALETTE.accentSoft,
+                    color: trainingAudience === option.value ? PALETTE.accent : PALETTE.dim,
+                    fontSize: 10,
+                  }}
+                >
+                  {trainingAudienceCounts[option.value]}
+                </span>
+              </button>
+            ))}
+          </div>
+
+          {filteredTrainingCourses.length === 0 ? (
+            <div
+              style={{
+                background: "#fff",
+                borderRadius: 14,
+                padding: "16px 18px",
+                border: `1px solid ${PALETTE.border}`,
+                color: PALETTE.dim,
+                fontSize: 13,
+                marginBottom: 12,
+              }}
+            >
+              {tx(
+                "No courses matched this search. Try another topic or switch the audience filter.",
+                "इस खोज के लिए कोई कोर्स नहीं मिला। दूसरा विषय खोजें या फ़िल्टर बदलें।",
+              )}
+            </div>
+          ) : null}
+
+          {liveTrainingCourses.length > 0 ? (
+            <div style={{ fontSize: 14, fontWeight: 700, color: PALETTE.text, marginBottom: 8 }}>
+              {tx("Live Courses", "चालू कोर्स")}
+            </div>
+          ) : null}
+
+          {liveTrainingCourses.map((course) => (
+            <TrainingCourseCard
+              key={course.id}
+              course={course}
+              isHindi={isHindi}
+              onOpen={openExternalTraining}
+            />
+          ))}
+
+          {upcomingTrainingCourses.length > 0 ? (
+            <div style={{ fontSize: 14, fontWeight: 700, color: PALETTE.text, marginTop: 14, marginBottom: 8 }}>
+              {tx("Coming Soon", "जल्द आने वाले")}
+            </div>
+          ) : null}
+
+          {upcomingTrainingCourses.map((course) => (
+            <TrainingCourseCard
+              key={course.id}
+              course={course}
+              isHindi={isHindi}
+              onOpen={openExternalTraining}
+            />
+          ))}
+
+          <div style={{ fontSize: 16, fontWeight: 700, color: PALETTE.text, marginTop: 20, marginBottom: 6 }}>
+            {tx("Learning Paths", "सीखने के पथ")}
+          </div>
+          <div style={{ fontSize: 13, color: PALETTE.dim, marginBottom: 12, lineHeight: 1.6 }}>
+            {tx(
+              "Use these paths when you want a curated progression rather than one-off course browsing.",
+              "यदि आप अलग-अलग कोर्स की बजाय क्रमबद्ध सीखने का रास्ता चाहते हैं, तो इन पाथ का उपयोग करें।",
+            )}
+          </div>
+
+          {TRAINING_LIBRARY_PATHS.map((path) => (
+            <button
+              key={path.id}
+              type="button"
+              onClick={() => openExternalTraining(path.href)}
+              style={{
+                width: "100%",
+                textAlign: "left",
+                border: "none",
+                borderRadius: 16,
+                padding: "18px 18px 16px",
+                background: `linear-gradient(135deg, ${path.accent}, ${path.accent}CC)`,
+                color: "#fff",
+                marginBottom: 10,
+                cursor: "pointer",
+                boxShadow: "0 12px 24px rgba(26,26,26,0.08)",
+              }}
+            >
+              <div style={{ display: "flex", alignItems: "flex-start", gap: 12 }}>
+                <div style={{ fontSize: 26, lineHeight: 1 }}>{path.icon}</div>
+                <div style={{ flex: 1 }}>
+                  <div style={{ fontSize: 15, fontWeight: 700 }}>{path.title}</div>
+                  <div style={{ fontSize: 12, lineHeight: 1.6, color: "rgba(255,255,255,0.86)", marginTop: 5 }}>
+                    {path.summary}
+                  </div>
+                  <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginTop: 10 }}>
+                    {[path.courseCount, path.duration, path.certificates].map((meta) => (
+                      <span
+                        key={meta}
+                        style={{
+                          borderRadius: 999,
+                          padding: "4px 8px",
+                          background: "rgba(255,255,255,0.14)",
+                          fontSize: 10,
+                          fontWeight: 700,
+                        }}
+                      >
+                        {meta}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+                <span style={{ fontSize: 18, opacity: 0.8 }}>↗</span>
+              </div>
+            </button>
+          ))}
+
+          <div
+            style={{
+              background: "#fff",
+              borderRadius: 16,
+              padding: "18px 18px 16px",
+              border: `1px solid ${PALETTE.border}`,
+              marginTop: 10,
+            }}
+          >
+            <div style={{ fontSize: 15, fontWeight: 700, color: PALETTE.text, marginBottom: 6 }}>
+              {tx("Need support while learning?", "सीखते समय मदद चाहिए?")}
+            </div>
+            <div style={{ fontSize: 13, color: PALETTE.dim, lineHeight: 1.6, marginBottom: 12 }}>
+              {tx(
+                "Use the full Jan Nyaya Resource Centre for certificates and long-form tracks, or join as a PLV inside Jan Sahayak so your learning is connected to district fieldwork.",
+                "सर्टिफिकेट और विस्तृत ट्रैक के लिए पूरा Jan Nyaya Resource Centre खोलें, या Jan Sahayak में PLV के रूप में जुड़ें ताकि सीखना जिला-स्तरीय फील्डवर्क से जुड़ सके।",
+              )}
+            </div>
+            <div style={{ display: "flex", gap: 8 }}>
+              <button
+                type="button"
+                onClick={() => openExternalTraining(TRAINING_RESOURCE_CENTRE_URL)}
+                style={{
+                  flex: 1,
+                  borderRadius: 10,
+                  border: "none",
+                  background: PALETTE.blue,
+                  color: "#fff",
+                  padding: "12px",
+                  fontSize: 13,
+                  fontWeight: 700,
+                  cursor: "pointer",
+                }}
+              >
+                {tx("Open Resource Centre", "रिसोर्स सेंटर खोलें")}
+              </button>
+              <button
+                type="button"
+                onClick={() => setScreen("plvJoin")}
+                style={{
+                  flex: 1,
+                  borderRadius: 10,
+                  border: `1px solid ${PALETTE.border}`,
+                  background: "#fff",
+                  color: PALETTE.text,
+                  padding: "12px",
+                  fontSize: 13,
+                  fontWeight: 700,
+                  cursor: "pointer",
+                }}
+              >
+                {tx("Register as PLV", "PLV के रूप में पंजीकरण")}
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     );
