@@ -11,6 +11,7 @@ import {
   TRAINING_LIBRARY_COURSES,
   TRAINING_LIBRARY_PATHS,
   TRAINING_RESOURCE_CENTRE_URL,
+  TRAINING_STUDY_PACKS,
   type TrainingAudience,
   type TrainingCourse,
   type TrainingModule,
@@ -995,16 +996,20 @@ function FieldSelect({ label, value, onChange, options }: FieldSelectProps) {
 
 function TrainingCourseCard({
   course,
-  onOpen,
+  onPreview,
+  onOpenSource,
 }: {
   course: TrainingCourse;
-  onOpen: (url: string) => void;
+  onPreview: (course: TrainingCourse) => void;
+  onOpenSource: (url: string) => void;
 }) {
+  const studyPack = TRAINING_STUDY_PACKS[course.id];
   const statusLabel =
     course.status === "coming_soon"
       ? "Coming Soon"
       : course.badge ?? "Live";
-  const callToAction = course.ctaLabel ?? "Open Course →";
+  const primaryActionLabel = course.status === "coming_soon" ? "Preview Syllabus" : "Open Study Pack";
+  const sourceActionLabel = course.ctaLabel ?? "Open Original Course →";
 
   return (
     <div
@@ -1114,29 +1119,63 @@ function TrainingCourseCard({
             ))}
         </div>
 
-        <button
-          type="button"
-          disabled={!course.href}
-          onClick={() => {
-            if (course.href) {
-              onOpen(course.href);
-            }
-          }}
-          style={{
-            width: "100%",
-            marginTop: 14,
-            borderRadius: 10,
-            border: course.href ? "none" : `1px solid ${PALETTE.border}`,
-            background: course.href ? course.accent : "#F3F4F6",
-            color: course.href ? "#fff" : PALETTE.muted,
-            padding: "11px 12px",
-            fontSize: 13,
-            fontWeight: 800,
-            cursor: course.href ? "pointer" : "not-allowed",
-          }}
-        >
-          {course.href ? callToAction : "Coming Soon"}
-        </button>
+        {studyPack ? (
+          <div
+            style={{
+              marginTop: 12,
+              padding: "11px 12px",
+              borderRadius: 12,
+              background: "#FAF6F2",
+              border: `1px solid ${PALETTE.border}`,
+            }}
+          >
+            <div style={{ fontSize: 11, fontWeight: 800, color: PALETTE.text, marginBottom: 5 }}>
+              Study pack includes
+            </div>
+            <div style={{ fontSize: 12, color: PALETTE.dim, lineHeight: 1.6 }}>
+              {`${studyPack.officialResources.length} official sources · ${studyPack.caseBriefs.length} case briefs · ${studyPack.fieldTools.length} field tools · ${studyPack.practiceLab.length} practice drills`}
+            </div>
+          </div>
+        ) : null}
+
+        <div style={{ display: "flex", gap: 8, marginTop: 14 }}>
+          <button
+            type="button"
+            onClick={() => onPreview(course)}
+            style={{
+              flex: 1,
+              borderRadius: 10,
+              border: "none",
+              background: course.accent,
+              color: "#fff",
+              padding: "11px 12px",
+              fontSize: 13,
+              fontWeight: 800,
+              cursor: "pointer",
+            }}
+          >
+            {primaryActionLabel}
+          </button>
+          {course.href ? (
+            <button
+              type="button"
+              onClick={() => onOpenSource(course.href!)}
+              style={{
+                flex: 1,
+                borderRadius: 10,
+                border: `1px solid ${PALETTE.border}`,
+                background: "#fff",
+                color: PALETTE.text,
+                padding: "11px 12px",
+                fontSize: 13,
+                fontWeight: 800,
+                cursor: "pointer",
+              }}
+            >
+              {sourceActionLabel}
+            </button>
+          ) : null}
+        </div>
       </div>
     </div>
   );
@@ -1156,6 +1195,7 @@ export default function JanSahayakPublicApp() {
   const [activeLaw, setActiveLaw] = useState<LegalAct | null>(null);
   const [lawSearch, setLawSearch] = useState("");
   const [activeModule, setActiveModule] = useState<TrainingModule | null>(null);
+  const [activeTrainingCourse, setActiveTrainingCourse] = useState<TrainingCourse | null>(null);
   const [trainingAudience, setTrainingAudience] = useState<TrainingAudience>("pl");
   const [trainingSearch, setTrainingSearch] = useState("");
   const [quizAnswer, setQuizAnswer] = useState<number | null>(null);
@@ -1219,6 +1259,8 @@ export default function JanSahayakPublicApp() {
   const liveTrainingCourses = filteredTrainingCourses.filter((course) => course.status === "live");
   const upcomingTrainingCourses = filteredTrainingCourses.filter((course) => course.status === "coming_soon");
   const plvFlagshipTrack = FLAGSHIP_PLV_TRACKS[0];
+  const childRightsProgrammeCourse = TRAINING_LIBRARY_COURSES.find((course) => course.id === "child-rights-hub") ?? null;
+  const activeTrainingStudyPack = activeTrainingCourse ? TRAINING_STUDY_PACKS[activeTrainingCourse.id] : null;
 
   const trainingAudienceCounts: Record<TrainingAudience, number> = {
     all: TRAINING_LIBRARY_COURSES.length,
@@ -1252,6 +1294,13 @@ export default function JanSahayakPublicApp() {
 
   function openExternalTraining(url: string) {
     window.open(url, "_blank", "noopener,noreferrer");
+  }
+
+  function openTrainingCourse(course: TrainingCourse) {
+    setActiveTrainingCourse(course);
+    if (typeof window !== "undefined") {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
   }
 
   async function submitIssue() {
@@ -2218,6 +2267,358 @@ export default function JanSahayakPublicApp() {
   }
 
   if (screen === "plvTrain") {
+    if (activeTrainingCourse && activeTrainingStudyPack) {
+      return (
+        <div style={{ minHeight: "100vh", background: PALETTE.bg, fontFamily: bodyFont, colorScheme: "light" }}>
+          <ScreenHeader
+            title={isHindi ? activeTrainingCourse.hi : activeTrainingCourse.title}
+            lang={lang}
+            onBack={() => setActiveTrainingCourse(null)}
+            onToggleLanguage={() => setLang(lang === "hi" ? "en" : "hi")}
+          />
+          <div style={{ ...sharedStyles.container, padding: "16px 16px 90px" }}>
+            <div
+              style={{
+                background: "#fff",
+                borderRadius: 20,
+                overflow: "hidden",
+                border: `1px solid ${PALETTE.border}`,
+                boxShadow: "0 18px 32px rgba(26,26,26,0.06)",
+                marginBottom: 16,
+              }}
+            >
+              <div
+                style={{
+                  background: `linear-gradient(135deg, ${activeTrainingCourse.accent} 0%, ${activeTrainingCourse.accent}DD 100%)`,
+                  padding: "20px 18px",
+                  color: "#fff",
+                }}
+              >
+                <div style={{ display: "flex", justifyContent: "space-between", gap: 12, alignItems: "flex-start" }}>
+                  <div style={{ flex: 1 }}>
+                    <div
+                      style={{
+                        display: "inline-flex",
+                        alignItems: "center",
+                        gap: 8,
+                        padding: "5px 10px",
+                        borderRadius: 999,
+                        background: "rgba(255,255,255,0.16)",
+                        fontSize: 11,
+                        fontWeight: 800,
+                        marginBottom: 12,
+                      }}
+                    >
+                      <span>{activeTrainingCourse.icon}</span>
+                      <span>
+                        {activeTrainingCourse.status === "coming_soon"
+                          ? tx("Syllabus Preview", "सिलेबस पूर्वावलोकन")
+                          : tx("Jan Sahayak Study Pack", "जन सहायक स्टडी पैक")}
+                      </span>
+                    </div>
+                    <div style={{ fontSize: 23, fontWeight: 800, lineHeight: 1.25 }}>{activeTrainingCourse.title}</div>
+                    <div style={{ fontSize: 13, color: "rgba(255,255,255,0.82)", marginTop: 5 }}>{activeTrainingCourse.hi}</div>
+                    <div style={{ fontSize: 13, lineHeight: 1.7, color: "rgba(255,255,255,0.9)", marginTop: 12 }}>
+                      {isHindi ? activeTrainingStudyPack.hi_tagline : activeTrainingStudyPack.tagline}
+                    </div>
+                  </div>
+                  <div
+                    style={{
+                      width: 54,
+                      height: 54,
+                      borderRadius: 16,
+                      background: "rgba(255,255,255,0.14)",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      fontSize: 26,
+                      flexShrink: 0,
+                    }}
+                  >
+                    {activeTrainingCourse.icon}
+                  </div>
+                </div>
+                <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginTop: 14 }}>
+                  {[
+                    isHindi ? activeTrainingStudyPack.hi_difficulty : activeTrainingStudyPack.difficulty,
+                    isHindi ? activeTrainingStudyPack.hi_format : activeTrainingStudyPack.format,
+                    isHindi ? activeTrainingCourse.hi_levelsLabel : activeTrainingCourse.levelsLabel,
+                  ].map((chip) => (
+                    <span
+                      key={chip}
+                      style={{
+                        borderRadius: 999,
+                        padding: "5px 10px",
+                        background: "rgba(255,255,255,0.14)",
+                        fontSize: 11,
+                        fontWeight: 700,
+                      }}
+                    >
+                      {chip}
+                    </span>
+                  ))}
+                </div>
+              </div>
+
+              <div style={{ padding: "16px 18px 18px" }}>
+                <div
+                  style={{
+                    padding: "10px 12px",
+                    borderRadius: 12,
+                    background: "#FAF6F2",
+                    border: `1px solid ${PALETTE.border}`,
+                    fontSize: 12,
+                    lineHeight: 1.6,
+                    color: PALETTE.dim,
+                    marginBottom: 14,
+                  }}
+                >
+                  {tx(
+                    "This in-app study pack adds structured materials on top of the original Jan Nyaya Resource Centre course, including official sources, case briefs, field tools, and practice drills.",
+                    "यह in-app study pack मूल Jan Nyaya Resource Centre course के ऊपर आधिकारिक स्रोत, केस ब्रीफ, फील्ड टूल और practice drill जोड़ता है।",
+                  )}
+                </div>
+
+                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10, marginBottom: 14 }}>
+                  {[
+                    {
+                      label: tx("Duration", "अवधि"),
+                      value: isHindi ? activeTrainingCourse.hi_durationLabel : activeTrainingCourse.durationLabel,
+                    },
+                    {
+                      label: tx("Curriculum", "पाठ्यक्रम"),
+                      value: `${activeTrainingStudyPack.syllabus.length} ${tx("modules", "मॉड्यूल")}`,
+                    },
+                    {
+                      label: tx("Case Briefs", "केस ब्रीफ"),
+                      value: `${activeTrainingStudyPack.caseBriefs.length} ${tx("included", "शामिल")}`,
+                    },
+                    {
+                      label: tx("Official Sources", "आधिकारिक स्रोत"),
+                      value: `${activeTrainingStudyPack.officialResources.length} ${tx("linked", "लिंक्ड")}`,
+                    },
+                  ].map((stat) => (
+                    <div
+                      key={stat.label}
+                      style={{
+                        background: "#fff",
+                        borderRadius: 14,
+                        border: `1px solid ${PALETTE.border}`,
+                        padding: "12px 13px",
+                      }}
+                    >
+                      <div style={{ fontSize: 11, fontWeight: 700, color: PALETTE.muted, marginBottom: 5 }}>{stat.label}</div>
+                      <div style={{ fontSize: 14, fontWeight: 800, color: PALETTE.text }}>{stat.value}</div>
+                    </div>
+                  ))}
+                </div>
+
+                <div style={{ display: "flex", gap: 8 }}>
+                  {activeTrainingCourse.href ? (
+                    <button
+                      type="button"
+                      onClick={() => openExternalTraining(activeTrainingCourse.href!)}
+                      style={{
+                        flex: 1,
+                        border: "none",
+                        borderRadius: 10,
+                        background: activeTrainingCourse.accent,
+                        color: "#fff",
+                        padding: "12px 14px",
+                        fontSize: 13,
+                        fontWeight: 800,
+                        cursor: "pointer",
+                      }}
+                    >
+                      {tx("Open Original Course →", "मूल कोर्स खोलें →")}
+                    </button>
+                  ) : null}
+                  <button
+                    type="button"
+                    onClick={() => setScreen("plvJoin")}
+                    style={{
+                      flex: 1,
+                      borderRadius: 10,
+                      border: `1px solid ${PALETTE.border}`,
+                      background: "#fff",
+                      color: PALETTE.text,
+                      padding: "12px 14px",
+                      fontSize: 13,
+                      fontWeight: 800,
+                      cursor: "pointer",
+                    }}
+                  >
+                    {tx("Join as PLV", "PLV बनें")}
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div style={{ ...sharedStyles.card, borderRadius: 18, marginBottom: 14 }}>
+              <div style={{ fontFamily: headingFont, fontSize: 17, fontWeight: 700, color: PALETTE.text, marginBottom: 10 }}>
+                {tx("What You Will Learn", "आप क्या सीखेंगे")}
+              </div>
+              {activeTrainingStudyPack.outcomes.map((outcome, index) => (
+                <div key={outcome} style={{ display: "flex", gap: 10, marginBottom: index === activeTrainingStudyPack.outcomes.length - 1 ? 0 : 10 }}>
+                  <div
+                    style={{
+                      width: 22,
+                      height: 22,
+                      borderRadius: 999,
+                      background: `${activeTrainingCourse.accent}15`,
+                      color: activeTrainingCourse.accent,
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      fontSize: 11,
+                      fontWeight: 800,
+                      flexShrink: 0,
+                      marginTop: 1,
+                    }}
+                  >
+                    {index + 1}
+                  </div>
+                  <div style={{ fontSize: 13, color: PALETTE.text, lineHeight: 1.65 }}>{outcome}</div>
+                </div>
+              ))}
+            </div>
+
+            <div style={{ ...sharedStyles.card, borderRadius: 18, marginBottom: 14 }}>
+              <div style={{ fontFamily: headingFont, fontSize: 17, fontWeight: 700, color: PALETTE.text, marginBottom: 10 }}>
+                {tx("Curriculum", "पाठ्यक्रम")}
+              </div>
+              {activeTrainingStudyPack.syllabus.map((module, index) => (
+                <div
+                  key={module.title}
+                  style={{
+                    borderRadius: 16,
+                    border: `1px solid ${PALETTE.border}`,
+                    padding: "14px 14px 12px",
+                    marginBottom: index === activeTrainingStudyPack.syllabus.length - 1 ? 0 : 10,
+                    background: index === 0 ? "#FCF7F4" : "#fff",
+                  }}
+                >
+                  <div style={{ display: "flex", gap: 10, alignItems: "center", marginBottom: 6 }}>
+                    <div
+                      style={{
+                        minWidth: 60,
+                        borderRadius: 999,
+                        padding: "4px 8px",
+                        background: `${activeTrainingCourse.accent}15`,
+                        color: activeTrainingCourse.accent,
+                        fontSize: 10,
+                        fontWeight: 800,
+                        textTransform: "uppercase",
+                        textAlign: "center",
+                      }}
+                    >
+                      {`Module ${index + 1}`}
+                    </div>
+                    <div style={{ fontSize: 14, fontWeight: 800, color: PALETTE.text }}>{module.title}</div>
+                  </div>
+                  <div style={{ fontSize: 12.5, color: PALETTE.dim, lineHeight: 1.65, marginBottom: 10 }}>{module.summary}</div>
+                  {module.topics.map((topic) => (
+                    <div key={`${module.title}-${topic}`} style={{ display: "flex", gap: 8, marginBottom: 6 }}>
+                      <span style={{ color: activeTrainingCourse.accent, fontWeight: 800, flexShrink: 0 }}>•</span>
+                      <span style={{ fontSize: 12.5, color: PALETTE.text, lineHeight: 1.6 }}>{topic}</span>
+                    </div>
+                  ))}
+                </div>
+              ))}
+            </div>
+
+            <div style={{ ...sharedStyles.card, borderRadius: 18, marginBottom: 14 }}>
+              <div style={{ fontFamily: headingFont, fontSize: 17, fontWeight: 700, color: PALETTE.text, marginBottom: 10 }}>
+                {tx("Landmark Cases", "महत्वपूर्ण मामले")}
+              </div>
+              {activeTrainingStudyPack.caseBriefs.map((item, index) => (
+                <div
+                  key={item.title}
+                  style={{
+                    paddingBottom: index === activeTrainingStudyPack.caseBriefs.length - 1 ? 0 : 12,
+                    marginBottom: index === activeTrainingStudyPack.caseBriefs.length - 1 ? 0 : 12,
+                    borderBottom: index === activeTrainingStudyPack.caseBriefs.length - 1 ? "none" : `1px solid ${PALETTE.border}`,
+                  }}
+                >
+                  <div style={{ fontSize: 13.5, fontWeight: 800, color: PALETTE.text, marginBottom: 4 }}>{item.title}</div>
+                  <div style={{ fontSize: 12.5, color: PALETTE.dim, lineHeight: 1.65 }}>{item.description}</div>
+                </div>
+              ))}
+            </div>
+
+            <div style={{ display: "grid", gap: 14 }}>
+              <div style={{ ...sharedStyles.card, borderRadius: 18, marginBottom: 0 }}>
+                <div style={{ fontFamily: headingFont, fontSize: 17, fontWeight: 700, color: PALETTE.text, marginBottom: 10 }}>
+                  {tx("Field Tools", "फील्ड टूल")}
+                </div>
+                {activeTrainingStudyPack.fieldTools.map((item, index) => (
+                  <div
+                    key={item.title}
+                    style={{
+                      paddingBottom: index === activeTrainingStudyPack.fieldTools.length - 1 ? 0 : 12,
+                      marginBottom: index === activeTrainingStudyPack.fieldTools.length - 1 ? 0 : 12,
+                      borderBottom: index === activeTrainingStudyPack.fieldTools.length - 1 ? "none" : `1px solid ${PALETTE.border}`,
+                    }}
+                  >
+                    <div style={{ fontSize: 13.5, fontWeight: 800, color: PALETTE.text, marginBottom: 4 }}>{item.title}</div>
+                    <div style={{ fontSize: 12.5, color: PALETTE.dim, lineHeight: 1.65 }}>{item.description}</div>
+                  </div>
+                ))}
+              </div>
+
+              <div style={{ ...sharedStyles.card, borderRadius: 18, marginBottom: 0 }}>
+                <div style={{ fontFamily: headingFont, fontSize: 17, fontWeight: 700, color: PALETTE.text, marginBottom: 10 }}>
+                  {tx("Practice Lab", "अभ्यास अनुभाग")}
+                </div>
+                {activeTrainingStudyPack.practiceLab.map((item, index) => (
+                  <div
+                    key={item.title}
+                    style={{
+                      paddingBottom: index === activeTrainingStudyPack.practiceLab.length - 1 ? 0 : 12,
+                      marginBottom: index === activeTrainingStudyPack.practiceLab.length - 1 ? 0 : 12,
+                      borderBottom: index === activeTrainingStudyPack.practiceLab.length - 1 ? "none" : `1px solid ${PALETTE.border}`,
+                    }}
+                  >
+                    <div style={{ fontSize: 13.5, fontWeight: 800, color: PALETTE.text, marginBottom: 4 }}>{item.title}</div>
+                    <div style={{ fontSize: 12.5, color: PALETTE.dim, lineHeight: 1.65 }}>{item.description}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div style={{ ...sharedStyles.card, borderRadius: 18, marginTop: 14, marginBottom: 14 }}>
+              <div style={{ fontFamily: headingFont, fontSize: 17, fontWeight: 700, color: PALETTE.text, marginBottom: 10 }}>
+                {tx("Official Sources & Further Reading", "आधिकारिक स्रोत और आगे की पढ़ाई")}
+              </div>
+              {activeTrainingStudyPack.officialResources.map((resource, index) => (
+                <button
+                  key={resource.label}
+                  type="button"
+                  onClick={() => openExternalTraining(resource.url)}
+                  style={{
+                    width: "100%",
+                    textAlign: "left",
+                    borderRadius: 14,
+                    border: `1px solid ${PALETTE.border}`,
+                    background: "#fff",
+                    padding: "13px 14px",
+                    marginBottom: index === activeTrainingStudyPack.officialResources.length - 1 ? 0 : 10,
+                    cursor: "pointer",
+                  }}
+                >
+                  <div style={{ fontSize: 13.5, fontWeight: 800, color: PALETTE.text, marginBottom: 4 }}>{resource.label}</div>
+                  <div style={{ fontSize: 12.5, color: PALETTE.dim, lineHeight: 1.6 }}>{resource.note}</div>
+                  <div style={{ fontSize: 11, color: activeTrainingCourse.accent, marginTop: 6, fontWeight: 700 }}>
+                    {tx("Open official source →", "आधिकारिक स्रोत खोलें →")}
+                  </div>
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+      );
+    }
+
     if (activeModule) {
       return (
         <div style={{ minHeight: "100vh", background: PALETTE.bg, fontFamily: bodyFont, colorScheme: "light" }}>
@@ -2348,7 +2749,10 @@ export default function JanSahayakPublicApp() {
         <ScreenHeader
           title={tx("PLV Training Modules", "PLV प्रशिक्षण मॉड्यूल")}
           lang={lang}
-          onBack={() => setScreen("home")}
+          onBack={() => {
+            setActiveTrainingCourse(null);
+            setScreen("home");
+          }}
           onToggleLanguage={() => setLang(lang === "hi" ? "en" : "hi")}
         />
         <div style={{ ...sharedStyles.container, padding: "16px 16px 80px" }}>
@@ -2617,7 +3021,15 @@ export default function JanSahayakPublicApp() {
               <div style={{ display: "flex", gap: 8, marginTop: 14 }}>
                 <button
                   type="button"
-                  onClick={() => openExternalTraining(plvFlagshipTrack.href)}
+                  onClick={() => {
+                    const flagshipCourse =
+                      TRAINING_LIBRARY_COURSES.find((course) => course.id === plvFlagshipTrack.id) ?? null;
+                    if (flagshipCourse) {
+                      openTrainingCourse(flagshipCourse);
+                      return;
+                    }
+                    openExternalTraining(plvFlagshipTrack.href);
+                  }}
                   style={{
                     flex: 1,
                     borderRadius: 10,
@@ -2702,7 +3114,13 @@ export default function JanSahayakPublicApp() {
             </div>
             <button
               type="button"
-              onClick={() => openExternalTraining("https://shashwat-sys.github.io/janman-training/child-rights/index.html")}
+              onClick={() => {
+                if (childRightsProgrammeCourse) {
+                  openTrainingCourse(childRightsProgrammeCourse);
+                  return;
+                }
+                openExternalTraining("https://shashwat-sys.github.io/janman-training/child-rights/index.html");
+              }}
               style={{
                 border: "none",
                 borderRadius: 10,
@@ -2816,7 +3234,12 @@ export default function JanSahayakPublicApp() {
           ) : null}
 
           {liveTrainingCourses.map((course) => (
-            <TrainingCourseCard key={course.id} course={course} onOpen={openExternalTraining} />
+            <TrainingCourseCard
+              key={course.id}
+              course={course}
+              onPreview={openTrainingCourse}
+              onOpenSource={openExternalTraining}
+            />
           ))}
 
           {upcomingTrainingCourses.length > 0 ? (
@@ -2826,7 +3249,12 @@ export default function JanSahayakPublicApp() {
           ) : null}
 
           {upcomingTrainingCourses.map((course) => (
-            <TrainingCourseCard key={course.id} course={course} onOpen={openExternalTraining} />
+            <TrainingCourseCard
+              key={course.id}
+              course={course}
+              onPreview={openTrainingCourse}
+              onOpenSource={openExternalTraining}
+            />
           ))}
 
           <div
