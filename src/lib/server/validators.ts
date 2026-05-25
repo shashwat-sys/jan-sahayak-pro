@@ -208,5 +208,86 @@ export const publicIssueTriageSchema = z.object({
   hi_next_steps: z.array(nonEmptyString).min(1).max(5),
 });
 
+export const publicEligibilityProfileSchema = z.object({
+  name: z.string().trim(),
+  phone: z.string().trim(),
+  district: z.enum(BIHAR_DISTRICTS),
+  residence: z.enum(["rural", "urban"]),
+  age: z.coerce.number().int().min(0).max(120),
+  gender: z.enum(["female", "male", "transgender", "other"]),
+  annualIncome: z.coerce.number().min(0),
+  socialCategory: z.enum(["general", "obc", "ebc", "sc", "st", "minority"]),
+  occupation: z.string().trim(),
+  isStudent: z.boolean(),
+  isPregnant: z.boolean(),
+  isWidowed: z.boolean(),
+  hasDisability: z.boolean(),
+  disabilityPercent: z.coerce.number().min(0).max(100),
+  housingStatus: z.enum(["no_house", "kutcha", "semi_pucca", "pucca", "rented"]),
+  hasRationCard: z.boolean(),
+  hasBankAccount: z.boolean(),
+  hasAadhaar: z.boolean(),
+  isLandless: z.boolean(),
+  needsMedicalSupport: z.boolean(),
+});
+
+export const publicEligibilityRecommendationSchema = z.object({
+  id: nonEmptyString,
+  category: nonEmptyString,
+  name: nonEmptyString,
+  hi_name: nonEmptyString,
+  status: z.enum(["likely", "check", "not_now"]),
+  reasons: z.array(nonEmptyString).min(1).max(4),
+  hi_reasons: z.array(nonEmptyString).min(1).max(4),
+  docs: z.array(nonEmptyString).min(1).max(6),
+  hi_docs: z.array(nonEmptyString).min(1).max(6),
+  apply: nonEmptyString,
+  hi_apply: nonEmptyString,
+  officialUrl: z.string().url(),
+});
+
+export const publicEligibilityResponseSchema = z.object({
+  summary: nonEmptyString,
+  hi_summary: nonEmptyString,
+  recommendations: z.array(publicEligibilityRecommendationSchema).min(1).max(6),
+  workflow: z.array(nonEmptyString).min(3).max(5),
+  hi_workflow: z.array(nonEmptyString).min(3).max(5),
+});
+
+export const publicComplaintAssistRequestSchema = z.object({
+  name: nonEmptyString,
+  phone: nonEmptyString,
+  district: z.enum(BIHAR_DISTRICTS),
+  benefit: nonEmptyString,
+  authority: nonEmptyString,
+  grievanceType: nonEmptyString,
+  incidentDate: nonEmptyString,
+  location: z.string().trim(),
+  facts: nonEmptyString,
+  documentsAvailable: z.string().trim(),
+  reliefWanted: z.string().trim(),
+});
+
+export const publicComplaintAssistResponseSchema = z.object({
+  subject: nonEmptyString,
+  hi_subject: nonEmptyString,
+  summary: nonEmptyString,
+  hi_summary: nonEmptyString,
+  facts: z.array(nonEmptyString).min(2).max(5),
+  hi_facts: z.array(nonEmptyString).min(2).max(5),
+  reliefs: z.array(nonEmptyString).min(2).max(5),
+  hi_reliefs: z.array(nonEmptyString).min(2).max(5),
+  documents_to_attach: z.array(nonEmptyString).min(2).max(6),
+  hi_documents_to_attach: z.array(nonEmptyString).min(2).max(6),
+  filing_office: nonEmptyString,
+  hi_filing_office: nonEmptyString,
+  next_steps: z.array(nonEmptyString).min(2).max(5),
+  hi_next_steps: z.array(nonEmptyString).min(2).max(5),
+});
+
 export type PublicIssueRequest = z.infer<typeof publicIssueRequestSchema>;
 export type PublicIssueTriage = z.infer<typeof publicIssueTriageSchema>;
+export type PublicEligibilityProfile = z.infer<typeof publicEligibilityProfileSchema>;
+export type PublicEligibilityResponse = z.infer<typeof publicEligibilityResponseSchema>;
+export type PublicComplaintAssistRequest = z.infer<typeof publicComplaintAssistRequestSchema>;
+export type PublicComplaintAssistResponse = z.infer<typeof publicComplaintAssistResponseSchema>;

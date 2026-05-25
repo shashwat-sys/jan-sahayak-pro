@@ -595,6 +595,8 @@ const LEGAL_ACTS: LegalAct[] = [
 type Screen =
   | "home"
   | "intake"
+  | "caseTracker"
+  | "schemeAssist"
   | "schemes"
   | "laws"
   | "plvTrain"
@@ -637,8 +639,33 @@ type TriageResult = {
   hi_next_steps: string[];
 };
 
+type SubmissionMode = "legal_help" | "scheme_check" | "scheme_complaint";
+type SubmissionStatus = "pending" | "under_review" | "draft_ready" | "ready_to_file";
+type SubmissionDocumentStatus = "needed" | "prepared" | "filed";
+
+type SubmissionStage = {
+  id: string;
+  label: string;
+  hi_label: string;
+  note: string;
+  hi_note: string;
+  status: "done" | "current" | "upcoming";
+  date: string;
+};
+
+type SubmissionDocument = {
+  id: string;
+  name: string;
+  hi_name: string;
+  status: SubmissionDocumentStatus;
+  date: string;
+  note: string;
+  hi_note: string;
+};
+
 type IssueSubmission = {
   id: string;
+  referenceCode: string;
   name: string;
   phone: string;
   location: string;
@@ -648,13 +675,95 @@ type IssueSubmission = {
   urgency: TriageUrgency;
   summary: string;
   date: string;
-  status: "pending";
+  status: SubmissionStatus;
+  mode: SubmissionMode;
+  authority?: string;
+  subject?: string;
+  stages: SubmissionStage[];
+  filedDocuments: SubmissionDocument[];
 };
 
 type PLVSubmission = PLVFormState & {
   id: string;
   date: string;
   status: "applied";
+};
+
+type EligibilityRecommendation = {
+  id: string;
+  category: string;
+  name: string;
+  hi_name: string;
+  status: "likely" | "check" | "not_now";
+  reasons: string[];
+  hi_reasons: string[];
+  docs: string[];
+  hi_docs: string[];
+  apply: string;
+  hi_apply: string;
+  officialUrl: string;
+};
+
+type EligibilityResult = {
+  summary: string;
+  hi_summary: string;
+  recommendations: EligibilityRecommendation[];
+  workflow: string[];
+  hi_workflow: string[];
+};
+
+type EligibilityFormState = {
+  name: string;
+  phone: string;
+  district: (typeof BIHAR_DISTRICTS)[number];
+  residence: "rural" | "urban";
+  age: string;
+  gender: "female" | "male" | "transgender" | "other";
+  annualIncome: string;
+  socialCategory: "general" | "obc" | "ebc" | "sc" | "st" | "minority";
+  occupation: string;
+  isStudent: boolean;
+  isPregnant: boolean;
+  isWidowed: boolean;
+  hasDisability: boolean;
+  disabilityPercent: string;
+  housingStatus: "no_house" | "kutcha" | "semi_pucca" | "pucca" | "rented";
+  hasRationCard: boolean;
+  hasBankAccount: boolean;
+  hasAadhaar: boolean;
+  isLandless: boolean;
+  needsMedicalSupport: boolean;
+};
+
+type ComplaintAssistFormState = {
+  name: string;
+  phone: string;
+  district: (typeof BIHAR_DISTRICTS)[number];
+  benefit: string;
+  authority: string;
+  grievanceType: string;
+  incidentDate: string;
+  location: string;
+  facts: string;
+  documentsAvailable: string;
+  reliefWanted: string;
+};
+
+type ComplaintDraftResult = {
+  subject: string;
+  hi_subject: string;
+  summary: string;
+  hi_summary: string;
+  facts: string[];
+  hi_facts: string[];
+  reliefs: string[];
+  hi_reliefs: string[];
+  documents_to_attach: string[];
+  hi_documents_to_attach: string[];
+  filing_office: string;
+  hi_filing_office: string;
+  next_steps: string[];
+  hi_next_steps: string[];
 };
 
 type HeaderProps = {
@@ -711,6 +820,43 @@ const DEFAULT_PLV_FORM: PLVFormState = {
   education: "",
   motivation: "",
   referredBy: "",
+};
+
+const DEFAULT_ELIGIBILITY_FORM: EligibilityFormState = {
+  name: "",
+  phone: "",
+  district: "Purnia",
+  residence: "rural",
+  age: "24",
+  gender: "female",
+  annualIncome: "120000",
+  socialCategory: "ebc",
+  occupation: "homemaker",
+  isStudent: false,
+  isPregnant: false,
+  isWidowed: false,
+  hasDisability: false,
+  disabilityPercent: "0",
+  housingStatus: "kutcha",
+  hasRationCard: true,
+  hasBankAccount: true,
+  hasAadhaar: true,
+  isLandless: false,
+  needsMedicalSupport: false,
+};
+
+const DEFAULT_COMPLAINT_FORM: ComplaintAssistFormState = {
+  name: "",
+  phone: "",
+  district: "Purnia",
+  benefit: "Ration card / PDS grain",
+  authority: "PDS dealer / supply office",
+  grievanceType: "Application accepted but benefit denied",
+  incidentDate: getTodayIsoDate(),
+  location: "",
+  facts: "",
+  documentsAvailable: "",
+  reliefWanted: "",
 };
 
 const sharedStyles: Record<string, CSSProperties> = {
@@ -805,6 +951,74 @@ const TRAINING_AUDIENCE_BADGES: Record<
   },
 };
 
+const YES_NO_OPTIONS = [
+  { value: "yes", label: "Yes / हाँ" },
+  { value: "no", label: "No / नहीं" },
+];
+
+const ELIGIBILITY_RESIDENCE_OPTIONS = [
+  { value: "rural", label: "Rural / ग्रामीण" },
+  { value: "urban", label: "Urban / शहरी" },
+];
+
+const ELIGIBILITY_GENDER_OPTIONS = [
+  { value: "female", label: "Female / महिला" },
+  { value: "male", label: "Male / पुरुष" },
+  { value: "transgender", label: "Transgender / ट्रांसजेंडर" },
+  { value: "other", label: "Other / अन्य" },
+];
+
+const ELIGIBILITY_SOCIAL_CATEGORY_OPTIONS = [
+  { value: "general", label: "General" },
+  { value: "obc", label: "OBC" },
+  { value: "ebc", label: "EBC" },
+  { value: "sc", label: "SC" },
+  { value: "st", label: "ST" },
+  { value: "minority", label: "Minority" },
+];
+
+const ELIGIBILITY_HOUSING_OPTIONS = [
+  { value: "no_house", label: "No house / घर नहीं" },
+  { value: "kutcha", label: "Kutcha house / कच्चा घर" },
+  { value: "semi_pucca", label: "Semi-pucca / अर्ध-पक्का" },
+  { value: "pucca", label: "Pucca house / पक्का घर" },
+  { value: "rented", label: "Rented / किराये पर" },
+];
+
+const COMPLAINT_BENEFIT_OPTIONS = [
+  "Ration card / PDS grain",
+  "PM Awas / housing support",
+  "Ayushman / hospital treatment",
+  "Pension",
+  "PMMVY / maternity benefit",
+  "Disability certificate / pension",
+  "MGNREGS wages / job card",
+  "Scholarship / student support",
+  "Other scheme or service",
+];
+
+const COMPLAINT_AUTHORITY_OPTIONS = [
+  "PDS dealer / supply office",
+  "Gram Panchayat / block office",
+  "Hospital / Ayushman helpdesk",
+  "Anganwadi / CDPO office",
+  "District social welfare office",
+  "School / education office",
+  "Municipal office",
+  "Other authority",
+];
+
+const COMPLAINT_TYPE_OPTIONS = [
+  "Application accepted but benefit denied",
+  "Application not accepted",
+  "Payment stopped or delayed",
+  "Name missing from list or card inactive",
+  "Demand for bribe or illegal payment",
+  "Urgent treatment or service denied",
+  "Document mismatch or data error",
+  "Other grievance",
+];
+
 function createId() {
   return `${Date.now().toString(36)}${Math.random().toString(36).slice(2, 6)}`;
 }
@@ -813,8 +1027,261 @@ function createReferralCode() {
   return `JNY-${Math.random().toString(36).slice(2, 7).toUpperCase()}`;
 }
 
+function createReferenceCode() {
+  return `JS-${Date.now().toString(36).toUpperCase().slice(-6)}${Math.random().toString(36).slice(2, 4).toUpperCase()}`;
+}
+
 function getTodayIsoDate() {
   return new Intl.DateTimeFormat("en-CA").format(new Date());
+}
+
+function buildSubmissionStages(
+  mode: SubmissionMode,
+  status: SubmissionStatus,
+  date: string,
+): SubmissionStage[] {
+  const currentIndex =
+    mode === "scheme_complaint"
+      ? status === "ready_to_file"
+        ? 2
+        : status === "draft_ready"
+          ? 1
+          : 0
+      : mode === "scheme_check"
+        ? status === "draft_ready"
+          ? 2
+          : status === "under_review"
+            ? 1
+            : 0
+        : status === "ready_to_file"
+          ? 3
+          : status === "draft_ready"
+            ? 2
+            : status === "under_review"
+              ? 1
+              : 0;
+
+  const baseStages =
+    mode === "scheme_complaint"
+      ? [
+          {
+            id: "recorded",
+            label: "Complaint recorded",
+            hi_label: "शिकायत दर्ज",
+            note: "Your scheme grievance details have been structured.",
+            hi_note: "आपकी योजना शिकायत के विवरण को व्यवस्थित किया गया है।",
+          },
+          {
+            id: "drafted",
+            label: "Draft prepared",
+            hi_label: "ड्राफ्ट तैयार",
+            note: "A structured complaint note is ready.",
+            hi_note: "एक संरचित शिकायत ड्राफ्ट तैयार है।",
+          },
+          {
+            id: "ready",
+            label: "Ready to file",
+            hi_label: "जमा करने के लिए तैयार",
+            note: "Take this draft with documents to the filing office.",
+            hi_note: "यह ड्राफ्ट दस्तावेज़ों के साथ संबंधित कार्यालय में ले जाएं।",
+          },
+          {
+            id: "followup",
+            label: "Reminder and escalation",
+            hi_label: "अनुस्मारक और एस्केलेशन",
+            note: "Keep receipts and escalate if there is no action.",
+            hi_note: "रसीद रखें और कार्रवाई न होने पर आगे बढ़ें।",
+          },
+        ]
+      : mode === "scheme_check"
+        ? [
+            {
+              id: "profile",
+              label: "Profile recorded",
+              hi_label: "प्रोफाइल दर्ज",
+              note: "Your household information has been captured.",
+              hi_note: "आपके परिवार की जानकारी दर्ज की गई है।",
+            },
+            {
+              id: "screened",
+              label: "Eligibility screened",
+              hi_label: "पात्रता जांची गई",
+              note: "Likely schemes and grievance routes have been identified.",
+              hi_note: "संभावित योजनाओं और शिकायत मार्गों की पहचान की गई है।",
+            },
+            {
+              id: "documents",
+              label: "Documents to collect",
+              hi_label: "दस्तावेज़ जुटाने हैं",
+              note: "Collect the required papers before applying.",
+              hi_note: "आवेदन से पहले जरूरी कागज जुटाएं।",
+            },
+            {
+              id: "apply",
+              label: "Application or grievance follow-up",
+              hi_label: "आवेदन या शिकायत फॉलो-अप",
+              note: "File at the right office and keep the receipt.",
+              hi_note: "सही कार्यालय में आवेदन/शिकायत दें और रसीद रखें।",
+            },
+          ]
+        : [
+            {
+              id: "received",
+              label: "Request received",
+              hi_label: "अनुरोध प्राप्त",
+              note: "Your help request has been safely logged.",
+              hi_note: "आपका मदद अनुरोध सुरक्षित रूप से दर्ज हो गया है।",
+            },
+            {
+              id: "assigned",
+              label: "District follow-up assigned",
+              hi_label: "जिला फॉलो-अप तय",
+              note: "A fellow or team member should review the matter.",
+              hi_note: "एक जिला साथी या टीम सदस्य मामले की समीक्षा करेगा।",
+            },
+            {
+              id: "draft",
+              label: "Advice or draft in progress",
+              hi_label: "सलाह या ड्राफ्ट जारी",
+              note: "Documents, facts, and next legal steps are being organised.",
+              hi_note: "दस्तावेज़, तथ्य और अगले कानूनी कदम व्यवस्थित किए जा रहे हैं।",
+            },
+            {
+              id: "filed",
+              label: "Filed and follow-up",
+              hi_label: "जमा और फॉलो-अप",
+              note: "Track filing, hearing, or authority action here.",
+              hi_note: "जमा, सुनवाई या प्राधिकारी कार्रवाई का ट्रैक यहाँ दिखेगा।",
+            },
+          ];
+
+  return baseStages.map((stage, index) => ({
+    ...stage,
+    status: index < currentIndex ? "done" : index === currentIndex ? "current" : "upcoming",
+    date,
+  }));
+}
+
+function buildSuggestedDocuments(
+  mode: SubmissionMode,
+  type: TriageType,
+  date: string,
+  customDocuments?: string[],
+): SubmissionDocument[] {
+  const fromCustom = customDocuments?.map((item, index) => ({
+    id: `${index}-${item}`,
+    name: item,
+    hi_name: item,
+    status: mode === "scheme_complaint" ? ("prepared" as const) : ("needed" as const),
+    date,
+    note: mode === "scheme_complaint" ? "Ready to attach with the complaint." : "Keep this document ready.",
+    hi_note: mode === "scheme_complaint" ? "शिकायत के साथ संलग्न करने के लिए तैयार।" : "यह दस्तावेज़ तैयार रखें।",
+  }));
+
+  if (fromCustom && fromCustom.length > 0) {
+    return fromCustom;
+  }
+
+  const generic =
+    mode === "scheme_check"
+      ? [
+          ["Identity proof", "पहचान प्रमाण"],
+          ["Bank passbook", "बैंक पासबुक"],
+          ["Income, caste, or scheme receipt papers", "आय, जाति, या योजना रसीद के कागज"],
+        ]
+      : type === "welfare"
+        ? [
+            ["Aadhaar or voter ID", "आधार या वोटर ID"],
+            ["Scheme application receipt", "योजना आवेदन रसीद"],
+            ["Bank passbook or benefit record", "बैंक पासबुक या लाभ रिकॉर्ड"],
+          ]
+        : [
+            ["Identity proof", "पहचान प्रमाण"],
+            ["Written facts and dates", "लिखित तथ्य और तिथियाँ"],
+            ["Notices, FIR copy, or authority papers if available", "नोटिस, FIR प्रति, या उपलब्ध प्राधिकरण कागज"],
+          ];
+
+  return generic.map(([name, hi_name], index) => ({
+    id: `${mode}-${index}`,
+    name,
+    hi_name,
+    status: "needed",
+    date,
+    note: "Keep this ready for the next filing or review step.",
+    hi_note: "अगले आवेदन या समीक्षा चरण के लिए इसे तैयार रखें।",
+  }));
+}
+
+function normalizeIssueSubmission(
+  submission: Partial<IssueSubmission> &
+    Pick<IssueSubmission, "id" | "name" | "phone" | "district" | "issue" | "type" | "urgency" | "summary" | "date">,
+): IssueSubmission {
+  const inferredMode: SubmissionMode =
+    submission.mode ??
+    (submission.subject
+      ? "scheme_complaint"
+      : submission.type === "welfare"
+        ? "scheme_check"
+        : "legal_help");
+  const normalizedStatus: SubmissionStatus = submission.status ?? "pending";
+  const normalizedDate = submission.date || getTodayIsoDate();
+
+  return {
+    id: submission.id,
+    referenceCode: submission.referenceCode ?? `JS-${submission.id.slice(-6).toUpperCase()}`,
+    name: submission.name,
+    phone: submission.phone,
+    location: submission.location ?? "",
+    district: submission.district,
+    issue: submission.issue,
+    type: submission.type,
+    urgency: submission.urgency,
+    summary: submission.summary,
+    date: normalizedDate,
+    status: normalizedStatus,
+    mode: inferredMode,
+    authority: submission.authority,
+    subject: submission.subject,
+    stages:
+      Array.isArray(submission.stages) && submission.stages.length > 0
+        ? submission.stages
+        : buildSubmissionStages(inferredMode, normalizedStatus, normalizedDate),
+    filedDocuments:
+      Array.isArray(submission.filedDocuments) && submission.filedDocuments.length > 0
+        ? submission.filedDocuments
+        : buildSuggestedDocuments(inferredMode, submission.type, normalizedDate),
+  };
+}
+
+function getSubmissionModeLabel(
+  mode: SubmissionMode,
+  isHindi: boolean,
+) {
+  if (mode === "scheme_complaint") {
+    return isHindi ? "संरचित योजना शिकायत" : "Structured scheme complaint";
+  }
+
+  if (mode === "scheme_check") {
+    return isHindi ? "योजना पात्रता जांच" : "Scheme eligibility check";
+  }
+
+  return isHindi ? "कानूनी सहायता अनुरोध" : "Legal help request";
+}
+
+function getSubmissionStatusLabel(status: SubmissionStatus, isHindi: boolean) {
+  if (status === "ready_to_file") {
+    return isHindi ? "जमा करने के लिए तैयार" : "Ready to file";
+  }
+
+  if (status === "draft_ready") {
+    return isHindi ? "ड्राफ्ट तैयार" : "Draft ready";
+  }
+
+  if (status === "under_review") {
+    return isHindi ? "समीक्षा जारी" : "Under review";
+  }
+
+  return isHindi ? "प्राप्त" : "Received";
 }
 
 function readLocalStorage<T>(key: string, fallback: T) {
@@ -1186,9 +1653,17 @@ export default function JanSahayakPublicApp() {
   const [screen, setScreen] = useState<Screen>("home");
   const [form, setForm] = useState<HelpFormState>(DEFAULT_HELP_FORM);
   const [plvForm, setPlvForm] = useState<PLVFormState>(DEFAULT_PLV_FORM);
+  const [eligibilityForm, setEligibilityForm] = useState<EligibilityFormState>(DEFAULT_ELIGIBILITY_FORM);
+  const [complaintForm, setComplaintForm] = useState<ComplaintAssistFormState>(DEFAULT_COMPLAINT_FORM);
   const [triage, setTriage] = useState<TriageResult | null>(null);
+  const [eligibilityResult, setEligibilityResult] = useState<EligibilityResult | null>(null);
+  const [complaintDraft, setComplaintDraft] = useState<ComplaintDraftResult | null>(null);
   const [loading, setLoading] = useState(false);
+  const [eligibilityLoading, setEligibilityLoading] = useState(false);
+  const [complaintLoading, setComplaintLoading] = useState(false);
   const [submitError, setSubmitError] = useState("");
+  const [eligibilityError, setEligibilityError] = useState("");
+  const [complaintError, setComplaintError] = useState("");
   const [step, setStep] = useState(1);
   const [activeSchemeTab, setActiveSchemeTab] = useState<"central" | "bihar">("central");
   const [schemeSearch, setSchemeSearch] = useState("");
@@ -1196,11 +1671,15 @@ export default function JanSahayakPublicApp() {
   const [lawSearch, setLawSearch] = useState("");
   const [activeModule, setActiveModule] = useState<TrainingModule | null>(null);
   const [activeTrainingCourse, setActiveTrainingCourse] = useState<TrainingCourse | null>(null);
+  const [schemeAssistTab, setSchemeAssistTab] = useState<"eligibility" | "complaint">("eligibility");
   const [trainingAudience, setTrainingAudience] = useState<TrainingAudience>("pl");
   const [trainingSearch, setTrainingSearch] = useState("");
   const [quizAnswer, setQuizAnswer] = useState<number | null>(null);
   const [referCode, setReferCode] = useState("");
   const [copyMessage, setCopyMessage] = useState("");
+  const [trackerPhone, setTrackerPhone] = useState("");
+  const [trackerReference, setTrackerReference] = useState("");
+  const [latestReferenceCode, setLatestReferenceCode] = useState("");
   const [plvSubs, setPlvSubs] = useState<PLVSubmission[]>([]);
   const [submissions, setSubmissions] = useState<IssueSubmission[]>([]);
 
@@ -1215,7 +1694,10 @@ export default function JanSahayakPublicApp() {
   }
 
   useEffect(() => {
-    setSubmissions(readLocalStorage<IssueSubmission[]>(STORAGE_KEYS.submissions, []));
+    const storedSubmissions = readLocalStorage<IssueSubmission[]>(STORAGE_KEYS.submissions, []).map((entry) =>
+      normalizeIssueSubmission(entry),
+    );
+    setSubmissions(storedSubmissions);
     setPlvSubs(readLocalStorage<PLVSubmission[]>(STORAGE_KEYS.plv, []));
 
     const storedCode = readLocalStorage<string | null>(STORAGE_KEYS.referral, null);
@@ -1269,6 +1751,20 @@ export default function JanSahayakPublicApp() {
     ls: TRAINING_LIBRARY_COURSES.filter((course) => course.audiences.includes("ls")).length,
     lw: TRAINING_LIBRARY_COURSES.filter((course) => course.audiences.includes("lw")).length,
   };
+  const trackerPhoneQuery = trackerPhone.trim();
+  const trackerReferenceQuery = trackerReference.trim().toLowerCase();
+  const hasTrackerQuery = trackerPhoneQuery.length > 0 || trackerReferenceQuery.length > 0;
+  const trackerMatches = submissions
+    .filter((entry) => {
+      const phoneMatches = trackerPhoneQuery ? entry.phone.includes(trackerPhoneQuery) : true;
+      const referenceMatches = trackerReferenceQuery
+        ? entry.referenceCode.toLowerCase() === trackerReferenceQuery
+        : true;
+      return phoneMatches && referenceMatches;
+    })
+    .slice()
+    .reverse();
+  const recentTrackerItems = submissions.slice().reverse().slice(0, 3);
 
   function updateForm(patch: Partial<HelpFormState>) {
     setForm((current) => ({ ...current, ...patch }));
@@ -1276,6 +1772,19 @@ export default function JanSahayakPublicApp() {
 
   function updatePlvForm(patch: Partial<PLVFormState>) {
     setPlvForm((current) => ({ ...current, ...patch }));
+  }
+
+  function updateEligibilityForm(patch: Partial<EligibilityFormState>) {
+    setEligibilityForm((current) => ({ ...current, ...patch }));
+  }
+
+  function updateComplaintForm(patch: Partial<ComplaintAssistFormState>) {
+    setComplaintForm((current) => ({ ...current, ...patch }));
+  }
+
+  function persistSubmissions(nextSubmissions: IssueSubmission[]) {
+    setSubmissions(nextSubmissions);
+    writeLocalStorage(STORAGE_KEYS.submissions, nextSubmissions);
   }
 
   function resetHelpFlow() {
@@ -1331,11 +1840,13 @@ export default function JanSahayakPublicApp() {
         next_steps: payload.next_steps,
         hi_next_steps: payload.hi_next_steps,
       };
+      const referenceCode = createReferenceCode();
+      const today = getTodayIsoDate();
 
-      const nextSubmissions = [
-        ...submissions,
-        {
+      const nextSubmissions = submissions.concat(
+        normalizeIssueSubmission({
           id: createId(),
+          referenceCode,
           name: form.name,
           phone: form.phone,
           location: form.location,
@@ -1344,14 +1855,19 @@ export default function JanSahayakPublicApp() {
           type: nextTriage.type,
           urgency: nextTriage.urgency,
           summary: nextTriage.summary,
-          date: getTodayIsoDate(),
-          status: "pending" as const,
-        },
-      ];
+          date: today,
+          status: "under_review",
+          mode: "legal_help",
+          stages: buildSubmissionStages("legal_help", "under_review", today),
+          filedDocuments: buildSuggestedDocuments("legal_help", nextTriage.type, today),
+        }),
+      );
 
+      setLatestReferenceCode(referenceCode);
+      setTrackerPhone(form.phone);
+      setTrackerReference(referenceCode);
       setTriage(nextTriage);
-      setSubmissions(nextSubmissions);
-      writeLocalStorage(STORAGE_KEYS.submissions, nextSubmissions);
+      persistSubmissions(nextSubmissions);
       setStep(3);
     } catch {
       setSubmitError(
@@ -1362,6 +1878,168 @@ export default function JanSahayakPublicApp() {
       );
     } finally {
       setLoading(false);
+    }
+  }
+
+  async function submitEligibilityCheck() {
+    setEligibilityLoading(true);
+    setEligibilityError("");
+
+    try {
+      const response = await fetch("/api/public/eligibility", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          ...eligibilityForm,
+          age: Number(eligibilityForm.age || 0),
+          annualIncome: Number(eligibilityForm.annualIncome || 0),
+          disabilityPercent: Number(eligibilityForm.disabilityPercent || 0),
+        }),
+      });
+
+      const payload = (await response.json()) as EligibilityResult & { error?: string };
+
+      if (!response.ok) {
+        throw new Error(payload.error ?? "Unable to check eligibility.");
+      }
+
+      const result: EligibilityResult = {
+        summary: payload.summary,
+        hi_summary: payload.hi_summary,
+        recommendations: payload.recommendations,
+        workflow: payload.workflow,
+        hi_workflow: payload.hi_workflow,
+      };
+      const referenceCode = createReferenceCode();
+      const today = getTodayIsoDate();
+      const topRecommendations = result.recommendations
+        .filter((entry) => entry.status !== "not_now")
+        .slice(0, 3)
+        .flatMap((entry) => entry.docs.slice(0, 2));
+      const eligibilitySummary = result.recommendations
+        .filter((entry) => entry.status === "likely")
+        .slice(0, 2)
+        .map((entry) => entry.name)
+        .join(", ");
+
+      setEligibilityResult(result);
+      setLatestReferenceCode(referenceCode);
+      setTrackerPhone(eligibilityForm.phone);
+      setTrackerReference(referenceCode);
+      persistSubmissions(
+        submissions.concat(
+          normalizeIssueSubmission({
+            id: createId(),
+            referenceCode,
+            name: eligibilityForm.name || "Scheme Screening",
+            phone: eligibilityForm.phone,
+            location: eligibilityForm.residence,
+            district: eligibilityForm.district,
+            issue: eligibilitySummary || "Assisted scheme eligibility screening",
+            type: "welfare",
+            urgency: "normal",
+            summary: result.summary,
+            date: today,
+            status: "draft_ready",
+            mode: "scheme_check",
+            stages: buildSubmissionStages("scheme_check", "draft_ready", today),
+            filedDocuments: buildSuggestedDocuments("scheme_check", "welfare", today, topRecommendations),
+          }),
+        ),
+      );
+    } catch {
+      setEligibilityError(
+        tx(
+          "We could not run the eligibility check right now. Please try again in a moment.",
+          "हम अभी पात्रता जांच नहीं चला सके। कृपया थोड़ी देर में फिर प्रयास करें।",
+        ),
+      );
+    } finally {
+      setEligibilityLoading(false);
+    }
+  }
+
+  async function submitComplaintDraft() {
+    setComplaintLoading(true);
+    setComplaintError("");
+
+    try {
+      const response = await fetch("/api/public/complaint-draft", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(complaintForm),
+      });
+
+      const payload = (await response.json()) as ComplaintDraftResult & { error?: string };
+
+      if (!response.ok) {
+        throw new Error(payload.error ?? "Unable to draft complaint.");
+      }
+
+      const result: ComplaintDraftResult = {
+        subject: payload.subject,
+        hi_subject: payload.hi_subject,
+        summary: payload.summary,
+        hi_summary: payload.hi_summary,
+        facts: payload.facts,
+        hi_facts: payload.hi_facts,
+        reliefs: payload.reliefs,
+        hi_reliefs: payload.hi_reliefs,
+        documents_to_attach: payload.documents_to_attach,
+        hi_documents_to_attach: payload.hi_documents_to_attach,
+        filing_office: payload.filing_office,
+        hi_filing_office: payload.hi_filing_office,
+        next_steps: payload.next_steps,
+        hi_next_steps: payload.hi_next_steps,
+      };
+      const referenceCode = createReferenceCode();
+      const today = getTodayIsoDate();
+
+      setComplaintDraft(result);
+      setLatestReferenceCode(referenceCode);
+      setTrackerPhone(complaintForm.phone);
+      setTrackerReference(referenceCode);
+      persistSubmissions(
+        submissions.concat(
+          normalizeIssueSubmission({
+            id: createId(),
+            referenceCode,
+            name: complaintForm.name,
+            phone: complaintForm.phone,
+            location: complaintForm.location,
+            district: complaintForm.district,
+            issue: complaintForm.facts,
+            type: "welfare",
+            urgency: "normal",
+            summary: result.summary,
+            date: today,
+            status: "ready_to_file",
+            mode: "scheme_complaint",
+            authority: result.filing_office,
+            subject: result.subject,
+            stages: buildSubmissionStages("scheme_complaint", "ready_to_file", today),
+            filedDocuments: buildSuggestedDocuments(
+              "scheme_complaint",
+              "welfare",
+              today,
+              result.documents_to_attach,
+            ),
+          }),
+        ),
+      );
+    } catch {
+      setComplaintError(
+        tx(
+          "We could not prepare the complaint draft right now. Please try again in a moment.",
+          "हम अभी शिकायत ड्राफ्ट तैयार नहीं कर सके। कृपया थोड़ी देर में फिर प्रयास करें।",
+        ),
+      );
+    } finally {
+      setComplaintLoading(false);
     }
   }
 
@@ -1417,6 +2095,24 @@ export default function JanSahayakPublicApp() {
           "केंद्र + बिहार की योजनाएं",
         ),
         action: () => setScreen("schemes"),
+      },
+      {
+        icon: "🧭",
+        label: tx("Track My Case", "मेरा केस ट्रैक करें"),
+        sub: tx(
+          "See stage updates, reference code, and documents to carry or file",
+          "स्टेज अपडेट, रेफरेंस कोड और जरूरी दस्तावेज़ देखें",
+        ),
+        action: () => setScreen("caseTracker"),
+      },
+      {
+        icon: "🤖",
+        label: tx("AI Scheme & Complaint Help", "AI योजना और शिकायत सहायता"),
+        sub: tx(
+          "Guided eligibility check plus structured complaint drafting",
+          "पात्रता जांच और संरचित शिकायत ड्राफ्टिंग",
+        ),
+        action: () => setScreen("schemeAssist"),
       },
       {
         icon: "⚖",
@@ -1873,17 +2569,708 @@ export default function JanSahayakPublicApp() {
                 ))}
               </div>
 
-              <PrimaryButton
-                color="green"
-                onClick={() => {
-                  setScreen("home");
-                  resetHelpFlow();
-                }}
-              >
-                ← {tx("Back to Home", "होम पर वापस")}
-              </PrimaryButton>
+              {latestReferenceCode ? (
+                <div
+                  style={{
+                    background: "#fff",
+                    borderRadius: 14,
+                    padding: "14px 18px",
+                    marginBottom: 12,
+                    border: `1px solid ${PALETTE.border}`,
+                  }}
+                >
+                  <div style={{ fontSize: 11, fontWeight: 700, color: PALETTE.dim, marginBottom: 6 }}>
+                    {tx("TRACKING REFERENCE:", "ट्रैकिंग रेफरेंस:")}
+                  </div>
+                  <div style={{ fontSize: 22, fontWeight: 800, color: PALETTE.accent, letterSpacing: 1 }}>
+                    {latestReferenceCode}
+                  </div>
+                  <div style={{ fontSize: 12, color: PALETTE.dim, marginTop: 6, lineHeight: 1.6 }}>
+                    {tx(
+                      "Use this reference code with your mobile number in Track My Case.",
+                      "इस रेफरेंस कोड को अपने मोबाइल नंबर के साथ 'मेरा केस ट्रैक करें' में उपयोग करें।",
+                    )}
+                  </div>
+                </div>
+              ) : null}
+
+              <div style={{ display: "flex", gap: 8 }}>
+                <button
+                  type="button"
+                  onClick={() => setScreen("caseTracker")}
+                  style={{
+                    flex: 1,
+                    borderRadius: 12,
+                    border: "none",
+                    background: PALETTE.green,
+                    color: "#fff",
+                    padding: "14px 12px",
+                    fontSize: 14,
+                    fontWeight: 800,
+                    cursor: "pointer",
+                  }}
+                >
+                  {tx("Track My Case", "मेरा केस ट्रैक करें")}
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setScreen("home");
+                    resetHelpFlow();
+                  }}
+                  style={{
+                    flex: 1,
+                    borderRadius: 12,
+                    border: `1px solid ${PALETTE.border}`,
+                    background: "#fff",
+                    color: PALETTE.text,
+                    padding: "14px 12px",
+                    fontSize: 14,
+                    fontWeight: 800,
+                    cursor: "pointer",
+                  }}
+                >
+                  ← {tx("Back to Home", "होम पर वापस")}
+                </button>
+              </div>
             </div>
           ) : null}
+        </div>
+      </div>
+    );
+  }
+
+  if (screen === "caseTracker") {
+    const visibleTrackerItems = hasTrackerQuery ? trackerMatches : recentTrackerItems;
+
+    return (
+      <div style={{ minHeight: "100vh", background: PALETTE.bg, fontFamily: bodyFont, colorScheme: "light" }}>
+        <ScreenHeader
+          title={tx("Track My Case", "मेरा केस ट्रैक करें")}
+          lang={lang}
+          onBack={() => setScreen("home")}
+          onToggleLanguage={() => setLang(lang === "hi" ? "en" : "hi")}
+        />
+        <div style={{ ...sharedStyles.container, padding: "16px 16px 80px" }}>
+          <div
+            style={{
+              background: "#fff",
+              borderRadius: 18,
+              border: `1px solid ${PALETTE.border}`,
+              padding: "18px 18px 16px",
+              marginBottom: 14,
+              boxShadow: "0 10px 22px rgba(26,26,26,0.04)",
+            }}
+          >
+            <div
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                gap: 8,
+                borderRadius: 999,
+                background: PALETTE.accentSoft,
+                color: PALETTE.accent,
+                padding: "6px 12px",
+                fontSize: 11,
+                fontWeight: 800,
+                marginBottom: 10,
+              }}
+            >
+              <span>🧭</span>
+              <span>{tx("Public case tracker", "पब्लिक केस ट्रैकर")}</span>
+            </div>
+            <div style={{ fontFamily: headingFont, fontSize: 22, fontWeight: 700, color: PALETTE.text, marginBottom: 6 }}>
+              {tx("See stage updates and filed papers", "स्टेज अपडेट और जमा कागज देखें")}
+            </div>
+            <div style={{ fontSize: 13, color: PALETTE.dim, lineHeight: 1.7, marginBottom: 14 }}>
+              {tx(
+                "Use your mobile number and reference code to check whether your request is under review, ready to file, or waiting for follow-up.",
+                "अपने मोबाइल नंबर और रेफरेंस कोड से देखें कि आपका मामला समीक्षा में है, जमा करने के लिए तैयार है, या फॉलो-अप पर है।",
+              )}
+            </div>
+            <FieldInput
+              label={tx("Mobile number", "मोबाइल नंबर")}
+              type="tel"
+              value={trackerPhone}
+              onChange={setTrackerPhone}
+              placeholder="9876543210"
+            />
+            <FieldInput
+              label={tx("Reference code (optional)", "रेफरेंस कोड (वैकल्पिक)")}
+              value={trackerReference}
+              onChange={setTrackerReference}
+              placeholder="JS-ABC123"
+            />
+            <div style={{ display: "flex", gap: 8 }}>
+              <button
+                type="button"
+                onClick={() => {
+                  if (latestReferenceCode) {
+                    setTrackerReference(latestReferenceCode);
+                  }
+                }}
+                style={{
+                  flex: 1,
+                  borderRadius: 10,
+                  border: `1px solid ${PALETTE.border}`,
+                  background: "#fff",
+                  color: PALETTE.text,
+                  padding: "12px",
+                  fontSize: 13,
+                  fontWeight: 700,
+                  cursor: latestReferenceCode ? "pointer" : "not-allowed",
+                  opacity: latestReferenceCode ? 1 : 0.6,
+                }}
+              >
+                {tx("Use latest reference", "नया रेफरेंस उपयोग करें")}
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  setTrackerPhone("");
+                  setTrackerReference("");
+                }}
+                style={{
+                  flex: 1,
+                  borderRadius: 10,
+                  border: `1px solid ${PALETTE.border}`,
+                  background: "#F8F3EF",
+                  color: PALETTE.dim,
+                  padding: "12px",
+                  fontSize: 13,
+                  fontWeight: 700,
+                  cursor: "pointer",
+                }}
+              >
+                {tx("Clear", "साफ़ करें")}
+              </button>
+            </div>
+          </div>
+
+          {!hasTrackerQuery && recentTrackerItems.length > 0 ? (
+            <div style={{ fontSize: 13, color: PALETTE.dim, marginBottom: 10 }}>
+              {tx("Recent requests on this device", "इस डिवाइस पर हाल के अनुरोध")}
+            </div>
+          ) : null}
+
+          {hasTrackerQuery && trackerMatches.length === 0 ? (
+            <div style={{ ...sharedStyles.card, color: PALETTE.dim, lineHeight: 1.7 }}>
+              {tx(
+                "No matching case was found for this phone and reference combination. Double-check the number, or open your most recent request from this device.",
+                "इस मोबाइल और रेफरेंस संयोजन के लिए कोई मामला नहीं मिला। नंबर दोबारा जांचें या इस डिवाइस पर हाल का अनुरोध खोलें।",
+              )}
+            </div>
+          ) : null}
+
+          {visibleTrackerItems.map((entry) => (
+            <div
+              key={entry.id}
+              style={{
+                background: "#fff",
+                borderRadius: 18,
+                border: `1px solid ${PALETTE.border}`,
+                padding: "16px 16px 14px",
+                marginBottom: 12,
+                boxShadow: "0 10px 22px rgba(26,26,26,0.04)",
+              }}
+            >
+              <div style={{ display: "flex", justifyContent: "space-between", gap: 10, marginBottom: 10 }}>
+                <div>
+                  <div style={{ fontSize: 17, fontWeight: 800, color: PALETTE.text }}>
+                    {entry.subject ?? entry.summary}
+                  </div>
+                  <div style={{ fontSize: 12, color: PALETTE.dim, marginTop: 4 }}>
+                    {entry.referenceCode} · {entry.date} · {entry.district}
+                  </div>
+                </div>
+                <div
+                  style={{
+                    alignSelf: "flex-start",
+                    borderRadius: 999,
+                    padding: "5px 10px",
+                    background: entry.status === "ready_to_file" ? "rgba(46,125,50,0.1)" : PALETTE.accentSoft,
+                    color: entry.status === "ready_to_file" ? PALETTE.green : PALETTE.accent,
+                    fontSize: 11,
+                    fontWeight: 800,
+                    whiteSpace: "nowrap",
+                  }}
+                >
+                  {getSubmissionStatusLabel(entry.status, isHindi)}
+                </div>
+              </div>
+
+              <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginBottom: 12 }}>
+                <span
+                  style={{
+                    borderRadius: 999,
+                    padding: "4px 9px",
+                    background: "#F8F3EF",
+                    color: PALETTE.dim,
+                    fontSize: 10,
+                    fontWeight: 800,
+                  }}
+                >
+                  {getSubmissionModeLabel(entry.mode, isHindi)}
+                </span>
+                <span
+                  style={{
+                    borderRadius: 999,
+                    padding: "4px 9px",
+                    background: entry.urgency === "high" ? "rgba(230,81,0,0.1)" : "rgba(21,101,192,0.1)",
+                    color: entry.urgency === "high" ? PALETTE.orange : PALETTE.blue,
+                    fontSize: 10,
+                    fontWeight: 800,
+                  }}
+                >
+                  {entry.urgency === "high" ? tx("Urgent", "तत्काल") : tx("Normal priority", "सामान्य प्राथमिकता")}
+                </span>
+              </div>
+
+              <div style={{ fontSize: 12, color: PALETTE.dim, lineHeight: 1.65, marginBottom: 12 }}>
+                {entry.issue}
+              </div>
+
+              <div style={{ fontSize: 12, fontWeight: 800, color: PALETTE.text, marginBottom: 8 }}>
+                {tx("Stage timeline", "स्टेज टाइमलाइन")}
+              </div>
+              {entry.stages.map((stage) => (
+                <div key={`${entry.id}-${stage.id}`} style={{ display: "flex", gap: 10, marginBottom: 10 }}>
+                  <div
+                    style={{
+                      width: 14,
+                      height: 14,
+                      borderRadius: 999,
+                      marginTop: 3,
+                      background:
+                        stage.status === "done"
+                          ? PALETTE.green
+                          : stage.status === "current"
+                            ? PALETTE.accent
+                            : PALETTE.border,
+                      flexShrink: 0,
+                    }}
+                  />
+                  <div>
+                    <div style={{ fontSize: 13, fontWeight: 800, color: PALETTE.text }}>
+                      {isHindi ? stage.hi_label : stage.label}
+                    </div>
+                    <div style={{ fontSize: 12, color: PALETTE.dim, lineHeight: 1.55 }}>
+                      {isHindi ? stage.hi_note : stage.note}
+                    </div>
+                  </div>
+                </div>
+              ))}
+
+              <div style={{ fontSize: 12, fontWeight: 800, color: PALETTE.text, marginTop: 2, marginBottom: 8 }}>
+                {tx("Relevant documents", "संबंधित दस्तावेज़")}
+              </div>
+              {entry.filedDocuments.map((document) => (
+                <div
+                  key={document.id}
+                  style={{
+                    borderRadius: 12,
+                    border: `1px solid ${PALETTE.border}`,
+                    padding: "10px 12px",
+                    marginBottom: 8,
+                    background: "#FCFAF8",
+                  }}
+                >
+                  <div style={{ display: "flex", justifyContent: "space-between", gap: 8 }}>
+                    <div style={{ fontSize: 13, fontWeight: 700, color: PALETTE.text }}>
+                      {isHindi ? document.hi_name : document.name}
+                    </div>
+                    <div
+                      style={{
+                        fontSize: 10,
+                        fontWeight: 800,
+                        color:
+                          document.status === "filed"
+                            ? PALETTE.green
+                            : document.status === "prepared"
+                              ? PALETTE.blue
+                              : PALETTE.orange,
+                      }}
+                    >
+                      {document.status === "filed"
+                        ? tx("Filed", "जमा")
+                        : document.status === "prepared"
+                          ? tx("Prepared", "तैयार")
+                          : tx("Needed", "जरूरी")}
+                    </div>
+                  </div>
+                  <div style={{ fontSize: 11.5, color: PALETTE.dim, lineHeight: 1.55, marginTop: 4 }}>
+                    {isHindi ? document.hi_note : document.note}
+                  </div>
+                </div>
+              ))}
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  }
+
+  if (screen === "schemeAssist") {
+    return (
+      <div style={{ minHeight: "100vh", background: PALETTE.bg, fontFamily: bodyFont, colorScheme: "light" }}>
+        <ScreenHeader
+          title={tx("AI Scheme & Complaint Help", "AI योजना और शिकायत सहायता")}
+          lang={lang}
+          onBack={() => setScreen("home")}
+          onToggleLanguage={() => setLang(lang === "hi" ? "en" : "hi")}
+        />
+        <div style={{ ...sharedStyles.container, padding: "16px 16px 80px" }}>
+          <div
+            style={{
+              background: "#fff",
+              borderRadius: 18,
+              border: `1px solid ${PALETTE.border}`,
+              padding: "18px",
+              marginBottom: 14,
+              boxShadow: "0 10px 22px rgba(26,26,26,0.04)",
+            }}
+          >
+            <div
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                gap: 8,
+                borderRadius: 999,
+                background: PALETTE.accentSoft,
+                color: PALETTE.accent,
+                padding: "6px 12px",
+                fontSize: 11,
+                fontWeight: 800,
+                marginBottom: 10,
+              }}
+            >
+              <span>🤖</span>
+              <span>{tx("Guided welfare flow", "गाइडेड वेलफेयर फ्लो")}</span>
+            </div>
+            <div style={{ fontFamily: headingFont, fontSize: 22, fontWeight: 700, color: PALETTE.text, marginBottom: 6 }}>
+              {tx("Profile → eligibility → documents → complaint", "प्रोफाइल → पात्रता → दस्तावेज़ → शिकायत")}
+            </div>
+            <div style={{ fontSize: 13, color: PALETTE.dim, lineHeight: 1.7 }}>
+              {tx(
+                "This guided assistant follows an assisted-scheme-access model: capture the household profile, screen likely schemes, list missing documents, and prepare a structured complaint when a benefit is denied.",
+                "यह सहायक एक guided scheme-access मॉडल पर काम करता है: परिवार की प्रोफाइल लें, संभावित योजनाओं की जांच करें, जरूरी दस्तावेज़ बताएं, और लाभ न मिलने पर संरचित शिकायत तैयार करें।",
+              )}
+            </div>
+          </div>
+
+          <div style={{ display: "flex", gap: 8, marginBottom: 14 }}>
+            {[
+              { key: "eligibility", label: tx("Eligibility checker", "पात्रता जांच") },
+              { key: "complaint", label: tx("Structured complaint", "संरचित शिकायत") },
+            ].map((item) => (
+              <button
+                key={item.key}
+                type="button"
+                onClick={() => setSchemeAssistTab(item.key as "eligibility" | "complaint")}
+                style={{
+                  flex: 1,
+                  borderRadius: 10,
+                  border:
+                    schemeAssistTab === item.key ? `2px solid ${PALETTE.accent}` : `2px solid ${PALETTE.border}`,
+                  background: schemeAssistTab === item.key ? PALETTE.accentSoft : "#fff",
+                  color: schemeAssistTab === item.key ? PALETTE.accent : PALETTE.dim,
+                  padding: "11px 10px",
+                  fontSize: 13,
+                  fontWeight: 800,
+                  cursor: "pointer",
+                }}
+              >
+                {item.label}
+              </button>
+            ))}
+          </div>
+
+          {schemeAssistTab === "eligibility" ? (
+            <div>
+              <div style={{ ...sharedStyles.card, marginBottom: 12 }}>
+                <div style={{ fontSize: 16, fontWeight: 800, color: PALETTE.text, marginBottom: 10 }}>
+                  {tx("Household profile", "परिवार प्रोफाइल")}
+                </div>
+                <FieldInput label={tx("Name", "नाम")} value={eligibilityForm.name} onChange={(value) => updateEligibilityForm({ name: value })} />
+                <FieldInput label={tx("Phone number", "मोबाइल नंबर")} type="tel" value={eligibilityForm.phone} onChange={(value) => updateEligibilityForm({ phone: value })} />
+                <FieldSelect label={tx("District", "जिला")} value={eligibilityForm.district} onChange={(value) => updateEligibilityForm({ district: value as EligibilityFormState["district"] })} options={districtOptions} />
+                <FieldSelect label={tx("Residence", "निवास")} value={eligibilityForm.residence} onChange={(value) => updateEligibilityForm({ residence: value as EligibilityFormState["residence"] })} options={ELIGIBILITY_RESIDENCE_OPTIONS} />
+                <FieldInput label={tx("Age", "उम्र")} type="number" value={eligibilityForm.age} onChange={(value) => updateEligibilityForm({ age: value })} />
+                <FieldSelect label={tx("Gender", "लिंग")} value={eligibilityForm.gender} onChange={(value) => updateEligibilityForm({ gender: value as EligibilityFormState["gender"] })} options={ELIGIBILITY_GENDER_OPTIONS} />
+                <FieldInput label={tx("Annual family income (Rs)", "परिवार की वार्षिक आय (रु.)")} type="number" value={eligibilityForm.annualIncome} onChange={(value) => updateEligibilityForm({ annualIncome: value })} />
+                <FieldSelect label={tx("Social category", "सामाजिक श्रेणी")} value={eligibilityForm.socialCategory} onChange={(value) => updateEligibilityForm({ socialCategory: value as EligibilityFormState["socialCategory"] })} options={ELIGIBILITY_SOCIAL_CATEGORY_OPTIONS} />
+                <FieldInput label={tx("Occupation", "पेशा")} value={eligibilityForm.occupation} onChange={(value) => updateEligibilityForm({ occupation: value })} placeholder={tx("e.g. labour, student, homemaker", "जैसे मजदूर, छात्र, गृहिणी")} />
+                <FieldSelect label={tx("Housing status", "आवास की स्थिति")} value={eligibilityForm.housingStatus} onChange={(value) => updateEligibilityForm({ housingStatus: value as EligibilityFormState["housingStatus"] })} options={ELIGIBILITY_HOUSING_OPTIONS} />
+              </div>
+
+              <div style={{ ...sharedStyles.card, marginBottom: 12 }}>
+                <div style={{ fontSize: 16, fontWeight: 800, color: PALETTE.text, marginBottom: 10 }}>
+                  {tx("Need and document flags", "जरूरत और दस्तावेज़ संकेत")}
+                </div>
+                <FieldSelect label={tx("Has ration card?", "क्या राशन कार्ड है?")} value={eligibilityForm.hasRationCard ? "yes" : "no"} onChange={(value) => updateEligibilityForm({ hasRationCard: value === "yes" })} options={YES_NO_OPTIONS} />
+                <FieldSelect label={tx("Has bank account?", "क्या बैंक खाता है?")} value={eligibilityForm.hasBankAccount ? "yes" : "no"} onChange={(value) => updateEligibilityForm({ hasBankAccount: value === "yes" })} options={YES_NO_OPTIONS} />
+                <FieldSelect label={tx("Has Aadhaar?", "क्या आधार है?")} value={eligibilityForm.hasAadhaar ? "yes" : "no"} onChange={(value) => updateEligibilityForm({ hasAadhaar: value === "yes" })} options={YES_NO_OPTIONS} />
+                <FieldSelect label={tx("Student?", "क्या छात्र हैं?")} value={eligibilityForm.isStudent ? "yes" : "no"} onChange={(value) => updateEligibilityForm({ isStudent: value === "yes" })} options={YES_NO_OPTIONS} />
+                <FieldSelect label={tx("Pregnant?", "क्या गर्भवती हैं?")} value={eligibilityForm.isPregnant ? "yes" : "no"} onChange={(value) => updateEligibilityForm({ isPregnant: value === "yes" })} options={YES_NO_OPTIONS} />
+                <FieldSelect label={tx("Widowed?", "क्या विधवा हैं?")} value={eligibilityForm.isWidowed ? "yes" : "no"} onChange={(value) => updateEligibilityForm({ isWidowed: value === "yes" })} options={YES_NO_OPTIONS} />
+                <FieldSelect label={tx("Disability in family applicant?", "क्या दिव्यांगता है?")} value={eligibilityForm.hasDisability ? "yes" : "no"} onChange={(value) => updateEligibilityForm({ hasDisability: value === "yes" })} options={YES_NO_OPTIONS} />
+                {eligibilityForm.hasDisability ? (
+                  <FieldInput label={tx("Disability percentage", "दिव्यांगता प्रतिशत")} type="number" value={eligibilityForm.disabilityPercent} onChange={(value) => updateEligibilityForm({ disabilityPercent: value })} />
+                ) : null}
+                <FieldSelect label={tx("Landless household?", "क्या परिवार भूमिहीन है?")} value={eligibilityForm.isLandless ? "yes" : "no"} onChange={(value) => updateEligibilityForm({ isLandless: value === "yes" })} options={YES_NO_OPTIONS} />
+                <FieldSelect label={tx("Immediate medical support needed?", "क्या तुरंत इलाज सहायता चाहिए?")} value={eligibilityForm.needsMedicalSupport ? "yes" : "no"} onChange={(value) => updateEligibilityForm({ needsMedicalSupport: value === "yes" })} options={YES_NO_OPTIONS} />
+                <PrimaryButton onClick={submitEligibilityCheck} disabled={eligibilityLoading || !eligibilityForm.phone.trim()}>
+                  {eligibilityLoading ? tx("Checking...", "जांच रहे हैं...") : tx("Run eligibility check", "पात्रता जांच चलाएं")}
+                </PrimaryButton>
+                {eligibilityError ? (
+                  <div style={{ marginTop: 10, padding: "10px 12px", borderRadius: 10, background: "rgba(230,81,0,0.08)", color: PALETTE.orange, fontSize: 13 }}>
+                    {eligibilityError}
+                  </div>
+                ) : null}
+              </div>
+
+              {eligibilityResult ? (
+                <div>
+                  <div style={{ ...sharedStyles.card, marginBottom: 12 }}>
+                    <div style={{ fontSize: 15, fontWeight: 800, color: PALETTE.text, marginBottom: 6 }}>
+                      {tx("Screening summary", "स्क्रीनिंग सारांश")}
+                    </div>
+                    <div style={{ fontSize: 13, color: PALETTE.text, lineHeight: 1.7 }}>
+                      {isHindi ? eligibilityResult.hi_summary : eligibilityResult.summary}
+                    </div>
+                    {latestReferenceCode ? (
+                      <div style={{ marginTop: 10, fontSize: 12, color: PALETTE.dim }}>
+                        {tx("Saved in tracker under", "ट्रैकर में सेव किया गया")} <strong>{latestReferenceCode}</strong>
+                      </div>
+                    ) : null}
+                  </div>
+
+                  {eligibilityResult.recommendations.map((entry) => (
+                    <div key={entry.id} style={{ ...sharedStyles.card, marginBottom: 12 }}>
+                      <div style={{ display: "flex", justifyContent: "space-between", gap: 8, marginBottom: 8 }}>
+                        <div>
+                          <div style={{ fontSize: 15, fontWeight: 800, color: PALETTE.text }}>
+                            {isHindi ? entry.hi_name : entry.name}
+                          </div>
+                          <div style={{ fontSize: 11, color: PALETTE.dim, marginTop: 3 }}>{entry.category}</div>
+                        </div>
+                        <div
+                          style={{
+                            borderRadius: 999,
+                            padding: "5px 10px",
+                            background:
+                              entry.status === "likely"
+                                ? "rgba(46,125,50,0.1)"
+                                : entry.status === "check"
+                                  ? "rgba(21,101,192,0.1)"
+                                  : "rgba(136,136,136,0.12)",
+                            color:
+                              entry.status === "likely"
+                                ? PALETTE.green
+                                : entry.status === "check"
+                                  ? PALETTE.blue
+                                  : PALETTE.muted,
+                            fontSize: 10,
+                            fontWeight: 800,
+                            whiteSpace: "nowrap",
+                          }}
+                        >
+                          {entry.status === "likely"
+                            ? tx("Likely eligible", "संभावित रूप से पात्र")
+                            : entry.status === "check"
+                              ? tx("Needs checking", "जांच जरूरी")
+                              : tx("Not a priority fit", "अभी प्राथमिक नहीं")}
+                        </div>
+                      </div>
+                      {(isHindi ? entry.hi_reasons : entry.reasons).map((reason) => (
+                        <div key={`${entry.id}-${reason}`} style={{ fontSize: 12.5, color: PALETTE.text, lineHeight: 1.65, marginBottom: 6 }}>
+                          • {reason}
+                        </div>
+                      ))}
+                      <div style={{ fontSize: 12, fontWeight: 800, color: PALETTE.text, marginTop: 10, marginBottom: 6 }}>
+                        {tx("Documents to keep ready", "जरूरी दस्तावेज़")}
+                      </div>
+                      {(isHindi ? entry.hi_docs : entry.docs).map((doc) => (
+                        <div key={`${entry.id}-${doc}`} style={{ fontSize: 12.5, color: PALETTE.dim, lineHeight: 1.6, marginBottom: 4 }}>
+                          • {doc}
+                        </div>
+                      ))}
+                      <div style={{ marginTop: 10, padding: "10px 12px", borderRadius: 12, background: "#F8F3EF", fontSize: 12.5, color: PALETTE.text, lineHeight: 1.6 }}>
+                        <strong>{tx("Next office:", "अगला कार्यालय:")}</strong> {isHindi ? entry.hi_apply : entry.apply}
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => window.open(entry.officialUrl, "_blank", "noopener,noreferrer")}
+                        style={{
+                          width: "100%",
+                          marginTop: 10,
+                          borderRadius: 10,
+                          border: "none",
+                          background: PALETTE.accent,
+                          color: "#fff",
+                          padding: "11px 12px",
+                          fontSize: 13,
+                          fontWeight: 800,
+                          cursor: "pointer",
+                        }}
+                      >
+                        {tx("Open official source →", "आधिकारिक स्रोत खोलें →")}
+                      </button>
+                    </div>
+                  ))}
+
+                  <div style={{ ...sharedStyles.card }}>
+                    <div style={{ fontSize: 15, fontWeight: 800, color: PALETTE.text, marginBottom: 8 }}>
+                      {tx("Assisted workflow", "सहायक कार्यप्रवाह")}
+                    </div>
+                    {(isHindi ? eligibilityResult.hi_workflow : eligibilityResult.workflow).map((stepText) => (
+                      <div key={stepText} style={{ fontSize: 12.5, color: PALETTE.text, lineHeight: 1.7, marginBottom: 6 }}>
+                        • {stepText}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              ) : null}
+            </div>
+          ) : (
+            <div>
+              <div style={{ ...sharedStyles.card, marginBottom: 12 }}>
+                <div style={{ fontSize: 16, fontWeight: 800, color: PALETTE.text, marginBottom: 10 }}>
+                  {tx("Complaint intake", "शिकायत इनटेक")}
+                </div>
+                <FieldInput label={tx("Name", "नाम")} value={complaintForm.name} onChange={(value) => updateComplaintForm({ name: value })} />
+                <FieldInput label={tx("Phone number", "मोबाइल नंबर")} type="tel" value={complaintForm.phone} onChange={(value) => updateComplaintForm({ phone: value })} />
+                <FieldSelect label={tx("District", "जिला")} value={complaintForm.district} onChange={(value) => updateComplaintForm({ district: value as ComplaintAssistFormState["district"] })} options={districtOptions} />
+                <FieldSelect label={tx("Benefit or service", "योजना या सेवा")} value={complaintForm.benefit} onChange={(value) => updateComplaintForm({ benefit: value })} options={COMPLAINT_BENEFIT_OPTIONS.map((value) => ({ value, label: value }))} />
+                <FieldSelect label={tx("Authority involved", "संबंधित प्राधिकारी")} value={complaintForm.authority} onChange={(value) => updateComplaintForm({ authority: value })} options={COMPLAINT_AUTHORITY_OPTIONS.map((value) => ({ value, label: value }))} />
+                <FieldSelect label={tx("Problem type", "समस्या का प्रकार")} value={complaintForm.grievanceType} onChange={(value) => updateComplaintForm({ grievanceType: value })} options={COMPLAINT_TYPE_OPTIONS.map((value) => ({ value, label: value }))} />
+                <FieldInput label={tx("Incident date or period", "घटना की तारीख या अवधि")} value={complaintForm.incidentDate} onChange={(value) => updateComplaintForm({ incidentDate: value })} />
+                <FieldInput label={tx("Village / area", "गाँव / मोहल्ला")} value={complaintForm.location} onChange={(value) => updateComplaintForm({ location: value })} />
+                <FieldInput label={tx("What happened?", "क्या हुआ?")} value={complaintForm.facts} onChange={(value) => updateComplaintForm({ facts: value })} rows={5} placeholder={tx("Describe the denial, delay, corruption, or record problem clearly.", "लाभ न मिलना, देरी, रिश्वत, या रिकॉर्ड समस्या साफ़ लिखें।")} />
+                <FieldInput label={tx("Documents available", "उपलब्ध दस्तावेज़")} value={complaintForm.documentsAvailable} onChange={(value) => updateComplaintForm({ documentsAvailable: value })} rows={3} placeholder={tx("e.g. ration card copy, receipt, Aadhaar, passbook", "जैसे राशन कार्ड कॉपी, रसीद, आधार, पासबुक")} />
+                <FieldInput label={tx("Relief you want", "आप क्या राहत चाहते हैं?")} value={complaintForm.reliefWanted} onChange={(value) => updateComplaintForm({ reliefWanted: value })} rows={3} placeholder={tx("e.g. restore benefit, release pending amount, issue card", "जैसे लाभ बहाल करें, बकाया राशि दें, कार्ड जारी करें")} />
+                <PrimaryButton onClick={submitComplaintDraft} disabled={complaintLoading || !complaintForm.name.trim() || !complaintForm.phone.trim() || !complaintForm.facts.trim()}>
+                  {complaintLoading ? tx("Preparing draft...", "ड्राफ्ट तैयार कर रहे हैं...") : tx("Prepare structured complaint", "संरचित शिकायत तैयार करें")}
+                </PrimaryButton>
+                {complaintError ? (
+                  <div style={{ marginTop: 10, padding: "10px 12px", borderRadius: 10, background: "rgba(230,81,0,0.08)", color: PALETTE.orange, fontSize: 13 }}>
+                    {complaintError}
+                  </div>
+                ) : null}
+              </div>
+
+              {complaintDraft ? (
+                <div>
+                  <div style={{ ...sharedStyles.card, marginBottom: 12 }}>
+                    <div style={{ fontSize: 12, fontWeight: 800, color: PALETTE.dim, marginBottom: 5 }}>
+                      {tx("Suggested subject", "सुझाया गया विषय")}
+                    </div>
+                    <div style={{ fontSize: 17, fontWeight: 800, color: PALETTE.text, marginBottom: 6 }}>
+                      {isHindi ? complaintDraft.hi_subject : complaintDraft.subject}
+                    </div>
+                    <div style={{ fontSize: 13, color: PALETTE.text, lineHeight: 1.7 }}>
+                      {isHindi ? complaintDraft.hi_summary : complaintDraft.summary}
+                    </div>
+                    {latestReferenceCode ? (
+                      <div style={{ marginTop: 10, fontSize: 12, color: PALETTE.dim }}>
+                        {tx("Saved in tracker under", "ट्रैकर में सेव किया गया")} <strong>{latestReferenceCode}</strong>
+                      </div>
+                    ) : null}
+                  </div>
+
+                  <div style={{ ...sharedStyles.card, marginBottom: 12 }}>
+                    <div style={{ fontSize: 15, fontWeight: 800, color: PALETTE.text, marginBottom: 8 }}>
+                      {tx("Facts to include", "शामिल करने वाले तथ्य")}
+                    </div>
+                    {(isHindi ? complaintDraft.hi_facts : complaintDraft.facts).map((entry) => (
+                      <div key={entry} style={{ fontSize: 12.5, color: PALETTE.text, lineHeight: 1.7, marginBottom: 6 }}>
+                        • {entry}
+                      </div>
+                    ))}
+                  </div>
+
+                  <div style={{ ...sharedStyles.card, marginBottom: 12 }}>
+                    <div style={{ fontSize: 15, fontWeight: 800, color: PALETTE.text, marginBottom: 8 }}>
+                      {tx("Relief to ask for", "मांगी जाने वाली राहत")}
+                    </div>
+                    {(isHindi ? complaintDraft.hi_reliefs : complaintDraft.reliefs).map((entry) => (
+                      <div key={entry} style={{ fontSize: 12.5, color: PALETTE.text, lineHeight: 1.7, marginBottom: 6 }}>
+                        • {entry}
+                      </div>
+                    ))}
+                  </div>
+
+                  <div style={{ ...sharedStyles.card, marginBottom: 12 }}>
+                    <div style={{ fontSize: 15, fontWeight: 800, color: PALETTE.text, marginBottom: 8 }}>
+                      {tx("Documents to attach", "संलग्न किए जाने वाले दस्तावेज़")}
+                    </div>
+                    {(isHindi ? complaintDraft.hi_documents_to_attach : complaintDraft.documents_to_attach).map((entry) => (
+                      <div key={entry} style={{ fontSize: 12.5, color: PALETTE.text, lineHeight: 1.7, marginBottom: 6 }}>
+                        • {entry}
+                      </div>
+                    ))}
+                    <div style={{ marginTop: 10, padding: "10px 12px", borderRadius: 12, background: "#F8F3EF", fontSize: 12.5, color: PALETTE.text, lineHeight: 1.6 }}>
+                      <strong>{tx("Filing office:", "शिकायत कार्यालय:")}</strong>{" "}
+                      {isHindi ? complaintDraft.hi_filing_office : complaintDraft.filing_office}
+                    </div>
+                  </div>
+
+                  <div style={{ ...sharedStyles.card, marginBottom: 12 }}>
+                    <div style={{ fontSize: 15, fontWeight: 800, color: PALETTE.text, marginBottom: 8 }}>
+                      {tx("Next steps", "अगले कदम")}
+                    </div>
+                    {(isHindi ? complaintDraft.hi_next_steps : complaintDraft.next_steps).map((entry) => (
+                      <div key={entry} style={{ fontSize: 12.5, color: PALETTE.text, lineHeight: 1.7, marginBottom: 6 }}>
+                        • {entry}
+                      </div>
+                    ))}
+                  </div>
+
+                  <div style={{ display: "flex", gap: 8 }}>
+                    <button
+                      type="button"
+                      onClick={() => setScreen("caseTracker")}
+                      style={{
+                        flex: 1,
+                        borderRadius: 10,
+                        border: "none",
+                        background: PALETTE.green,
+                        color: "#fff",
+                        padding: "12px",
+                        fontSize: 13,
+                        fontWeight: 800,
+                        cursor: "pointer",
+                      }}
+                    >
+                      {tx("Open tracker", "ट्रैकर खोलें")}
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() =>
+                        openPrefilledIntake(
+                          `${complaintDraft.subject}\n\n${complaintForm.facts}`,
+                          "welfare",
+                        )
+                      }
+                      style={{
+                        flex: 1,
+                        borderRadius: 10,
+                        border: `1px solid ${PALETTE.border}`,
+                        background: "#fff",
+                        color: PALETTE.text,
+                        padding: "12px",
+                        fontSize: 13,
+                        fontWeight: 800,
+                        cursor: "pointer",
+                      }}
+                    >
+                      {tx("Send to Jan Sahayak", "जन सहायक को भेजें")}
+                    </button>
+                  </div>
+                </div>
+              ) : null}
+            </div>
+          )}
         </div>
       </div>
     );
