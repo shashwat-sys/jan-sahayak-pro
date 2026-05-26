@@ -63,22 +63,22 @@ function buildScenes(summary: PrototypeSummary): PrototypeScene[] {
       id: "public-intake",
       tabLabel: "Public help",
       kicker: "Slide 01",
-      title: "A public-facing legal help app that starts where distress actually begins.",
+      title: "A more accessible public help app that starts where distress actually begins.",
       copy:
-        "The first presentation moment is trust: a survivor, family member, or PLV opens one bilingual screen, chooses help, uploads documents, and gets routed toward real district follow-up.",
+        "The first presentation moment is trust: a survivor, family member, or PLV opens one bilingual screen, sees large guided actions, finds emergency numbers immediately, and moves into help, tracking, or scheme support without guessing.",
       tone: "public",
       audience: "Survivors, families, PLVs, village workers, community organisers",
       promise:
-        "Shortens the path from first contact to assigned legal or welfare support without forcing users into a complex form journey.",
+        "Shortens the path from first contact to assigned legal or welfare support without forcing users into a dense or intimidating form journey.",
       highlights: [
-        "Bilingual Hindi and English entry points with helplines visible from the first screen.",
-        "Supports report and document uploads for FIRs, ration cards, medical papers, or notices.",
-        "Matches the request to a district fellow, lawyer, or welfare worker flow.",
+        "Bilingual Hindi and English entry points with emergency numbers visible from the first screen.",
+        "Separates urgent help, case tracking, scheme guidance, and learning into clear lanes with larger touch targets.",
+        "Matches the request to a district fellow, lawyer, or welfare worker flow while keeping the public experience calm and readable.",
       ],
       proof: [
         { label: "District catalogue", value: "38 Bihar districts" },
-        { label: "Immediate helplines", value: "112 / 181 / 1098" },
-        { label: "Support path", value: "Legal + welfare" },
+        { label: "Immediate helplines", value: "112 / 181 / 1098 / 108" },
+        { label: "Support path", value: "Help + track + schemes" },
       ],
       phoneTitle: "Jan Sahayak",
       phoneSubtitle: "Mobile-first public access to justice",
@@ -91,15 +91,15 @@ function buildScenes(summary: PrototypeSummary): PrototypeScene[] {
           wide: true,
         },
         {
-          eyebrow: "Library",
-          title: "Government Schemes",
-          meta: "Eligibility, documents, and application support",
+          eyebrow: "Tracker",
+          title: "Track My Case",
+          meta: "Status timeline, reference code, and filed documents",
           tone: "green",
         },
         {
-          eyebrow: "Rights",
-          title: "Know Your Rights",
-          meta: "Acts, FAQs, and plain-language legal guidance",
+          eyebrow: "Guided help",
+          title: "AI Scheme Help",
+          meta: "Eligibility, documents, and structured complaints",
           tone: "blue",
         },
         {
@@ -115,14 +115,14 @@ function buildScenes(summary: PrototypeSummary): PrototypeScene[] {
         {
           title: "What the audience sees",
           copy:
-            "A single entry screen that feels warm, local, and low-friction instead of a bureaucratic government portal.",
-          tags: ["Bilingual", "Low-friction", "Presentation-safe"],
+            "A single entry screen that feels warm, local, and easy to scan instead of a bureaucratic government portal.",
+          tags: ["Bilingual", "Accessible UI", "Presentation-safe"],
         },
         {
           title: "What happens behind the scenes",
           copy:
-            "Uploads, triage, district assignment, and handoff to the right person can all be linked to the protected workspace later.",
-          tags: ["Uploads", "District routing", "Case conversion"],
+            "Guided routing, case tracking, scheme screening, and later workspace handoff all fit into the same public journey.",
+          tags: ["Tracking", "District routing", "Case conversion"],
         },
       ],
     },
@@ -522,7 +522,7 @@ export function PrototypePresentation({
           </h1>
           <p className={styles.lede}>
             This route is built for demos. It tells the story of Jan Sahayak as a connected access
-            to justice platform rather than a collection of separate tools.
+            to justice platform rather than a collection of separate tools, and now reflects the more accessible public UI refresh.
           </p>
           <div className={styles.actionRow}>
             <Link href="/" className="btn btn-primary">

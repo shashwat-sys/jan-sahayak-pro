@@ -1,7 +1,7 @@
 "use client";
 
 import type { CSSProperties, ReactNode } from "react";
-import { useDeferredValue, useEffect, useState } from "react";
+import { useDeferredValue, useEffect, useId, useState } from "react";
 
 import { BIHAR_DISTRICTS } from "@/lib/domain/constants";
 import {
@@ -787,6 +787,7 @@ type FieldInputProps = {
   type?: "text" | "tel" | "number";
   placeholder?: string;
   rows?: number;
+  hint?: string;
 };
 
 type FieldSelectProps = {
@@ -794,6 +795,7 @@ type FieldSelectProps = {
   value: string;
   onChange: (value: string) => void;
   options: Array<{ label: string; value: string }>;
+  hint?: string;
 };
 
 const STORAGE_KEYS = {
@@ -861,52 +863,61 @@ const DEFAULT_COMPLAINT_FORM: ComplaintAssistFormState = {
 
 const sharedStyles: Record<string, CSSProperties> = {
   container: {
-    maxWidth: 480,
+    maxWidth: 520,
     margin: "0 auto",
     padding: "0 0 80px",
   },
   header: {
-    background: PALETTE.accent,
-    padding: "14px 20px",
+    background: "linear-gradient(135deg, #b7422a 0%, #d46a48 100%)",
+    padding: "16px 20px",
     display: "flex",
     alignItems: "center",
     gap: 10,
+    position: "sticky",
+    top: 0,
+    zIndex: 40,
+    boxShadow: "0 14px 28px rgba(140, 55, 35, 0.2)",
   },
   backButton: {
-    background: "rgba(255,255,255,0.2)",
-    border: "none",
+    background: "rgba(255,255,255,0.16)",
+    border: "1px solid rgba(255,255,255,0.24)",
     color: "#fff",
-    borderRadius: 8,
-    padding: "7px 12px",
+    borderRadius: 12,
+    padding: "8px 12px",
     fontSize: 14,
     cursor: "pointer",
   },
   headerTitle: {
-    fontSize: 16,
-    fontWeight: 700,
+    fontSize: 17,
+    fontWeight: 800,
     color: "#fff",
     flex: 1,
+    letterSpacing: "0.01em",
   },
   languageButton: {
-    background: "rgba(255,255,255,0.2)",
-    border: "none",
+    background: "rgba(255,255,255,0.16)",
+    border: "1px solid rgba(255,255,255,0.24)",
     color: "#fff",
-    borderRadius: 8,
-    padding: "5px 10px",
-    fontSize: 11,
+    borderRadius: 999,
+    padding: "7px 12px",
+    fontSize: 12,
+    fontWeight: 800,
     cursor: "pointer",
   },
   card: {
-    background: "#fff",
-    borderRadius: 14,
+    background: "linear-gradient(180deg, #ffffff 0%, #fffdfb 100%)",
+    borderRadius: 18,
     padding: "16px 18px",
     border: `1px solid ${PALETTE.border}`,
     marginBottom: 10,
+    boxShadow: "0 14px 30px rgba(26,26,26,0.05)",
   },
 };
 
 const bodyFont = "var(--font-public-body), var(--font-public-hindi), sans-serif";
 const headingFont = "var(--font-public-hindi), var(--font-public-body), sans-serif";
+const publicPanelShadow = "0 16px 34px rgba(26,26,26,0.06)";
+const publicSurface = "linear-gradient(180deg, #ffffff 0%, #fffdf9 100%)";
 
 const TRAINING_AUDIENCE_OPTIONS: Array<{
   value: TrainingAudience;
@@ -1341,15 +1352,16 @@ function PrimaryButton({ children, onClick, disabled = false, color = "default" 
       disabled={disabled}
       style={{
         width: "100%",
-        padding: "15px",
-        borderRadius: 12,
+        padding: "15px 16px",
+        borderRadius: 14,
         border: "none",
         background: disabled ? "#ccc" : background,
         color: disabled ? "#888" : "#fff",
-        fontSize: 16,
-        fontWeight: 700,
+        fontSize: 15,
+        fontWeight: 800,
         cursor: disabled ? "not-allowed" : "pointer",
         marginTop: 10,
+        boxShadow: disabled ? "none" : "0 14px 24px rgba(200,75,49,0.18)",
       }}
     >
       {children}
@@ -1364,13 +1376,13 @@ function SecondaryButton({ children, onClick }: Pick<ButtonProps, "children" | "
       onClick={onClick}
       style={{
         width: "100%",
-        padding: "12px",
-        borderRadius: 12,
+        padding: "12px 14px",
+        borderRadius: 14,
         border: `2px solid ${PALETTE.border}`,
-        background: "transparent",
+        background: "#fff",
         color: PALETTE.dim,
         fontSize: 14,
-        fontWeight: 600,
+        fontWeight: 700,
         cursor: "pointer",
         marginTop: 8,
       }}
@@ -1387,68 +1399,110 @@ function FieldInput({
   type = "text",
   placeholder,
   rows,
+  hint,
 }: FieldInputProps) {
+  const inputId = useId();
+  const hintId = hint ? `${inputId}-hint` : undefined;
+
   return (
     <div style={{ marginBottom: 14 }}>
-      <label style={{ fontSize: 12, color: PALETTE.dim, display: "block", marginBottom: 5, fontWeight: 600 }}>
+      <label
+        htmlFor={inputId}
+        style={{
+          fontSize: 12.5,
+          color: PALETTE.dim,
+          display: "block",
+          marginBottom: 6,
+          fontWeight: 700,
+        }}
+      >
         {label}
       </label>
       {rows ? (
         <textarea
+          id={inputId}
+          aria-describedby={hintId}
           value={value}
           onChange={(event) => onChange(event.target.value)}
           rows={rows}
           placeholder={placeholder}
           style={{
             width: "100%",
-            border: `2px solid ${PALETTE.border}`,
-            borderRadius: 10,
-            padding: "12px",
-            fontSize: 14,
+            border: `1.5px solid ${PALETTE.border}`,
+            borderRadius: 14,
+            padding: "13px 14px",
+            fontSize: 15,
             color: PALETTE.text,
             lineHeight: 1.6,
             boxSizing: "border-box",
             resize: "vertical",
+            background: "#fff",
+            minHeight: rows > 3 ? 132 : 96,
           }}
         />
       ) : (
         <input
+          id={inputId}
+          aria-describedby={hintId}
           type={type}
           value={value}
           onChange={(event) => onChange(event.target.value)}
           placeholder={placeholder}
+          inputMode={type === "tel" ? "tel" : type === "number" ? "numeric" : undefined}
           style={{
             width: "100%",
-            border: `2px solid ${PALETTE.border}`,
-            borderRadius: 10,
-            padding: "12px",
-            fontSize: 14,
+            border: `1.5px solid ${PALETTE.border}`,
+            borderRadius: 14,
+            padding: "13px 14px",
+            fontSize: 15,
             color: PALETTE.text,
             boxSizing: "border-box",
+            background: "#fff",
+            minHeight: 48,
           }}
         />
       )}
+      {hint ? (
+        <div id={hintId} style={{ marginTop: 6, fontSize: 11.5, color: PALETTE.muted, lineHeight: 1.55 }}>
+          {hint}
+        </div>
+      ) : null}
     </div>
   );
 }
 
-function FieldSelect({ label, value, onChange, options }: FieldSelectProps) {
+function FieldSelect({ label, value, onChange, options, hint }: FieldSelectProps) {
+  const selectId = useId();
+  const hintId = hint ? `${selectId}-hint` : undefined;
+
   return (
     <div style={{ marginBottom: 14 }}>
-      <label style={{ fontSize: 12, color: PALETTE.dim, display: "block", marginBottom: 5, fontWeight: 600 }}>
+      <label
+        htmlFor={selectId}
+        style={{
+          fontSize: 12.5,
+          color: PALETTE.dim,
+          display: "block",
+          marginBottom: 6,
+          fontWeight: 700,
+        }}
+      >
         {label}
       </label>
       <select
+        id={selectId}
+        aria-describedby={hintId}
         value={value}
         onChange={(event) => onChange(event.target.value)}
         style={{
           width: "100%",
-          border: `2px solid ${PALETTE.border}`,
-          borderRadius: 10,
-          padding: "12px",
-          fontSize: 14,
+          border: `1.5px solid ${PALETTE.border}`,
+          borderRadius: 14,
+          padding: "13px 14px",
+          fontSize: 15,
           color: PALETTE.text,
           background: "#fff",
+          minHeight: 48,
         }}
       >
         {options.map((option) => (
@@ -1457,6 +1511,11 @@ function FieldSelect({ label, value, onChange, options }: FieldSelectProps) {
           </option>
         ))}
       </select>
+      {hint ? (
+        <div id={hintId} style={{ marginTop: 6, fontSize: 11.5, color: PALETTE.muted, lineHeight: 1.55 }}>
+          {hint}
+        </div>
+      ) : null}
     </div>
   );
 }
@@ -2143,119 +2202,415 @@ export default function JanSahayakPublicApp() {
       },
     ];
 
+    const primaryAction = homeActions[0];
+    const supportActions = homeActions.slice(1, 5);
+    const communityActions = homeActions.slice(5);
+    const emergencyActions = [
+      { label: tx("Police", "पुलिस"), number: "112", tone: "#fff" },
+      { label: tx("Women", "महिला"), number: "181", tone: "#FFF2EA" },
+      { label: tx("Children", "बच्चे"), number: "1098", tone: "#F3F8FF" },
+      { label: tx("Ambulance", "एम्बुलेंस"), number: "108", tone: "#F5FFF7" },
+    ];
+
     return (
       <div
+        className="public-app-root"
         style={{
           minHeight: "100vh",
-          background: "linear-gradient(160deg,#8B1A0A 0%,#C84B31 50%,#E8835C 100%)",
+          background:
+            "radial-gradient(circle at top, rgba(255,237,226,0.9) 0%, rgba(255,248,240,0.92) 26%, #fff7ef 58%, #fffaf6 100%)",
           fontFamily: bodyFont,
-          colorScheme: "light",
         }}
       >
-        <div style={{ maxWidth: 480, margin: "0 auto", padding: "40px 24px 60px" }}>
-          <div style={{ textAlign: "center", marginBottom: 36 }}>
+        <div style={{ maxWidth: 540, margin: "0 auto", padding: "20px 18px 72px" }}>
+          <div
+            style={{
+              background: "linear-gradient(145deg, #9f341d 0%, #c44b31 48%, #e48158 100%)",
+              borderRadius: 30,
+              padding: "22px 18px 18px",
+              boxShadow: "0 24px 48px rgba(163, 68, 43, 0.2)",
+              marginBottom: 16,
+            }}
+          >
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 12 }}>
+              <div>
+                <div
+                  style={{
+                    display: "inline-flex",
+                    alignItems: "center",
+                    gap: 8,
+                    borderRadius: 999,
+                    background: "rgba(255,255,255,0.14)",
+                    color: "#fff7ef",
+                    padding: "6px 11px",
+                    fontSize: 11,
+                    fontWeight: 800,
+                    letterSpacing: "0.03em",
+                    marginBottom: 12,
+                  }}
+                >
+                  <span>⚖</span>
+                  <span>{tx("Public legal and welfare access", "सार्वजनिक कानूनी और योजना सहायता")}</span>
+                </div>
+                <h1
+                  style={{
+                    fontFamily: headingFont,
+                    fontSize: 31,
+                    fontWeight: 800,
+                    color: "#fff",
+                    lineHeight: 1.12,
+                    marginBottom: 6,
+                  }}
+                >
+                  {tx("Jan Sahayak", "जन सहायक")}
+                </h1>
+                <p style={{ fontSize: 13, color: "rgba(255,255,255,0.9)", lineHeight: 1.7, maxWidth: 320 }}>
+                  {tx(
+                    "Simple, guided legal help and scheme support for people in Bihar.",
+                    "बिहार के लोगों के लिए सरल, मार्गदर्शित कानूनी मदद और योजना सहायता।",
+                  )}
+                </p>
+              </div>
+
+              <div
+                style={{
+                  width: 58,
+                  height: 58,
+                  borderRadius: 18,
+                  background: "rgba(255,255,255,0.14)",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  fontSize: 28,
+                  color: "#fff",
+                  flexShrink: 0,
+                }}
+              >
+                ✦
+              </div>
+            </div>
+
             <div
               style={{
-                width: 72,
-                height: 72,
-                borderRadius: 20,
-                background: "rgba(255,255,255,0.2)",
+                display: "flex",
+                gap: 10,
+                marginTop: 16,
+                marginBottom: 16,
+                flexWrap: "wrap",
+              }}
+            >
+              {(["hi", "en"] as const).map((value) => (
+                <button
+                  key={value}
+                  type="button"
+                  onClick={() => setLang(value)}
+                  style={{
+                    borderRadius: 999,
+                    border: lang === value ? "none" : "1px solid rgba(255,255,255,0.26)",
+                    background: lang === value ? "#fff" : "rgba(255,255,255,0.08)",
+                    color: lang === value ? PALETTE.accent : "#fff",
+                    padding: "10px 15px",
+                    fontSize: 13,
+                    fontWeight: 800,
+                    cursor: "pointer",
+                  }}
+                >
+                  {value === "hi" ? "हिंदी" : "English"}
+                </button>
+              ))}
+            </div>
+
+            <div
+              style={{
+                background: "rgba(255,255,255,0.96)",
+                borderRadius: 24,
+                padding: "16px 16px 14px",
+                color: PALETTE.text,
+              }}
+            >
+              <div style={{ fontSize: 12, fontWeight: 800, color: PALETTE.accent, marginBottom: 6 }}>
+                {tx("Why people can use this easily", "यह उपयोग में आसान क्यों है")}
+              </div>
+              <div style={{ fontSize: 14, lineHeight: 1.72, color: PALETTE.dim, marginBottom: 12 }}>
+                {tx(
+                  "Large buttons, guided forms, bilingual support, and visible emergency numbers reduce confusion in stressful moments.",
+                  "बड़े बटन, मार्गदर्शित फॉर्म, द्विभाषी सहायता और दिखने वाले आपातकालीन नंबर तनाव के समय भ्रम कम करते हैं।",
+                )}
+              </div>
+              <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+                {[
+                  tx("38 districts", "38 जिले"),
+                  tx("Track requests", "अनुरोध ट्रैक करें"),
+                  tx("Scheme guidance", "योजना मार्गदर्शन"),
+                ].map((item) => (
+                  <span
+                    key={item}
+                    style={{
+                      borderRadius: 999,
+                      padding: "7px 10px",
+                      background: PALETTE.accentSoft,
+                      color: PALETTE.accent,
+                      fontSize: 11,
+                      fontWeight: 800,
+                    }}
+                  >
+                    {item}
+                  </span>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          <button
+            type="button"
+            onClick={primaryAction.action}
+            style={{
+              width: "100%",
+              textAlign: "left",
+              padding: "18px 18px 16px",
+              borderRadius: 22,
+              border: "none",
+              background: publicSurface,
+              color: PALETTE.text,
+              marginBottom: 14,
+              boxShadow: publicPanelShadow,
+              display: "flex",
+              alignItems: "flex-start",
+              gap: 14,
+              cursor: "pointer",
+            }}
+          >
+            <div
+              style={{
+                width: 48,
+                height: 48,
+                borderRadius: 16,
+                background: PALETTE.accentSoft,
+                color: PALETTE.accent,
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
-                fontSize: 36,
-                margin: "0 auto 14px",
+                fontSize: 24,
+                flexShrink: 0,
               }}
             >
-              ⚖
+              {primaryAction.icon}
             </div>
-            <h1
-              style={{
-                fontFamily: headingFont,
-                fontSize: 30,
-                fontWeight: 700,
-                color: "#fff",
-                marginBottom: 4,
-              }}
-            >
-              {tx("Jan Sahayak", "जन सहायक")}
-            </h1>
-            <p style={{ fontSize: 13, color: "rgba(255,255,255,0.85)" }}>
-              Janman People&apos;s Foundation · Jan Nyaya Abhiyan
-            </p>
-            <p style={{ fontSize: 12, color: "rgba(255,255,255,0.7)", marginTop: 2 }}>
-              {tx("Free Legal Help · Bihar", "मुफ्त कानूनी मदद · बिहार")}
-            </p>
+            <div style={{ flex: 1 }}>
+              <div style={{ fontSize: 11, fontWeight: 800, color: PALETTE.accent, marginBottom: 6 }}>
+                {tx("Primary action", "मुख्य कार्य")}
+              </div>
+              <div style={{ fontFamily: headingFont, fontSize: 21, fontWeight: 800, marginBottom: 5 }}>
+                {primaryAction.label}
+              </div>
+              <div style={{ fontSize: 13, color: PALETTE.dim, lineHeight: 1.65 }}>{primaryAction.sub}</div>
+            </div>
+            <span style={{ fontSize: 22, color: PALETTE.accent, marginTop: 6 }}>→</span>
+          </button>
+
+          <div style={{ ...sharedStyles.card, borderRadius: 20, marginBottom: 14 }}>
+            <div style={{ fontFamily: headingFont, fontSize: 19, fontWeight: 800, color: PALETTE.text, marginBottom: 8 }}>
+              {tx("How Jan Sahayak works", "जन सहायक कैसे काम करता है")}
+            </div>
+            <div style={{ display: "grid", gap: 10 }}>
+              {[
+                {
+                  step: "1",
+                  title: tx("Share your situation", "अपनी स्थिति बताएं"),
+                  copy: tx("Choose legal help, case tracking, or scheme assistance.", "कानूनी मदद, केस ट्रैकिंग, या योजना सहायता चुनें।"),
+                },
+                {
+                  step: "2",
+                  title: tx("Get guided next steps", "अगले कदम तुरंत पाएँ"),
+                  copy: tx("The app organises information, likely routes, and needed documents.", "ऐप जानकारी, संभावित रास्ते और जरूरी दस्तावेज़ व्यवस्थित करता है।"),
+                },
+                {
+                  step: "3",
+                  title: tx("Stay informed", "अपडेट देखते रहें"),
+                  copy: tx("Use your mobile number and reference code to track what happens next.", "मोबाइल नंबर और रेफरेंस कोड से आगे की प्रगति देखें।"),
+                },
+              ].map((item) => (
+                <div
+                  key={item.step}
+                  style={{
+                    display: "flex",
+                    gap: 12,
+                    padding: "12px 0",
+                    borderBottom: item.step === "3" ? "none" : `1px solid ${PALETTE.border}`,
+                  }}
+                >
+                  <div
+                    style={{
+                      width: 30,
+                      height: 30,
+                      borderRadius: 999,
+                      background: PALETTE.accentSoft,
+                      color: PALETTE.accent,
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      fontSize: 12,
+                      fontWeight: 800,
+                      flexShrink: 0,
+                    }}
+                  >
+                    {item.step}
+                  </div>
+                  <div>
+                    <div style={{ fontSize: 14, fontWeight: 800, color: PALETTE.text, marginBottom: 3 }}>{item.title}</div>
+                    <div style={{ fontSize: 12.5, color: PALETTE.dim, lineHeight: 1.6 }}>{item.copy}</div>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
 
-          <div
-            style={{
-              background: "rgba(255,255,255,0.12)",
-              borderRadius: 14,
-              padding: "14px 18px",
-              marginBottom: 18,
-              display: "flex",
-              justifyContent: "center",
-              gap: 10,
-            }}
-          >
-            {(["hi", "en"] as const).map((value) => (
+          <div style={{ marginBottom: 8 }}>
+            <div style={{ fontFamily: headingFont, fontSize: 19, fontWeight: 800, color: PALETTE.text, marginBottom: 6 }}>
+              {tx("Core services", "मुख्य सेवाएँ")}
+            </div>
+            <div style={{ fontSize: 13, color: PALETTE.dim, lineHeight: 1.6, marginBottom: 10 }}>
+              {tx(
+                "Each service is separated clearly so users do not need to guess where to begin.",
+                "हर सेवा अलग और स्पष्ट है, ताकि लोगों को यह न सोचना पड़े कि कहाँ से शुरू करें।",
+              )}
+            </div>
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10, marginBottom: 14 }}>
+              {supportActions.map((item) => (
+                <button
+                  key={item.label}
+                  type="button"
+                  onClick={item.action}
+                  style={{
+                    textAlign: "left",
+                    minHeight: 144,
+                    padding: "16px 14px",
+                    borderRadius: 20,
+                    border: `1px solid ${PALETTE.border}`,
+                    background: publicSurface,
+                    boxShadow: publicPanelShadow,
+                    cursor: "pointer",
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: 10,
+                  }}
+                >
+                  <div
+                    style={{
+                      width: 40,
+                      height: 40,
+                      borderRadius: 14,
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      background: PALETTE.accentSoft,
+                      color: PALETTE.accent,
+                      fontSize: 20,
+                    }}
+                  >
+                    {item.icon}
+                  </div>
+                  <div style={{ fontSize: 14, fontWeight: 800, color: PALETTE.text, lineHeight: 1.4 }}>{item.label}</div>
+                  <div style={{ fontSize: 12, color: PALETTE.dim, lineHeight: 1.55 }}>{item.sub}</div>
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <div style={{ ...sharedStyles.card, borderRadius: 20, marginBottom: 14 }}>
+            <div style={{ fontFamily: headingFont, fontSize: 19, fontWeight: 800, color: PALETTE.text, marginBottom: 6 }}>
+              {tx("Learning and community support", "सीखना और सामुदायिक सहयोग")}
+            </div>
+            <div style={{ fontSize: 13, color: PALETTE.dim, lineHeight: 1.6, marginBottom: 12 }}>
+              {tx(
+                "Training, volunteer sign-up, and referrals are grouped separately so the help journey stays simple for people in distress.",
+                "प्रशिक्षण, स्वयंसेवक पंजीकरण और रेफरल को अलग रखा गया है ताकि मदद लेने वाले लोगों का अनुभव सरल रहे।",
+              )}
+            </div>
+            {communityActions.map((item) => (
               <button
-                key={value}
+                key={item.label}
                 type="button"
-                onClick={() => setLang(value)}
+                onClick={item.action}
                 style={{
-                  padding: "8px 22px",
-                  borderRadius: 10,
-                  border: "none",
-                  background: lang === value ? "#fff" : "transparent",
-                  color: lang === value ? PALETTE.accent : "#fff",
-                  fontSize: 14,
-                  fontWeight: 700,
+                  width: "100%",
+                  textAlign: "left",
+                  padding: "14px 14px 13px",
+                  borderRadius: 16,
+                  border: `1px solid ${PALETTE.border}`,
+                  background: "#fff",
+                  marginBottom: 10,
                   cursor: "pointer",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 12,
                 }}
               >
-                {value === "hi" ? "हिंदी" : "English"}
+                <div
+                  style={{
+                    width: 38,
+                    height: 38,
+                    borderRadius: 12,
+                    background: "#F8F3EF",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    fontSize: 18,
+                    color: PALETTE.accent,
+                    flexShrink: 0,
+                  }}
+                >
+                  {item.icon}
+                </div>
+                <div style={{ flex: 1 }}>
+                  <div style={{ fontSize: 14, fontWeight: 800, color: PALETTE.text }}>{item.label}</div>
+                  <div style={{ fontSize: 12.5, color: PALETTE.dim, lineHeight: 1.55, marginTop: 3 }}>{item.sub}</div>
+                </div>
+                <span style={{ fontSize: 18, color: PALETTE.accent }}>→</span>
               </button>
             ))}
           </div>
 
-          {homeActions.map((item) => (
-            <button
-              key={item.label}
-              type="button"
-              onClick={item.action}
-              style={{
-                width: "100%",
-                textAlign: "left",
-                padding: "14px 18px",
-                borderRadius: 14,
-                border: item.color ? "none" : "2px solid rgba(255,255,255,0.5)",
-                background: item.color ?? "transparent",
-                color: item.textColor ?? "#fff",
-                fontSize: 15,
-                fontWeight: 700,
-                cursor: "pointer",
-                marginBottom: 10,
-                display: "flex",
-                alignItems: "center",
-                gap: 14,
-              }}
-            >
-              <span style={{ fontSize: 24, flexShrink: 0 }}>{item.icon}</span>
-              <div>
-                <div style={{ fontWeight: 700, fontSize: 15 }}>{item.label}</div>
-                <div style={{ fontSize: 12, opacity: 0.85, fontWeight: 400, marginTop: 2 }}>
-                  {item.sub}
-                </div>
-              </div>
-              <span style={{ marginLeft: "auto", fontSize: 18, opacity: 0.7 }}>→</span>
-            </button>
-          ))}
-
-          <div style={{ textAlign: "center", marginTop: 18, fontSize: 12, color: "rgba(255,255,255,0.7)" }}>
-            <div>Emergency: 112 · Women: 181 · Children: 1098</div>
-            <div style={{ marginTop: 4 }}>Ambulance: 108 · Legal Aid: 15100</div>
+          <div
+            style={{
+              ...sharedStyles.card,
+              borderRadius: 20,
+              marginBottom: 0,
+              background: "linear-gradient(180deg, #fff 0%, #fff7f1 100%)",
+            }}
+          >
+            <div style={{ fontFamily: headingFont, fontSize: 18, fontWeight: 800, color: PALETTE.text, marginBottom: 6 }}>
+              {tx("Emergency help", "आपातकालीन सहायता")}
+            </div>
+            <div style={{ fontSize: 13, color: PALETTE.dim, lineHeight: 1.6, marginBottom: 12 }}>
+              {tx(
+                "If someone is in immediate danger, call the emergency helpline first and then come back to Jan Sahayak for follow-up support.",
+                "अगर कोई तुरंत खतरे में है, तो पहले आपातकालीन नंबर पर कॉल करें और फिर Jan Sahayak पर फॉलो-अप सहायता लें।",
+              )}
+            </div>
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
+              {emergencyActions.map((item) => (
+                <a
+                  key={item.number}
+                  href={`tel:${item.number}`}
+                  style={{
+                    borderRadius: 16,
+                    border: `1px solid ${PALETTE.border}`,
+                    background: item.tone,
+                    padding: "13px 14px",
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                  }}
+                >
+                  <span style={{ fontSize: 12.5, fontWeight: 800, color: PALETTE.text }}>{item.label}</span>
+                  <span style={{ fontSize: 15, fontWeight: 800, color: PALETTE.accent }}>{item.number}</span>
+                </a>
+              ))}
+            </div>
+            <div style={{ marginTop: 10, fontSize: 12, color: PALETTE.muted }}>
+              {tx("National legal aid helpline: 15100", "राष्ट्रीय विधिक सहायता हेल्पलाइन: 15100")}
+            </div>
           </div>
         </div>
       </div>
@@ -2264,7 +2619,7 @@ export default function JanSahayakPublicApp() {
 
   if (screen === "intake") {
     return (
-      <div style={{ minHeight: "100vh", background: PALETTE.bg, fontFamily: bodyFont, colorScheme: "light" }}>
+      <div className="public-app-root" style={{ minHeight: "100vh", background: PALETTE.bg, fontFamily: bodyFont, colorScheme: "light" }}>
         <ScreenHeader
           title={tx("Get Help", "मदद लें")}
           lang={lang}
@@ -2644,7 +2999,7 @@ export default function JanSahayakPublicApp() {
     const visibleTrackerItems = hasTrackerQuery ? trackerMatches : recentTrackerItems;
 
     return (
-      <div style={{ minHeight: "100vh", background: PALETTE.bg, fontFamily: bodyFont, colorScheme: "light" }}>
+      <div className="public-app-root" style={{ minHeight: "100vh", background: PALETTE.bg, fontFamily: bodyFont, colorScheme: "light" }}>
         <ScreenHeader
           title={tx("Track My Case", "मेरा केस ट्रैक करें")}
           lang={lang}
@@ -2654,12 +3009,12 @@ export default function JanSahayakPublicApp() {
         <div style={{ ...sharedStyles.container, padding: "16px 16px 80px" }}>
           <div
             style={{
-              background: "#fff",
-              borderRadius: 18,
+              background: "linear-gradient(180deg, #fff 0%, #fffaf5 100%)",
+              borderRadius: 22,
               border: `1px solid ${PALETTE.border}`,
               padding: "18px 18px 16px",
               marginBottom: 14,
-              boxShadow: "0 10px 22px rgba(26,26,26,0.04)",
+              boxShadow: publicPanelShadow,
             }}
           >
             <div
@@ -2688,18 +3043,42 @@ export default function JanSahayakPublicApp() {
                 "अपने मोबाइल नंबर और रेफरेंस कोड से देखें कि आपका मामला समीक्षा में है, जमा करने के लिए तैयार है, या फॉलो-अप पर है।",
               )}
             </div>
+            <div style={{ display: "grid", gap: 8, marginBottom: 14 }}>
+              {[
+                tx("Use the same mobile number used during submission.", "वही मोबाइल नंबर उपयोग करें जो आवेदन के समय दिया था।"),
+                tx("Reference code helps open the exact request faster.", "रेफरेंस कोड से सही अनुरोध जल्दी खुलता है।"),
+                tx("Document status shows what is still needed, prepared, or already filed.", "दस्तावेज़ स्थिति से पता चलता है कि क्या बाकी है, क्या तैयार है और क्या जमा हो चुका है।"),
+              ].map((point) => (
+                <div
+                  key={point}
+                  style={{
+                    display: "flex",
+                    gap: 8,
+                    alignItems: "flex-start",
+                    fontSize: 12.5,
+                    color: PALETTE.dim,
+                    lineHeight: 1.55,
+                  }}
+                >
+                  <span style={{ color: PALETTE.accent, fontWeight: 800 }}>•</span>
+                  <span>{point}</span>
+                </div>
+              ))}
+            </div>
             <FieldInput
               label={tx("Mobile number", "मोबाइल नंबर")}
               type="tel"
               value={trackerPhone}
               onChange={setTrackerPhone}
               placeholder="9876543210"
+              hint={tx("This helps show all requests made from the same contact number.", "यह उसी नंबर से किए गए सभी अनुरोध दिखाने में मदद करता है।")}
             />
             <FieldInput
               label={tx("Reference code (optional)", "रेफरेंस कोड (वैकल्पिक)")}
               value={trackerReference}
               onChange={setTrackerReference}
               placeholder="JS-ABC123"
+              hint={tx("Use the code shown on your success screen for the fastest match.", "सबसे तेज़ मिलान के लिए सफलता स्क्रीन पर दिखा कोड दर्ज करें।")}
             />
             <div style={{ display: "flex", gap: 8 }}>
               <button
@@ -2754,11 +3133,36 @@ export default function JanSahayakPublicApp() {
           ) : null}
 
           {hasTrackerQuery && trackerMatches.length === 0 ? (
-            <div style={{ ...sharedStyles.card, color: PALETTE.dim, lineHeight: 1.7 }}>
-              {tx(
-                "No matching case was found for this phone and reference combination. Double-check the number, or open your most recent request from this device.",
-                "इस मोबाइल और रेफरेंस संयोजन के लिए कोई मामला नहीं मिला। नंबर दोबारा जांचें या इस डिवाइस पर हाल का अनुरोध खोलें।",
-              )}
+            <div style={{ ...sharedStyles.card, color: PALETTE.dim, lineHeight: 1.7, borderRadius: 18 }}>
+              <div style={{ fontSize: 15, fontWeight: 800, color: PALETTE.text, marginBottom: 6 }}>
+                {tx("We could not find a matching request", "मिलता हुआ अनुरोध नहीं मिला")}
+              </div>
+              <div style={{ marginBottom: 10 }}>
+                {tx(
+                  "No matching case was found for this phone and reference combination. Double-check the number, or open your most recent request from this device.",
+                  "इस मोबाइल और रेफरेंस संयोजन के लिए कोई मामला नहीं मिला। नंबर दोबारा जांचें या इस डिवाइस पर हाल का अनुरोध खोलें।",
+                )}
+              </div>
+              <button
+                type="button"
+                onClick={() => {
+                  setScreen("intake");
+                  setStep(1);
+                }}
+                style={{
+                  width: "100%",
+                  borderRadius: 12,
+                  border: "none",
+                  background: PALETTE.accent,
+                  color: "#fff",
+                  padding: "12px",
+                  fontSize: 13,
+                  fontWeight: 800,
+                  cursor: "pointer",
+                }}
+              >
+                {tx("Open help form", "मदद फॉर्म खोलें")}
+              </button>
             </div>
           ) : null}
 
@@ -2766,17 +3170,17 @@ export default function JanSahayakPublicApp() {
             <div
               key={entry.id}
               style={{
-                background: "#fff",
-                borderRadius: 18,
+                background: publicSurface,
+                borderRadius: 22,
                 border: `1px solid ${PALETTE.border}`,
                 padding: "16px 16px 14px",
                 marginBottom: 12,
-                boxShadow: "0 10px 22px rgba(26,26,26,0.04)",
+                boxShadow: publicPanelShadow,
               }}
             >
               <div style={{ display: "flex", justifyContent: "space-between", gap: 10, marginBottom: 10 }}>
                 <div>
-                  <div style={{ fontSize: 17, fontWeight: 800, color: PALETTE.text }}>
+                  <div style={{ fontSize: 18, fontWeight: 800, color: PALETTE.text, lineHeight: 1.35 }}>
                     {entry.subject ?? entry.summary}
                   </div>
                   <div style={{ fontSize: 12, color: PALETTE.dim, marginTop: 4 }}>
@@ -2803,10 +3207,10 @@ export default function JanSahayakPublicApp() {
                 <span
                   style={{
                     borderRadius: 999,
-                    padding: "4px 9px",
+                    padding: "5px 10px",
                     background: "#F8F3EF",
                     color: PALETTE.dim,
-                    fontSize: 10,
+                    fontSize: 10.5,
                     fontWeight: 800,
                   }}
                 >
@@ -2815,15 +3219,29 @@ export default function JanSahayakPublicApp() {
                 <span
                   style={{
                     borderRadius: 999,
-                    padding: "4px 9px",
+                    padding: "5px 10px",
                     background: entry.urgency === "high" ? "rgba(230,81,0,0.1)" : "rgba(21,101,192,0.1)",
                     color: entry.urgency === "high" ? PALETTE.orange : PALETTE.blue,
-                    fontSize: 10,
+                    fontSize: 10.5,
                     fontWeight: 800,
                   }}
                 >
                   {entry.urgency === "high" ? tx("Urgent", "तत्काल") : tx("Normal priority", "सामान्य प्राथमिकता")}
                 </span>
+                {entry.authority ? (
+                  <span
+                    style={{
+                      borderRadius: 999,
+                      padding: "5px 10px",
+                      background: "rgba(106,27,154,0.08)",
+                      color: PALETTE.purple,
+                      fontSize: 10.5,
+                      fontWeight: 800,
+                    }}
+                  >
+                    {entry.authority}
+                  </span>
+                ) : null}
               </div>
 
               <div style={{ fontSize: 12, color: PALETTE.dim, lineHeight: 1.65, marginBottom: 12 }}>
@@ -2833,7 +3251,16 @@ export default function JanSahayakPublicApp() {
               <div style={{ fontSize: 12, fontWeight: 800, color: PALETTE.text, marginBottom: 8 }}>
                 {tx("Stage timeline", "स्टेज टाइमलाइन")}
               </div>
-              {entry.stages.map((stage) => (
+              <div
+                style={{
+                  borderRadius: 16,
+                  border: `1px solid ${PALETTE.border}`,
+                  padding: "12px 12px 4px",
+                  background: "#fff",
+                  marginBottom: 12,
+                }}
+              >
+                {entry.stages.map((stage) => (
                 <div key={`${entry.id}-${stage.id}`} style={{ display: "flex", gap: 10, marginBottom: 10 }}>
                   <div
                     style={{
@@ -2859,12 +3286,21 @@ export default function JanSahayakPublicApp() {
                     </div>
                   </div>
                 </div>
-              ))}
+                ))}
+              </div>
 
               <div style={{ fontSize: 12, fontWeight: 800, color: PALETTE.text, marginTop: 2, marginBottom: 8 }}>
                 {tx("Relevant documents", "संबंधित दस्तावेज़")}
               </div>
-              {entry.filedDocuments.map((document) => (
+              <div
+                style={{
+                  borderRadius: 16,
+                  border: `1px solid ${PALETTE.border}`,
+                  padding: "12px",
+                  background: "#fff",
+                }}
+              >
+                {entry.filedDocuments.map((document) => (
                 <div
                   key={document.id}
                   style={{
@@ -2902,7 +3338,8 @@ export default function JanSahayakPublicApp() {
                     {isHindi ? document.hi_note : document.note}
                   </div>
                 </div>
-              ))}
+                ))}
+              </div>
             </div>
           ))}
         </div>
@@ -2912,7 +3349,7 @@ export default function JanSahayakPublicApp() {
 
   if (screen === "schemeAssist") {
     return (
-      <div style={{ minHeight: "100vh", background: PALETTE.bg, fontFamily: bodyFont, colorScheme: "light" }}>
+      <div className="public-app-root" style={{ minHeight: "100vh", background: PALETTE.bg, fontFamily: bodyFont, colorScheme: "light" }}>
         <ScreenHeader
           title={tx("AI Scheme & Complaint Help", "AI योजना और शिकायत सहायता")}
           lang={lang}
@@ -2922,12 +3359,12 @@ export default function JanSahayakPublicApp() {
         <div style={{ ...sharedStyles.container, padding: "16px 16px 80px" }}>
           <div
             style={{
-              background: "#fff",
-              borderRadius: 18,
+              background: "linear-gradient(180deg, #fff 0%, #fff8f1 100%)",
+              borderRadius: 22,
               border: `1px solid ${PALETTE.border}`,
               padding: "18px",
               marginBottom: 14,
-              boxShadow: "0 10px 22px rgba(26,26,26,0.04)",
+              boxShadow: publicPanelShadow,
             }}
           >
             <div
@@ -2950,11 +3387,35 @@ export default function JanSahayakPublicApp() {
             <div style={{ fontFamily: headingFont, fontSize: 22, fontWeight: 700, color: PALETTE.text, marginBottom: 6 }}>
               {tx("Profile → eligibility → documents → complaint", "प्रोफाइल → पात्रता → दस्तावेज़ → शिकायत")}
             </div>
-            <div style={{ fontSize: 13, color: PALETTE.dim, lineHeight: 1.7 }}>
+            <div style={{ fontSize: 13, color: PALETTE.dim, lineHeight: 1.7, marginBottom: 12 }}>
               {tx(
                 "This guided assistant follows an assisted-scheme-access model: capture the household profile, screen likely schemes, list missing documents, and prepare a structured complaint when a benefit is denied.",
                 "यह सहायक एक guided scheme-access मॉडल पर काम करता है: परिवार की प्रोफाइल लें, संभावित योजनाओं की जांच करें, जरूरी दस्तावेज़ बताएं, और लाभ न मिलने पर संरचित शिकायत तैयार करें।",
               )}
+            </div>
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8 }}>
+              {[
+                tx("Step 1: capture household profile", "स्टेप 1: परिवार की प्रोफाइल"),
+                tx("Step 2: see likely schemes", "स्टेप 2: संभावित योजनाएँ देखें"),
+                tx("Step 3: list documents", "स्टेप 3: दस्तावेज़ तैयार करें"),
+                tx("Step 4: draft complaint if denied", "स्टेप 4: लाभ न मिले तो शिकायत बनाएं"),
+              ].map((item) => (
+                <div
+                  key={item}
+                  style={{
+                    borderRadius: 14,
+                    background: "#fff",
+                    border: `1px solid ${PALETTE.border}`,
+                    padding: "10px 12px",
+                    fontSize: 11.5,
+                    fontWeight: 700,
+                    color: PALETTE.text,
+                    lineHeight: 1.5,
+                  }}
+                >
+                  {item}
+                </div>
+              ))}
             </div>
           </div>
 
@@ -2969,15 +3430,16 @@ export default function JanSahayakPublicApp() {
                 onClick={() => setSchemeAssistTab(item.key as "eligibility" | "complaint")}
                 style={{
                   flex: 1,
-                  borderRadius: 10,
+                  borderRadius: 14,
                   border:
                     schemeAssistTab === item.key ? `2px solid ${PALETTE.accent}` : `2px solid ${PALETTE.border}`,
                   background: schemeAssistTab === item.key ? PALETTE.accentSoft : "#fff",
                   color: schemeAssistTab === item.key ? PALETTE.accent : PALETTE.dim,
-                  padding: "11px 10px",
-                  fontSize: 13,
+                  padding: "13px 10px",
+                  fontSize: 13.5,
                   fontWeight: 800,
                   cursor: "pointer",
+                  boxShadow: schemeAssistTab === item.key ? "0 10px 20px rgba(200,75,49,0.08)" : "none",
                 }}
               >
                 {item.label}
@@ -2991,13 +3453,13 @@ export default function JanSahayakPublicApp() {
                 <div style={{ fontSize: 16, fontWeight: 800, color: PALETTE.text, marginBottom: 10 }}>
                   {tx("Household profile", "परिवार प्रोफाइल")}
                 </div>
-                <FieldInput label={tx("Name", "नाम")} value={eligibilityForm.name} onChange={(value) => updateEligibilityForm({ name: value })} />
-                <FieldInput label={tx("Phone number", "मोबाइल नंबर")} type="tel" value={eligibilityForm.phone} onChange={(value) => updateEligibilityForm({ phone: value })} />
+                <FieldInput label={tx("Name", "नाम")} value={eligibilityForm.name} onChange={(value) => updateEligibilityForm({ name: value })} hint={tx("Enter the applicant or household member name.", "आवेदक या परिवार सदस्य का नाम लिखें।")} />
+                <FieldInput label={tx("Phone number", "मोबाइल नंबर")} type="tel" value={eligibilityForm.phone} onChange={(value) => updateEligibilityForm({ phone: value })} hint={tx("This saves the eligibility result in the public tracker.", "इससे पात्रता परिणाम सार्वजनिक ट्रैकर में सेव होता है।")} />
                 <FieldSelect label={tx("District", "जिला")} value={eligibilityForm.district} onChange={(value) => updateEligibilityForm({ district: value as EligibilityFormState["district"] })} options={districtOptions} />
-                <FieldSelect label={tx("Residence", "निवास")} value={eligibilityForm.residence} onChange={(value) => updateEligibilityForm({ residence: value as EligibilityFormState["residence"] })} options={ELIGIBILITY_RESIDENCE_OPTIONS} />
+                <FieldSelect label={tx("Residence", "निवास")} value={eligibilityForm.residence} onChange={(value) => updateEligibilityForm({ residence: value as EligibilityFormState["residence"] })} options={ELIGIBILITY_RESIDENCE_OPTIONS} hint={tx("Many schemes differ between rural and urban areas.", "कई योजनाएँ ग्रामीण और शहरी क्षेत्र के हिसाब से बदलती हैं।")} />
                 <FieldInput label={tx("Age", "उम्र")} type="number" value={eligibilityForm.age} onChange={(value) => updateEligibilityForm({ age: value })} />
                 <FieldSelect label={tx("Gender", "लिंग")} value={eligibilityForm.gender} onChange={(value) => updateEligibilityForm({ gender: value as EligibilityFormState["gender"] })} options={ELIGIBILITY_GENDER_OPTIONS} />
-                <FieldInput label={tx("Annual family income (Rs)", "परिवार की वार्षिक आय (रु.)")} type="number" value={eligibilityForm.annualIncome} onChange={(value) => updateEligibilityForm({ annualIncome: value })} />
+                <FieldInput label={tx("Annual family income (Rs)", "परिवार की वार्षिक आय (रु.)")} type="number" value={eligibilityForm.annualIncome} onChange={(value) => updateEligibilityForm({ annualIncome: value })} hint={tx("An approximate income is enough if the exact amount is unknown.", "सटीक राशि न पता हो तो अनुमानित आय भी चलेगी।")} />
                 <FieldSelect label={tx("Social category", "सामाजिक श्रेणी")} value={eligibilityForm.socialCategory} onChange={(value) => updateEligibilityForm({ socialCategory: value as EligibilityFormState["socialCategory"] })} options={ELIGIBILITY_SOCIAL_CATEGORY_OPTIONS} />
                 <FieldInput label={tx("Occupation", "पेशा")} value={eligibilityForm.occupation} onChange={(value) => updateEligibilityForm({ occupation: value })} placeholder={tx("e.g. labour, student, homemaker", "जैसे मजदूर, छात्र, गृहिणी")} />
                 <FieldSelect label={tx("Housing status", "आवास की स्थिति")} value={eligibilityForm.housingStatus} onChange={(value) => updateEligibilityForm({ housingStatus: value as EligibilityFormState["housingStatus"] })} options={ELIGIBILITY_HOUSING_OPTIONS} />
@@ -3139,14 +3601,14 @@ export default function JanSahayakPublicApp() {
                   {tx("Complaint intake", "शिकायत इनटेक")}
                 </div>
                 <FieldInput label={tx("Name", "नाम")} value={complaintForm.name} onChange={(value) => updateComplaintForm({ name: value })} />
-                <FieldInput label={tx("Phone number", "मोबाइल नंबर")} type="tel" value={complaintForm.phone} onChange={(value) => updateComplaintForm({ phone: value })} />
+                <FieldInput label={tx("Phone number", "मोबाइल नंबर")} type="tel" value={complaintForm.phone} onChange={(value) => updateComplaintForm({ phone: value })} hint={tx("Your complaint draft will also be saved into Track My Case.", "आपका शिकायत ड्राफ्ट 'मेरा केस ट्रैक करें' में भी सेव होगा।")} />
                 <FieldSelect label={tx("District", "जिला")} value={complaintForm.district} onChange={(value) => updateComplaintForm({ district: value as ComplaintAssistFormState["district"] })} options={districtOptions} />
                 <FieldSelect label={tx("Benefit or service", "योजना या सेवा")} value={complaintForm.benefit} onChange={(value) => updateComplaintForm({ benefit: value })} options={COMPLAINT_BENEFIT_OPTIONS.map((value) => ({ value, label: value }))} />
                 <FieldSelect label={tx("Authority involved", "संबंधित प्राधिकारी")} value={complaintForm.authority} onChange={(value) => updateComplaintForm({ authority: value })} options={COMPLAINT_AUTHORITY_OPTIONS.map((value) => ({ value, label: value }))} />
                 <FieldSelect label={tx("Problem type", "समस्या का प्रकार")} value={complaintForm.grievanceType} onChange={(value) => updateComplaintForm({ grievanceType: value })} options={COMPLAINT_TYPE_OPTIONS.map((value) => ({ value, label: value }))} />
                 <FieldInput label={tx("Incident date or period", "घटना की तारीख या अवधि")} value={complaintForm.incidentDate} onChange={(value) => updateComplaintForm({ incidentDate: value })} />
                 <FieldInput label={tx("Village / area", "गाँव / मोहल्ला")} value={complaintForm.location} onChange={(value) => updateComplaintForm({ location: value })} />
-                <FieldInput label={tx("What happened?", "क्या हुआ?")} value={complaintForm.facts} onChange={(value) => updateComplaintForm({ facts: value })} rows={5} placeholder={tx("Describe the denial, delay, corruption, or record problem clearly.", "लाभ न मिलना, देरी, रिश्वत, या रिकॉर्ड समस्या साफ़ लिखें।")} />
+                <FieldInput label={tx("What happened?", "क्या हुआ?")} value={complaintForm.facts} onChange={(value) => updateComplaintForm({ facts: value })} rows={5} placeholder={tx("Describe the denial, delay, corruption, or record problem clearly.", "लाभ न मिलना, देरी, रिश्वत, या रिकॉर्ड समस्या साफ़ लिखें।")} hint={tx("Write short facts in the order they happened. Dates and names help.", "तथ्यों को उसी क्रम में लिखें जिस क्रम में वे हुए। तारीख और नाम मदद करते हैं।")} />
                 <FieldInput label={tx("Documents available", "उपलब्ध दस्तावेज़")} value={complaintForm.documentsAvailable} onChange={(value) => updateComplaintForm({ documentsAvailable: value })} rows={3} placeholder={tx("e.g. ration card copy, receipt, Aadhaar, passbook", "जैसे राशन कार्ड कॉपी, रसीद, आधार, पासबुक")} />
                 <FieldInput label={tx("Relief you want", "आप क्या राहत चाहते हैं?")} value={complaintForm.reliefWanted} onChange={(value) => updateComplaintForm({ reliefWanted: value })} rows={3} placeholder={tx("e.g. restore benefit, release pending amount, issue card", "जैसे लाभ बहाल करें, बकाया राशि दें, कार्ड जारी करें")} />
                 <PrimaryButton onClick={submitComplaintDraft} disabled={complaintLoading || !complaintForm.name.trim() || !complaintForm.phone.trim() || !complaintForm.facts.trim()}>
@@ -3278,7 +3740,7 @@ export default function JanSahayakPublicApp() {
 
   if (screen === "schemes") {
     return (
-      <div style={{ minHeight: "100vh", background: PALETTE.bg, fontFamily: bodyFont, colorScheme: "light" }}>
+      <div className="public-app-root" style={{ minHeight: "100vh", background: PALETTE.bg, fontFamily: bodyFont, colorScheme: "light" }}>
         <ScreenHeader
           title={tx("Government Schemes", "सरकारी योजनाएं")}
           lang={lang}
@@ -3449,7 +3911,7 @@ export default function JanSahayakPublicApp() {
 
   if (screen === "laws") {
     return (
-      <div style={{ minHeight: "100vh", background: PALETTE.bg, fontFamily: bodyFont, colorScheme: "light" }}>
+      <div className="public-app-root" style={{ minHeight: "100vh", background: PALETTE.bg, fontFamily: bodyFont, colorScheme: "light" }}>
         <ScreenHeader
           title={tx("Know Your Rights", "अपने अधिकार जानें")}
           lang={lang}
@@ -3656,7 +4118,7 @@ export default function JanSahayakPublicApp() {
   if (screen === "plvTrain") {
     if (activeTrainingCourse && activeTrainingStudyPack) {
       return (
-        <div style={{ minHeight: "100vh", background: PALETTE.bg, fontFamily: bodyFont, colorScheme: "light" }}>
+        <div className="public-app-root" style={{ minHeight: "100vh", background: PALETTE.bg, fontFamily: bodyFont, colorScheme: "light" }}>
           <ScreenHeader
             title={isHindi ? activeTrainingCourse.hi : activeTrainingCourse.title}
             lang={lang}
@@ -4008,7 +4470,7 @@ export default function JanSahayakPublicApp() {
 
     if (activeModule) {
       return (
-        <div style={{ minHeight: "100vh", background: PALETTE.bg, fontFamily: bodyFont, colorScheme: "light" }}>
+        <div className="public-app-root" style={{ minHeight: "100vh", background: PALETTE.bg, fontFamily: bodyFont, colorScheme: "light" }}>
           <ScreenHeader
             title={isHindi ? activeModule.hi : activeModule.title}
             lang={lang}
@@ -4132,7 +4594,7 @@ export default function JanSahayakPublicApp() {
     }
 
     return (
-      <div style={{ minHeight: "100vh", background: PALETTE.bg, fontFamily: bodyFont, colorScheme: "light" }}>
+      <div className="public-app-root" style={{ minHeight: "100vh", background: PALETTE.bg, fontFamily: bodyFont, colorScheme: "light" }}>
         <ScreenHeader
           title={tx("PLV Training Modules", "PLV प्रशिक्षण मॉड्यूल")}
           lang={lang}
@@ -4145,12 +4607,12 @@ export default function JanSahayakPublicApp() {
         <div style={{ ...sharedStyles.container, padding: "16px 16px 80px" }}>
           <div
             style={{
-              background: "#fff",
-              borderRadius: 18,
+              background: "linear-gradient(135deg, #fff 0%, #fff9f2 100%)",
+              borderRadius: 22,
               padding: "20px 18px",
               marginBottom: 16,
               border: `1px solid ${PALETTE.border}`,
-              boxShadow: "0 10px 22px rgba(26,26,26,0.04)",
+              boxShadow: publicPanelShadow,
             }}
           >
             <div
@@ -4216,6 +4678,23 @@ export default function JanSahayakPublicApp() {
                   {entry.en}
                 </div>
               ))}
+            </div>
+            <div
+              style={{
+                marginTop: 14,
+                padding: "11px 12px",
+                borderRadius: 14,
+                background: "#fff",
+                border: `1px solid ${PALETTE.border}`,
+                fontSize: 12.5,
+                color: PALETTE.dim,
+                lineHeight: 1.6,
+              }}
+            >
+              {tx(
+                "The academy view is now organised like a clearer learning hub: quicker scanning, stronger contrast, course previews, and simpler paths into the deeper curriculum.",
+                "अकादमी दृश्य अब एक स्पष्ट learning hub की तरह व्यवस्थित है: तेज़ scanning, बेहतर contrast, course preview और गहरे curriculum तक सरल रास्ते।",
+              )}
             </div>
             <div style={{ display: "flex", gap: 8, marginTop: 14 }}>
               <button
@@ -4535,64 +5014,60 @@ export default function JanSahayakPublicApp() {
             )}
           </div>
 
-          <input
-            value={trainingSearch}
-            onChange={(event) => setTrainingSearch(event.target.value)}
-            placeholder={tx(
-              "Search: child rights, FIR, compensation, constitutional rights...",
-              "खोजें: child rights, FIR, compensation, constitutional rights...",
-            )}
-            style={{
-              width: "100%",
-              border: `2px solid ${PALETTE.border}`,
-              borderRadius: 12,
-              padding: "12px 14px",
-              fontSize: 14,
-              color: PALETTE.text,
-              marginBottom: 12,
-              boxSizing: "border-box",
-              background: "#fff",
-            }}
-          />
+          <div style={{ ...sharedStyles.card, borderRadius: 18, marginBottom: 14 }}>
+            <FieldInput
+              label={tx("Search courses", "कोर्स खोजें")}
+              value={trainingSearch}
+              onChange={setTrainingSearch}
+              placeholder={tx(
+                "Search: child rights, FIR, compensation, constitutional rights...",
+                "खोजें: child rights, FIR, compensation, constitutional rights...",
+              )}
+              hint={tx(
+                "Use the audience filter to narrow the academy to PLVs, social workers, law students, or lawyers.",
+                "Audience filter से PLV, social worker, law student या lawyer के अनुसार परिणाम सीमित करें।",
+              )}
+            />
 
-          <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginBottom: 14 }}>
-            {TRAINING_AUDIENCE_OPTIONS.map((option) => (
-              <button
-                key={option.value}
-                type="button"
-                onClick={() => setTrainingAudience(option.value)}
-                style={{
-                  display: "inline-flex",
-                  alignItems: "center",
-                  gap: 6,
-                  borderRadius: 999,
-                  border:
-                    trainingAudience === option.value
-                      ? `2px solid ${PALETTE.accent}`
-                      : `2px solid ${PALETTE.border}`,
-                  background: trainingAudience === option.value ? PALETTE.accentSoft : "#fff",
-                  color: trainingAudience === option.value ? PALETTE.accent : PALETTE.dim,
-                  padding: "8px 12px",
-                  fontSize: 12,
-                  fontWeight: 700,
-                  cursor: "pointer",
-                }}
-              >
-                <span>{option.icon}</span>
-                <span>{option.english}</span>
-                <span
+            <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+              {TRAINING_AUDIENCE_OPTIONS.map((option) => (
+                <button
+                  key={option.value}
+                  type="button"
+                  onClick={() => setTrainingAudience(option.value)}
                   style={{
+                    display: "inline-flex",
+                    alignItems: "center",
+                    gap: 6,
                     borderRadius: 999,
-                    padding: "1px 7px",
-                    background: trainingAudience === option.value ? "#fff" : PALETTE.accentSoft,
+                    border:
+                      trainingAudience === option.value
+                        ? `2px solid ${PALETTE.accent}`
+                        : `2px solid ${PALETTE.border}`,
+                    background: trainingAudience === option.value ? PALETTE.accentSoft : "#fff",
                     color: trainingAudience === option.value ? PALETTE.accent : PALETTE.dim,
-                    fontSize: 10,
+                    padding: "9px 12px",
+                    fontSize: 12,
+                    fontWeight: 700,
+                    cursor: "pointer",
                   }}
                 >
-                  {trainingAudienceCounts[option.value]}
-                </span>
-              </button>
-            ))}
+                  <span>{option.icon}</span>
+                  <span>{option.english}</span>
+                  <span
+                    style={{
+                      borderRadius: 999,
+                      padding: "2px 7px",
+                      background: trainingAudience === option.value ? "#fff" : PALETTE.accentSoft,
+                      color: trainingAudience === option.value ? PALETTE.accent : PALETTE.dim,
+                      fontSize: 10,
+                    }}
+                  >
+                    {trainingAudienceCounts[option.value]}
+                  </span>
+                </button>
+              ))}
+            </div>
           </div>
 
           {filteredTrainingCourses.length === 0 ? (
@@ -4766,7 +5241,7 @@ export default function JanSahayakPublicApp() {
 
   if (screen === "plvJoin") {
     return (
-      <div style={{ minHeight: "100vh", background: PALETTE.bg, fontFamily: bodyFont, colorScheme: "light" }}>
+      <div className="public-app-root" style={{ minHeight: "100vh", background: PALETTE.bg, fontFamily: bodyFont, colorScheme: "light" }}>
         <ScreenHeader
           title={tx("Join as PLV Volunteer", "PLV स्वयंसेवक बनें")}
           lang={lang}
@@ -4905,7 +5380,7 @@ export default function JanSahayakPublicApp() {
 
   if (screen === "plvRefer") {
     return (
-      <div style={{ minHeight: "100vh", background: PALETTE.bg, fontFamily: bodyFont, colorScheme: "light" }}>
+      <div className="public-app-root" style={{ minHeight: "100vh", background: PALETTE.bg, fontFamily: bodyFont, colorScheme: "light" }}>
         <ScreenHeader
           title={tx("Refer Someone as PLV", "किसी को PLV के लिए रेफर करें")}
           lang={lang}

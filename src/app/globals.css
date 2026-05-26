@@ -59,6 +59,43 @@ button {
   border: none;
 }
 
+.public-app-root {
+  color-scheme: light;
+}
+
+.public-app-root button,
+.public-app-root input,
+.public-app-root select,
+.public-app-root textarea,
+.public-app-root a {
+  transition:
+    transform 0.16s ease,
+    box-shadow 0.16s ease,
+    border-color 0.16s ease,
+    background-color 0.16s ease,
+    color 0.16s ease;
+}
+
+.public-app-root button:hover,
+.public-app-root a:hover {
+  transform: translateY(-1px);
+}
+
+.public-app-root button:focus-visible,
+.public-app-root input:focus-visible,
+.public-app-root select:focus-visible,
+.public-app-root textarea:focus-visible,
+.public-app-root a:focus-visible {
+  outline: 3px solid rgba(200, 75, 49, 0.28);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 4px rgba(200, 75, 49, 0.12);
+}
+
+.public-app-root input::placeholder,
+.public-app-root textarea::placeholder {
+  color: #8f8377;
+}
+
 ::selection {
   background: rgba(232, 162, 67, 0.2);
 }
