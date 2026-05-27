@@ -1,0 +1,1545 @@
+<!DOCTYPE html>
+<html lang="hi" data-lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>जन सहायक कल्याण हैंडबुक | Jan Sahayak Welfare Handbook</title>
+<meta name="description" content="Bihar welfare rights field handbook for PLVs, paralegals, and lawyers — bilingual Hindi/English, offline-ready">
+<meta name="theme-color" content="#B5280A">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;600;700&family=Georgia&display=swap" rel="stylesheet">
+<style>
+:root{
+  --terra:#B5280A;--green:#1B5E20;--gold:#F9A825;--cream:#FDF6E3;
+  --deep-red:#7B1E1E;--outline:#1A0A00;--blue:#1565C0;--teal:#00695C;
+  --purple:#6A1B9A;--orange:#E65100;
+  --bg:#FFF8EE;--card:#FFFDF7;--border:#D4A35A;
+  --shadow:rgba(181,40,10,.12);
+  --fh:'Noto Sans Devanagari','Mangal',Arial,sans-serif;
+  --fe:'Georgia','Times New Roman',serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);font-family:var(--fh);color:var(--outline);min-height:100vh;font-size:15px}
+
+/* LANG TOGGLE */
+[data-en]{display:none}
+html[data-lang="en"] [data-hi]{display:none}
+html[data-lang="en"] [data-en]{display:block}
+.ie{display:none}.ih{display:inline}
+html[data-lang="en"] .ie{display:inline}
+html[data-lang="en"] .ih{display:none}
+
+/* TOPBAR */
+.topbar{background:var(--terra);color:#fff;display:flex;justify-content:space-between;align-items:center;
+  padding:7px 16px;font-size:13px;position:sticky;top:0;z-index:200;box-shadow:0 2px 8px var(--shadow);gap:8px;flex-wrap:wrap}
+.topbar-brand{font-weight:700;font-size:14px;letter-spacing:.3px;flex:1;min-width:140px}
+.topbar-brand span{color:var(--gold)}
+.topbar-actions{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.btn-icon{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);color:#fff;
+  border-radius:20px;padding:4px 12px;font-size:12px;cursor:pointer;transition:all .15s;white-space:nowrap;font-family:var(--fh)}
+.btn-icon:hover,.btn-icon.active{background:var(--gold);color:var(--outline);border-color:var(--gold);font-weight:700}
+.btn-lang{background:var(--gold);color:var(--outline);border:none;border-radius:20px;
+  padding:5px 14px;font-size:13px;font-weight:700;cursor:pointer;transition:transform .15s;font-family:var(--fh)}
+.btn-lang:hover{transform:scale(1.05)}
+
+/* OFFLINE BADGE */
+.offline-badge{display:none;background:#c62828;color:#fff;font-size:11px;padding:2px 8px;border-radius:10px;font-weight:700}
+body.offline .offline-badge{display:inline-block}
+
+/* HEADER */
+.main-header{background:var(--cream);border-bottom:4px solid var(--terra);text-align:center;padding:20px 16px 16px;position:relative;overflow:hidden}
+.header-motif{position:absolute;top:0;left:0;width:100%;height:6px;
+  background:repeating-linear-gradient(90deg,var(--terra) 0,var(--terra) 20px,var(--gold) 20px,var(--gold) 40px,var(--green) 40px,var(--green) 60px,var(--gold) 60px,var(--gold) 80px)}
+.header-title{font-size:clamp(20px,4vw,34px);color:var(--terra);font-weight:700;line-height:1.3;margin-top:8px}
+.header-sub{font-size:clamp(13px,2vw,16px);color:var(--green);margin:4px 0}
+.header-tagline{font-size:12px;color:var(--deep-red);font-style:italic;margin-top:4px}
+.rights-badge{display:inline-block;background:var(--gold);color:var(--outline);border-radius:4px;
+  padding:3px 12px;font-size:12px;font-weight:700;margin-top:8px}
+.app-link-bar{background:#E8F5E9;border-top:2px solid var(--green);padding:8px 16px;
+  display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap;font-size:12px}
+.app-link-bar a{color:var(--green);font-weight:700;text-decoration:none;padding:3px 10px;
+  border:1px solid var(--green);border-radius:12px;transition:all .15s}
+.app-link-bar a:hover{background:var(--green);color:#fff}
+
+/* SEARCH */
+.search-wrap{background:var(--green);padding:10px 16px;position:sticky;top:37px;z-index:190}
+.search-box{display:flex;gap:8px;max-width:700px;margin:0 auto}
+.search-input{flex:1;border:2px solid rgba(255,255,255,.4);border-radius:24px;
+  padding:8px 16px;font-size:14px;background:rgba(255,255,255,.95);
+  font-family:var(--fh);outline:none;transition:border .2s}
+.search-input:focus{border-color:var(--gold)}
+.search-btn{background:var(--gold);border:none;border-radius:24px;padding:8px 18px;
+  font-weight:700;cursor:pointer;font-family:var(--fh);font-size:13px;color:var(--outline)}
+.search-results{display:none;background:#fff;border-radius:8px;box-shadow:0 4px 16px rgba(0,0,0,.15);
+  margin-top:8px;max-height:300px;overflow-y:auto;border:1px solid var(--border)}
+.search-results.active{display:block}
+.sr-item{padding:10px 14px;border-bottom:1px solid #eee;cursor:pointer;transition:background .1s}
+.sr-item:hover{background:#FFF8EE}
+.sr-item-title{font-weight:700;color:var(--terra);font-size:13px}
+.sr-item-snip{font-size:12px;color:#555;margin-top:2px}
+.sr-empty{padding:12px 14px;color:#888;font-size:13px;text-align:center}
+
+/* CATEGORY NAV */
+.cat-nav{background:#fff;border-bottom:2px solid var(--border);padding:0;
+  display:flex;overflow-x:auto;position:sticky;top:93px;z-index:180;
+  scrollbar-width:none;-ms-overflow-style:none}
+.cat-nav::-webkit-scrollbar{display:none}
+.cat-btn{background:none;border:none;border-bottom:3px solid transparent;
+  color:#555;padding:10px 14px;font-size:12px;cursor:pointer;white-space:nowrap;
+  font-family:var(--fh);transition:all .15s;font-weight:600}
+.cat-btn:hover{color:var(--terra);border-bottom-color:rgba(181,40,10,.3)}
+.cat-btn.active{color:var(--terra);border-bottom-color:var(--terra);font-weight:700}
+
+/* ELIGIBILITY CHECKER BTN */
+.elig-float{position:fixed;bottom:24px;right:20px;z-index:300;
+  background:var(--terra);color:#fff;border:none;border-radius:50px;
+  padding:12px 20px;font-size:14px;font-weight:700;cursor:pointer;
+  box-shadow:0 4px 16px rgba(181,40,10,.4);font-family:var(--fh);
+  display:flex;align-items:center;gap:6px;transition:transform .2s}
+.elig-float:hover{transform:scale(1.05)}
+
+/* MODAL */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:500;
+  justify-content:center;align-items:flex-start;padding:20px;overflow-y:auto}
+.modal-overlay.open{display:flex}
+.modal{background:#fff;border-radius:12px;max-width:560px;width:100%;
+  box-shadow:0 8px 40px rgba(0,0,0,.25);overflow:hidden}
+.modal-header{background:var(--terra);color:#fff;padding:16px 20px;
+  display:flex;justify-content:space-between;align-items:center}
+.modal-header h2{font-size:16px;font-weight:700}
+.modal-close{background:none;border:none;color:#fff;font-size:22px;cursor:pointer;line-height:1}
+.modal-body{padding:20px}
+.elig-step{display:none}
+.elig-step.active{display:block}
+.elig-q{font-size:15px;font-weight:700;color:var(--outline);margin-bottom:14px}
+.elig-options{display:flex;flex-direction:column;gap:8px}
+.elig-opt{background:#F5F5F5;border:2px solid #E0E0E0;border-radius:8px;
+  padding:10px 14px;cursor:pointer;font-family:var(--fh);font-size:14px;
+  text-align:left;transition:all .15s}
+.elig-opt:hover{border-color:var(--terra);background:#FFF3E0}
+.elig-opt.sel{border-color:var(--terra);background:#FFECB3;font-weight:700}
+.elig-nav{display:flex;gap:8px;margin-top:16px}
+.btn-primary{background:var(--terra);color:#fff;border:none;border-radius:8px;
+  padding:9px 20px;font-size:14px;font-weight:700;cursor:pointer;font-family:var(--fh)}
+.btn-secondary{background:#fff;color:var(--terra);border:2px solid var(--terra);border-radius:8px;
+  padding:9px 20px;font-size:14px;font-weight:700;cursor:pointer;font-family:var(--fh)}
+.elig-results{background:#F1F8E9;border:2px solid var(--green);border-radius:8px;padding:14px}
+.elig-results h3{color:var(--green);font-size:14px;margin-bottom:10px}
+.elig-result-item{background:#fff;border-left:4px solid var(--green);padding:10px 12px;
+  margin-bottom:8px;border-radius:0 8px 8px 0;font-size:13px}
+.elig-result-item strong{color:var(--terra);display:block;font-size:14px;margin-bottom:3px}
+.elig-restart{background:var(--green);color:#fff;border:none;border-radius:8px;
+  padding:8px 16px;font-size:13px;cursor:pointer;font-family:var(--fh);margin-top:10px}
+
+/* MAIN CONTENT */
+.content{max-width:900px;margin:0 auto;padding:16px}
+.section{display:none}
+.section.active{display:block}
+
+/* CHAPTER CARDS */
+.chapter{background:var(--card);border:1px solid var(--border);border-radius:10px;
+  margin-bottom:16px;overflow:hidden;box-shadow:0 2px 8px var(--shadow)}
+.chapter-head{padding:14px 16px;cursor:pointer;display:flex;justify-content:space-between;
+  align-items:center;transition:background .15s}
+.chapter-head:hover{background:rgba(181,40,10,.04)}
+.chapter-head h2{font-size:16px;font-weight:700;color:var(--terra);display:flex;gap:8px;align-items:center}
+.chapter-head .chapter-badge{font-size:11px;background:var(--terra);color:#fff;
+  border-radius:12px;padding:2px 8px;font-weight:600}
+.chapter-badge.deep{background:var(--purple)}
+.chapter-badge.new{background:var(--orange)}
+.chapter-arrow{transition:transform .3s;color:var(--terra);font-size:18px}
+.chapter.open .chapter-arrow{transform:rotate(180deg)}
+.chapter-body{display:none;padding:0 16px 16px;border-top:1px solid #EEE9DC}
+.chapter.open .chapter-body{display:block}
+
+/* AT-A-GLANCE */
+.at-glance{background:#FFFDE7;border:2px solid var(--gold);border-radius:8px;
+  padding:12px 14px;margin:14px 0;display:grid;grid-template-columns:1fr 1fr;gap:8px}
+@media(max-width:500px){.at-glance{grid-template-columns:1fr}}
+.ag-item{display:flex;gap:6px;align-items:flex-start;font-size:13px}
+.ag-icon{flex-shrink:0;font-size:16px}
+.ag-label{color:#666;font-size:11px;display:block;margin-bottom:2px}
+.ag-val{font-weight:600;color:var(--outline)}
+
+/* SUBSECTIONS */
+.sub-section{margin-top:12px}
+.sub-title{font-size:14px;font-weight:700;color:var(--green);border-bottom:1px solid #D5E8D4;
+  padding-bottom:4px;margin-bottom:8px;display:flex;gap:6px;align-items:center}
+.sub-title .sub-icon{font-size:15px}
+
+/* DECISION TREE */
+.dtree{background:#F3F4F6;border-radius:8px;padding:12px;margin-top:8px;font-size:13px}
+.dtree-q{font-weight:700;color:var(--blue);margin-bottom:6px}
+.dtree-opts{margin-left:12px}
+.dtree-y{color:var(--green);font-weight:600}
+.dtree-n{color:#c62828;font-weight:600}
+
+/* REJECTION PATTERNS */
+.rejection-card{background:#FFF3E0;border-left:4px solid var(--orange);
+  border-radius:0 8px 8px 0;padding:10px 12px;margin-bottom:8px;font-size:13px}
+.rejection-card .rej-problem{font-weight:700;color:var(--orange);margin-bottom:4px}
+.rejection-card .rej-cure{color:#333}
+
+/* GRIEVANCE LADDER */
+.g-ladder{display:flex;flex-direction:column;gap:4px;margin-top:8px}
+.g-rung{background:#E8F5E9;border-left:3px solid var(--green);padding:7px 12px;
+  font-size:13px;border-radius:0 6px 6px 0;display:flex;gap:8px;align-items:center}
+.g-rung .g-num{background:var(--green);color:#fff;border-radius:50%;
+  width:20px;height:20px;display:flex;align-items:center;justify-content:center;
+  font-size:11px;font-weight:700;flex-shrink:0}
+.g-rung .g-text{flex:1}
+
+/* CASE LAW */
+.case-item{background:#EDE7F6;border-left:4px solid var(--purple);
+  border-radius:0 8px 8px 0;padding:10px 12px;margin-bottom:8px;font-size:13px}
+.case-name{font-weight:700;color:var(--purple)}
+.case-ratio{color:#333;margin-top:4px}
+
+/* FIELD DRAFT BOX */
+.draft-box{background:#F5F5F5;border:1px solid #CCC;border-radius:8px;
+  padding:12px 14px;margin-top:8px;font-size:12.5px;font-family:monospace;
+  line-height:1.7;white-space:pre-wrap;color:#222;position:relative;max-height:280px;overflow-y:auto}
+.copy-btn{position:sticky;top:4px;float:right;background:var(--green);color:#fff;
+  border:none;border-radius:6px;padding:4px 10px;font-size:12px;cursor:pointer;
+  font-family:var(--fh);z-index:10;transition:background .2s}
+.copy-btn:hover{background:var(--teal)}
+.copy-btn.copied{background:#388E3C}
+.draft-label{font-size:12px;color:#666;margin-bottom:6px;font-weight:700;
+  display:flex;gap:6px;align-items:center}
+
+/* DEEP CHAPTER EXTRAS */
+.info-box{border-radius:8px;padding:12px 14px;margin-bottom:10px;font-size:13px}
+.info-box.warning{background:#FFF3E0;border-left:4px solid var(--orange)}
+.info-box.info{background:#E3F2FD;border-left:4px solid #1565C0}
+.info-box.success{background:#E8F5E9;border-left:4px solid var(--green)}
+.info-box.rights{background:#F3E5F5;border-left:4px solid var(--purple)}
+.info-box strong{display:block;margin-bottom:4px;font-size:13px}
+
+/* TABLE */
+.scheme-table{width:100%;border-collapse:collapse;font-size:13px;margin-top:8px}
+.scheme-table th{background:var(--green);color:#fff;padding:7px 10px;text-align:left}
+.scheme-table td{padding:7px 10px;border-bottom:1px solid #E0E0E0;vertical-align:top}
+.scheme-table tr:nth-child(even) td{background:#F9F9F9}
+.scheme-table tr:hover td{background:#FFF8EE}
+
+/* HELPLINE */
+.helpline-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+.helpline-chip{background:var(--blue);color:#fff;border-radius:20px;
+  padding:4px 12px;font-size:12px;font-weight:700;display:flex;gap:4px;align-items:center}
+
+/* FOOTER */
+.footer{background:#1A0A00;color:#CCC;text-align:center;padding:20px 16px;font-size:12px;margin-top:24px}
+.footer a{color:var(--gold);text-decoration:none}
+.footer .footer-links{display:flex;justify-content:center;gap:16px;flex-wrap:wrap;margin-top:8px}
+
+/* RESPONSIVE */
+@media(max-width:600px){
+  .at-glance{grid-template-columns:1fr}
+  .topbar{padding:6px 12px}
+  .content{padding:10px}
+}
+
+/* PRINT */
+@media print{
+  .topbar,.search-wrap,.cat-nav,.elig-float{display:none!important}
+  .chapter.open .chapter-body,.chapter .chapter-body{display:block!important}
+  .chapter{box-shadow:none;border:1px solid #CCC;page-break-inside:avoid}
+}
+</style>
+</head>
+<body>
+
+<!-- SERVICE WORKER REGISTRATION -->
+<script>
+if('serviceWorker' in navigator){
+  navigator.serviceWorker.register('/sw.js').catch(()=>{});
+}
+window.addEventListener('online',()=>document.body.classList.remove('offline'));
+window.addEventListener('offline',()=>document.body.classList.add('offline'));
+if(!navigator.onLine) document.body.classList.add('offline');
+</script>
+
+<!-- TOPBAR -->
+<div class="topbar">
+  <div class="topbar-brand">
+    <span>जन सहायक</span> | कल्याण हैंडबुक
+    <span class="offline-badge">📵 Offline</span>
+  </div>
+  <div class="topbar-actions">
+    <button class="btn-icon" onclick="openElig()">✅ <span class="ih">पात्रता जाँचें</span><span class="ie">Check Eligibility</span></button>
+    <a href="https://jan-sahayak-pro.vercel.app" target="_blank" class="btn-icon" style="text-decoration:none">🏠 App</a>
+    <a href="https://jan-sahayak-pro.vercel.app/schemes.html" target="_blank" class="btn-icon" style="text-decoration:none">📋 <span class="ih">योजनाएं</span><span class="ie">Schemes</span></a>
+    <button class="btn-lang" onclick="toggleLang()">EN / हि</button>
+  </div>
+</div>
+
+<!-- HEADER -->
+<div class="main-header">
+  <div class="header-motif"></div>
+  <div data-hi>
+    <div class="header-title">बिहार कल्याण अधिकार हैंडबुक</div>
+    <div class="header-sub">PLV • पैरालीगल • अधिवक्ता — फील्ड संदर्भ पुस्तिका</div>
+    <div class="header-tagline">जन न्याय अभियान | Janman People's Foundation</div>
+    <div class="rights-badge">यह आपका कानूनी अधिकार है — अनु॰ 21 | Art. 21</div>
+  </div>
+  <div data-en>
+    <div class="header-title">Bihar Welfare Rights Handbook</div>
+    <div class="header-sub">PLV • Paralegal • Advocate — Field Reference</div>
+    <div class="header-tagline">Jan Nyaya Abhiyan | Janman People's Foundation</div>
+    <div class="rights-badge">This is your legal right — Article 21, Constitution of India</div>
+  </div>
+</div>
+
+<!-- APP INTEGRATION BAR -->
+<div class="app-link-bar">
+  🔗
+  <a href="https://jan-sahayak-pro.vercel.app/schemes.html">📋 Schemes Page</a>
+  <a href="https://jan-sahayak-pro.vercel.app">🏠 Jan Sahayak App</a>
+  <a href="https://janman-training.github.io" target="_blank">🎓 Training Course</a>
+  <a href="Janman_Welfare_Rights_Handbook.pdf" download>📥 Download PDF</a>
+</div>
+
+<!-- SEARCH -->
+<div class="search-wrap">
+  <div class="search-box">
+    <input type="search" class="search-input" id="searchInput" placeholder="🔍 योजना खोजें... (e.g. विधवा पेंशन, UDID, ration card)" oninput="doSearch(this.value)" autocomplete="off">
+    <button class="search-btn" onclick="doSearch(document.getElementById('searchInput').value)">खोजें</button>
+  </div>
+  <div class="search-results" id="searchResults"></div>
+</div>
+
+<!-- CATEGORY NAV -->
+<nav class="cat-nav" id="catNav">
+  <button class="cat-btn active" onclick="showSection('all',this)">🏠 <span class="ih">सभी</span><span class="ie">All</span></button>
+  <button class="cat-btn" onclick="showSection('food',this)">🌾 <span class="ih">राशन/भोजन</span><span class="ie">Food/PDS</span></button>
+  <button class="cat-btn" onclick="showSection('pension',this)">👴 <span class="ih">पेंशन</span><span class="ie">Pension</span></button>
+  <button class="cat-btn" onclick="showSection('maternity',this)">🤱 <span class="ih">मातृत्व</span><span class="ie">Maternity</span></button>
+  <button class="cat-btn" onclick="showSection('disability',this)">♿ <span class="ih">दिव्यांग</span><span class="ie">Disability</span></button>
+  <button class="cat-btn" onclick="showSection('mental',this)">🧠 <span class="ih">मानसिक स्वास्थ्य</span><span class="ie">Mental Health</span></button>
+  <button class="cat-btn" onclick="showSection('compensation',this)">⚖️ <span class="ih">मुआवजा</span><span class="ie">Compensation</span></button>
+  <button class="cat-btn" onclick="showSection('health',this)">🏥 <span class="ih">स्वास्थ्य</span><span class="ie">Health</span></button>
+  <button class="cat-btn" onclick="showSection('housing',this)">🏠 <span class="ih">आवास</span><span class="ie">Housing</span></button>
+  <button class="cat-btn" onclick="showSection('labour',this)">⚒️ <span class="ih">श्रम</span><span class="ie">Labour</span></button>
+  <button class="cat-btn" onclick="showSection('scholarship',this)">📚 <span class="ih">छात्रवृत्ति</span><span class="ie">Scholarship</span></button>
+  <button class="cat-btn" onclick="showSection('drafts',this)">✉️ <span class="ih">प्रारूप</span><span class="ie">Drafts</span></button>
+</nav>
+
+<!-- ELIGIBILITY CHECKER FLOAT BUTTON -->
+<button class="elig-float" onclick="openElig()">✅ <span class="ih">पात्रता जाँचें</span><span class="ie">Check Eligibility</span></button>
+
+<!-- ELIGIBILITY CHECKER MODAL -->
+<div class="modal-overlay" id="eligModal">
+  <div class="modal">
+    <div class="modal-header">
+      <h2>✅ <span class="ih">पात्रता जाँचकर्ता</span><span class="ie">Eligibility Checker</span></h2>
+      <button class="modal-close" onclick="closeElig()">×</button>
+    </div>
+    <div class="modal-body" id="eligBody"></div>
+  </div>
+</div>
+
+<!-- MAIN CONTENT -->
+<div class="content">
+
+<!-- ===== CHAPTER 1: FOOD & PDS ===== -->
+<div class="chapter" data-section="food" id="ch-food">
+  <div class="chapter-head" onclick="toggleChapter(this)">
+    <h2>🌾 <span class="ih">अध्याय 1: राशन एवं खाद्य सुरक्षा</span><span class="ie">Chapter 1: Food & PDS</span>
+      <span class="chapter-badge">NFSA 2013</span></h2>
+    <span class="chapter-arrow">▼</span>
+  </div>
+  <div class="chapter-body">
+    <div class="at-glance">
+      <div class="ag-item"><span class="ag-icon">💰</span><div><span class="ag-label">लाभ / Benefit</span><span class="ag-val ih">PHH: 5 किग्रा/व्यक्ति/माह @ ₹1-3 | AAY: 35 किग्रा/परिवार/माह</span><span class="ag-val ie">PHH: 5 kg/person/month @ ₹1-3 | AAY: 35 kg/HH/month</span></div></div>
+      <div class="ag-item"><span class="ag-icon">📋</span><div><span class="ag-label">दस्तावेज़ / Documents</span><span class="ag-val">Aadhaar, Ration Card, Photo</span></div></div>
+      <div class="ag-item"><span class="ag-icon">⚖️</span><div><span class="ag-label">कानूनी आधार</span><span class="ag-val">NFSA 2013, S.10 (women's priority)</span></div></div>
+      <div class="ag-item"><span class="ag-icon">📞</span><div><span class="ag-label">शिकायत / Grievance</span><span class="ag-val">State Food Commission; 1967 (Helpline)</span></div></div>
+    </div>
+    <div class="sub-section">
+      <div class="sub-title"><span class="sub-icon">📊</span> <span class="ih">पात्रता निर्णय वृक्ष</span><span class="ie">Eligibility Decision Tree</span></div>
+      <div class="dtree">
+        <div class="dtree-q ih">क्या परिवार BPL / आर्थिक रूप से कमज़ोर है?</div>
+        <div class="dtree-q ie">Is the household BPL / economically weak?</div>
+        <div class="dtree-opts">
+          <div class="dtree-y">✓ हाँ → PHH (Priority Household) श्रेणी के लिए पात्र</div>
+          <div class="dtree-opts" style="margin-left:12px">
+            <div class="dtree-q ih">क्या परिवार भूमिहीन कृषि मजदूर / विधवा / वृद्ध / दिव्यांग / आदिम जनजाति है?</div>
+            <div class="dtree-q ie">Is the HH landless agri-labour / widow / elderly / PwD / primitive tribe?</div>
+            <div class="dtree-opts">
+              <div class="dtree-y">✓ हाँ → AAY (Antyodaya Anna Yojana) — 35 किग्रा मुफ्त</div>
+            </div>
+          </div>
+          <div class="dtree-n">✗ नहीं → Non-PHH / NFH; PMGKAY free grain may still apply — verify current status</div>
+        </div>
+      </div>
+    </div>
+    <div class="sub-section">
+      <div class="sub-title"><span class="sub-icon">⚠️</span> <span class="ih">सामान्य बाधाएं एवं उपाय</span><span class="ie">Common Rejection Patterns & Cures</span></div>
+      <div class="rejection-card">
+        <div class="rej-problem ih">🔴 Aadhaar नाम/जन्मतिथि में अंतर</div>
+        <div class="rej-problem ie">🔴 Aadhaar name / DOB mismatch with ration card</div>
+        <div class="rej-cure ih">✅ उपाय: UIDAI portal पर नाम सुधार (सहायक दस्तावेज़ + biometric); फिर ration card update</div>
+        <div class="rej-cure ie">✅ Cure: UIDAI name correction with supporting document; then update ration card</div>
+      </div>
+      <div class="rejection-card">
+        <div class="rej-problem ih">🔴 eKYC के बाद सदस्य हटाया गया</div>
+        <div class="rej-problem ie">🔴 Member deleted during eKYC without notice</div>
+        <div class="rej-cure ih">✅ उपाय: DFSO को आवेदन + अनुच्छेद 14 की आपत्ति; NFSA S.10 — महिला को प्राथमिकता</div>
+        <div class="rej-cure ie">✅ Cure: Application to DFSO citing Art. 14; NFSA S.10 — women's priority issuance</div>
+      </div>
+      <div class="rejection-card">
+        <div class="rej-problem ih">🔴 प्रवासी मजदूर — कोई ration card नहीं</div>
+        <div class="rej-problem ie">🔴 Migrant worker — no ration card in either state</div>
+        <div class="rej-cure ih">✅ उपाय: One Nation One Ration Card (ONORC) — Aadhaar से किसी भी राज्य में राशन; PM-GKAY</div>
+        <div class="rej-cure ie">✅ Cure: ONORC — portable ration on Aadhaar across states; PM-GKAY free grain</div>
+      </div>
+    </div>
+    <div class="sub-section">
+      <div class="sub-title"><span class="sub-icon">📶</span> <span class="ih">शिकायत सीढ़ी</span><span class="ie">Grievance Ladder</span></div>
+      <div class="g-ladder">
+        <div class="g-rung"><span class="g-num">1</span><span class="g-text ih">Block Supply Officer (BSO) — लिखित शिकायत</span><span class="g-text ie">Block Supply Officer — written complaint</span></div>
+        <div class="g-rung"><span class="g-num">2</span><span class="g-text">District Food & Supply Officer (DFSO)</span></div>
+        <div class="g-rung"><span class="g-num">3</span><span class="g-text ih">State Food Commission (NFSA S.14) — अपील</span><span class="g-text ie">State Food Commission (NFSA S.14) — appeal</span></div>
+        <div class="g-rung"><span class="g-num">4</span><span class="g-text ih">CPGRAMS / लोक शिकायत पोर्टल</span><span class="g-text ie">CPGRAMS / Public Grievance Portal</span></div>
+        <div class="g-rung"><span class="g-num">5</span><span class="g-text ih">पटना उच्च न्यायालय — अनु॰ 226 रिट</span><span class="g-text ie">Patna HC Writ under Article 226</span></div>
+      </div>
+    </div>
+    <div class="sub-section">
+      <div class="sub-title"><span class="sub-icon">⚖️</span> <span class="ih">महत्वपूर्ण न्यायिक निर्णय</span><span class="ie">Key Case Law</span></div>
+      <div class="case-item">
+        <div class="case-name">PUCL v. Union of India, WP(C) 196/2001</div>
+        <div class="case-ratio">भोजन का अधिकार अनु॰ 21 में निहित है। ICDS, MDM, AAY, TPDS को लागू करना राज्य का कानूनी दायित्व है। | Right to food implicit in Art. 21; TPDS/AAY are enforceable entitlements.</div>
+      </div>
+      <div class="case-item">
+        <div class="case-name">Patna HC WP(C) 5512/2017 — Centre for Holistic Development</div>
+        <div class="case-ratio">बिहार में मुफ्त और समयबद्ध राशन वितरण का निर्देश। | Directed free and timely ration delivery in Bihar.</div>
+      </div>
+    </div>
+    <div class="sub-section">
+      <div class="sub-title"><span class="sub-icon">✉️</span> <span class="ih">राशन कार्ड आवेदन प्रारूप</span><span class="ie">Ration Card Application Draft</span></div>
+      <div class="draft-label">📝 <span class="ih">BSO को आवेदन (हिंदी)</span><span class="ie">Application to BSO (Hindi)</span></div>
+      <div class="draft-box" id="draft-ration">
+        <button class="copy-btn" onclick="copyDraft('draft-ration', this)">📋 Copy</button>सेवा में,
+श्रीमान खंड आपूर्ति अधिकारी
+खंड: __________, जिला: __________, बिहार
+
+विषय: NFSA 2013 के अंतर्गत राशन कार्ड (PHH/AAY श्रेणी) हेतु आवेदन।
+
+महोदय,
+
+1. मैं __________ पुत्र/पुत्री/पत्नी __________, ग्राम __________, पंचायत __________, खंड __________, जिला __________, इस आवेदन-पत्र के माध्यम से NFSA 2013 के अंतर्गत राशन कार्ड हेतु आवेदन प्रस्तुत करता/करती हूँ।
+
+2. मैं निम्न कारणों से इस योजना का/की पात्र हूँ:
+   (क) मेरा परिवार BPL श्रेणी में आता है।
+   (ख) वार्षिक आय ₹__________ है।
+   (ग) मेरे परिवार में __________ सदस्य हैं।
+
+3. NFSA 2013 की धारा 10 के अंतर्गत महिला को परिवार की मुखिया बनाकर राशन कार्ड जारी करने का प्रावधान है।
+
+4. संलग्न दस्तावेज़:
+   (i) आधार कार्ड (स्व-अभिप्रमाणित प्रति) — सभी सदस्यों का
+   (ii) निवास प्रमाण-पत्र
+   (iii) परिवार का फोटोग्राफ
+   (iv) आय प्रमाण-पत्र
+
+5. बिहार लोक सेवाओं का अधिकार अधिनियम 2011 (RTPS) के अंतर्गत निर्धारित समय-सीमा में निर्णय लेने का अनुरोध है।
+
+स्थान: __________          आपका विश्वस्त,
+तारीख: __________          हस्ताक्षर: __________
+                             नाम: __________
+                             मोबाइल: __________
+
+प्रतिलिपि: जिला खाद्य एवं आपूर्ति पदाधिकारी, __________</div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== CHAPTER 2: PENSIONS ===== -->
+<div class="chapter" data-section="pension" id="ch-pension">
+  <div class="chapter-head" onclick="toggleChapter(this)">
+    <h2>👴 <span class="ih">अध्याय 2: सामाजिक पेंशन</span><span class="ie">Chapter 2: Social Pensions</span>
+      <span class="chapter-badge">NSAP + Bihar</span></h2>
+    <span class="chapter-arrow">▼</span>
+  </div>
+  <div class="chapter-body">
+    <div class="at-glance">
+      <div class="ag-item"><span class="ag-icon">👴</span><div><span class="ag-label">IGNOAPS (वृद्धावस्था)</span><span class="ag-val">60+ BPL → ₹400/माह (Bihar MVPY); 80+ → ₹500/माह</span></div></div>
+      <div class="ag-item"><span class="ag-icon">👩</span><div><span class="ag-label">IGNWPS (विधवा)</span><span class="ag-val">40–79 BPL विधवा → ₹300/माह + राज्य</span></div></div>
+      <div class="ag-item"><span class="ag-icon">♿</span><div><span class="ag-label">IGNDPS (दिव्यांग)</span><span class="ag-val">18–79, 80%+ दिव्यांगता, BPL → ₹300+</span></div></div>
+      <div class="ag-item"><span class="ag-icon">💀</span><div><span class="ag-label">NFBS (परिवार लाभ)</span><span class="ag-val">BPL, मुखिया मृत्यु (18-59) → ₹20,000 एकमुश्त</span></div></div>
+    </div>
+    <div class="info-box info">
+      <strong>📌 बिहार MVPY (मुख्यमंत्री वृद्धजन पेंशन योजना)</strong>
+      <span class="ih">बिहार में 60+ सभी नागरिक पात्र हैं — BPL की शर्त नहीं। ₹400 (60–79 वर्ष), ₹500 (80+ वर्ष)।</span>
+      <span class="ie">All Bihar residents 60+ are eligible — NO BPL requirement. ₹400 (60–79), ₹500 (80+).</span>
+    </div>
+    <div class="sub-section">
+      <div class="sub-title"><span class="sub-icon">⚠️</span> <span class="ih">सामान्य बाधाएं</span><span class="ie">Common Rejection Patterns</span></div>
+      <div class="rejection-card">
+        <div class="rej-problem">🔴 <span class="ih">आयु प्रमाण नहीं</span><span class="ie">No age proof</span></div>
+        <div class="rej-cure ih">✅ स्वास्थ्य विभाग का अस्थाई आयु प्रमाण / ANM प्रमाण / शपथ-पत्र मान्य; पंचायत के निर्वाचन की पंजी भी</div>
+        <div class="rej-cure ie">✅ Temporary age proof from ANM / affidavit / electoral roll entry accepted</div>
+      </div>
+      <div class="rejection-card">
+        <div class="rej-problem">🔴 <span class="ih">पति की मृत्यु प्रमाण-पत्र नहीं (विधवा पेंशन)</span><span class="ie">No husband's death certificate (widow pension)</span></div>
+        <div class="rej-cure ih">✅ CSC या पंचायत से death certificate; या ग्राम प्रधान + पड़ोसियों का शपथ-पत्र</div>
+        <div class="rej-cure ie">✅ Obtain death certificate from CSC/panchayat; OR affidavit from village head + neighbours</div>
+      </div>
+      <div class="rejection-card">
+        <div class="rej-problem">🔴 <span class="ih">बैंक खाता Aadhaar से link नहीं</span><span class="ie">Bank account not Aadhaar-seeded</span></div>
+        <div class="rej-cure ih">✅ Bank branch में Aadhaar seeding form; NPCI mapper check: resident.uidai.gov.in</div>
+        <div class="rej-cure ie">✅ Submit Aadhaar seeding form at bank; check NPCI mapper at resident.uidai.gov.in</div>
+      </div>
+    </div>
+    <div class="sub-section">
+      <div class="sub-title"><span class="sub-icon">📶</span> <span class="ih">शिकायत सीढ़ी</span><span class="ie">Grievance Ladder</span></div>
+      <div class="g-ladder">
+        <div class="g-rung"><span class="g-num">1</span><span class="g-text">BDO / प्रखंड विकास पदाधिकारी</span></div>
+        <div class="g-rung"><span class="g-num">2</span><span class="g-text">District Social Welfare Officer (DSWO)</span></div>
+        <div class="g-rung"><span class="g-num">3</span><span class="g-text">District Magistrate / RTPS Appellate Authority</span></div>
+        <div class="g-rung"><span class="g-num">4</span><span class="g-text">State Nodal Officer, NSAP, Bihar</span></div>
+        <div class="g-rung"><span class="g-num">5</span><span class="g-text">Patna HC — Art. 226 (arrears + interest + compensation)</span></div>
+      </div>
+    </div>
+    <div class="sub-section">
+      <div class="sub-title"><span class="sub-icon">✉️</span> <span class="ih">पेंशन विलंब शिकायत प्रारूप</span><span class="ie">Pension Delay Grievance Draft</span></div>
+      <div class="draft-label">📝 <span class="ih">DM को शिकायत पत्र</span><span class="ie">Grievance to District Magistrate</span></div>
+      <div class="draft-box" id="draft-pension">
+        <button class="copy-btn" onclick="copyDraft('draft-pension', this)">📋 Copy</button>सेवा में,
+श्रीमान जिलाधिकारी
+जिला: __________, बिहार
+
+विषय: बिहार लोक शिकायत निवारण अधिकार अधिनियम 2015 के अंतर्गत __________ पेंशन की अस्वीकृति / विलंब के विरुद्ध शिकायत।
+
+महोदय,
+
+1. आवेदिका/आवेदक __________, आयु __________ वर्ष, ग्राम __________, पंचायत __________, खंड __________ ने दिनांक __________ को BDO कार्यालय में IGNOAPS/MVPY/IGNWPS पेंशन हेतु आवेदन प्रस्तुत किया था। रसीद संख्या __________ दिनांक __________ संलग्न है।
+
+2. RTPS अधिनियम 2011 / बिहार लोक शिकायत अधिनियम 2015 के अंतर्गत निर्धारित समय-सीमा __________ दिन थी, जो __________ को समाप्त हो गई। __________ दिन / माह बीत चुके हैं।
+
+3. यह विलंब निम्नलिखित का उल्लंघन है:
+   (क) NSAP दिशा-निर्देश / MVPY नियम;
+   (ख) Bihar RTPS Act 2011 की धारा 4;
+   (ग) संविधान के अनुच्छेद 14 (मनमानापन) एवं 21 (गरिमा के साथ जीने का अधिकार)।
+
+4. अतः निम्नलिखित अनुतोष की माँग की जाती है:
+   (क) पेंशन की तत्काल स्वीकृति एवं पात्रता तिथि से बकाया राशि का भुगतान;
+   (ख) विलंब अवधि पर 6% वार्षिक ब्याज;
+   (ग) सेवा में कमी के लिए Lok Shikayat Act S.6 के तहत क्षतिपूर्ति।
+
+5. यदि 15 दिन में लिखित निर्णय नहीं मिला तो पटना उच्च न्यायालय में अनु॰ 226 के तहत रिट याचिका दायर की जाएगी।
+
+स्थान: __________          हस्ताक्षर: __________
+तारीख: __________          नाम: __________, मोबाइल: __________</div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== CHAPTER 3: MATERNITY ===== -->
+<div class="chapter" data-section="maternity" id="ch-maternity">
+  <div class="chapter-head" onclick="toggleChapter(this)">
+    <h2>🤱 <span class="ih">अध्याय 3: मातृत्व एवं शिशु अधिकार</span><span class="ie">Chapter 3: Maternity & Child Entitlements</span>
+      <span class="chapter-badge">PMMVY · JSY · JSSK</span></h2>
+    <span class="chapter-arrow">▼</span>
+  </div>
+  <div class="chapter-body">
+    <div class="at-glance">
+      <div class="ag-item"><span class="ag-icon">💰</span><div><span class="ag-label">PMMVY 2.0</span><span class="ag-val">पहला बच्चा: ₹5,000 | पहली बेटी: ₹6,500 | दूसरी बेटी: ₹5,000</span></div></div>
+      <div class="ag-item"><span class="ag-icon">🏥</span><div><span class="ag-label">JSY</span><span class="ag-val">संस्थागत प्रसव: ₹1,400 (ग्रामीण) / ₹1,000 (शहरी)</span></div></div>
+      <div class="ag-item"><span class="ag-icon">🆓</span><div><span class="ag-label">JSSK</span><span class="ag-val">सरकारी अस्पताल में मुफ्त प्रसव, दवा, जाँच, भोजन, परिवहन</span></div></div>
+      <div class="ag-item"><span class="ag-icon">⚖️</span><div><span class="ag-label">क़ानून</span><span class="ag-val">Maternity Benefit Act 1961 — 26 weeks paid leave</span></div></div>
+    </div>
+    <div class="info-box warning">
+      <strong>⚠️ फील्ड टिप:</strong>
+      <span class="ih">PMMVY में विवाह प्रमाण-पत्र अनिवार्य नहीं है। इनकार करने पर BDO/CDPO को लिखित आवेदन दें।</span>
+      <span class="ie">Marriage certificate is NOT mandatory for PMMVY. If refused, file written complaint to BDO/CDPO.</span>
+    </div>
+    <div class="info-box success">
+      <strong>✅ <span class="ih">महत्वपूर्ण निर्णय: Deepika Singh v. CAT, (2022)</span><span class="ie">Key judgment: Deepika Singh v. CAT (2022)</span></strong>
+      <span class="ih">दत्तक माता एवं दूसरी शादी के बच्चों को भी मातृत्व लाभ मिलेगा — PMMVY की विस्तृत व्याख्या।</span>
+      <span class="ie">Maternity benefits extend to adoptive mothers and children from second marriage.</span>
+    </div>
+    <div class="sub-section">
+      <div class="sub-title"><span class="sub-icon">✉️</span> <span class="ih">PMMVY आवेदन प्रारूप</span><span class="ie">PMMVY Application Draft</span></div>
+      <div class="draft-box" id="draft-pmmvy">
+        <button class="copy-btn" onclick="copyDraft('draft-pmmvy', this)">📋 Copy</button>सेवा में,
+श्रीमान बाल विकास परियोजना अधिकारी (CDPO) / बाल विकास पुष्टाहार पदाधिकारी
+खंड: __________, जिला: __________, बिहार
+
+विषय: PMMVY 2.0 के अंतर्गत मातृत्व लाभ हेतु आवेदन।
+
+महोदया/महोदय,
+
+1. मेरा नाम __________, आयु __________ वर्ष, पति का नाम __________, ग्राम __________, पंचायत __________ है।
+2. मेरे MCP कार्ड के अनुसार अनुमानित प्रसव तिथि __________ है / प्रसव दिनांक __________ को हुआ।
+3. यह मेरी __________ (पहली/दूसरी) संतान है।
+4. PMMVY 2.0 के अंतर्गत मैं ₹__________ की किश्त हेतु पात्र हूँ।
+5. आवश्यक दस्तावेज़ संलग्न: MCP कार्ड, आधार (अपना + पति का), बैंक पासबुक।
+
+अनुरोध है कि निर्धारित समय में लाभ का भुगतान मेरे आधार-linked खाता संख्या __________ में किया जाए।
+
+स्थान: __________          हस्ताक्षर: __________
+तारीख: __________          नाम + मोबाइल: __________</div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== CHAPTER 4: DISABILITY RIGHTS (DEEP) ===== -->
+<div class="chapter" data-section="disability" id="ch-disability">
+  <div class="chapter-head" onclick="toggleChapter(this)">
+    <h2>♿ <span class="ih">अध्याय 4: दिव्यांगजन अधिकार</span><span class="ie">Chapter 4: Disability Rights</span>
+      <span class="chapter-badge deep">RPwD 2016</span>
+      <span class="chapter-badge new">DEEP</span></h2>
+    <span class="chapter-arrow">▼</span>
+  </div>
+  <div class="chapter-body">
+    <div class="info-box rights">
+      <strong>⚖️ <span class="ih">मूल अधिकार वक्तव्य</span><span class="ie">Rights Statement</span></strong>
+      <span class="ih">दिव्यांगजन अधिकार संरक्षण अधिनियम 2016 (RPwD Act) — जो भी व्यक्ति 40% या उससे अधिक दिव्यांगता से ग्रस्त है, वह <strong>प्रमाण-पत्र, पेंशन, नौकरी में आरक्षण, शिक्षा, आवास और सहायक उपकरण</strong> का <strong>कानूनी हकदार</strong> है।</span>
+      <span class="ie">The RPwD Act 2016 makes every person with 40%+ disability a <strong>legal right-holder</strong> for certificate, pension, job reservation, free education, housing priority, and assistive devices.</span>
+    </div>
+    <div class="at-glance">
+      <div class="ag-item"><span class="ag-icon">🪪</span><div><span class="ag-label">UDID Card</span><span class="ag-val ih">21 मान्यता प्राप्त दिव्यांगताएं; swavlambancard.gov.in</span><span class="ag-val ie">21 recognised disabilities; swavlambancard.gov.in</span></div></div>
+      <div class="ag-item"><span class="ag-icon">💰</span><div><span class="ag-label">Bihar Disability Pension</span><span class="ag-val">40%+ → ₹400/माह | IGNDPS: 80%+, BPL → ₹300+/माह</span></div></div>
+      <div class="ag-item"><span class="ag-icon">💼</span><div><span class="ag-label"><span class="ih">आरक्षण / Reservation</span></span><span class="ag-val">4% govt jobs | 5% higher education (RPwD S.34)</span></div></div>
+      <div class="ag-item"><span class="ag-icon">🔧</span><div><span class="ag-label">ADIP</span><span class="ag-val">40%+, ≤₹20k/month → <span class="ih">मुफ्त/सब्सिडी</span><span class="ie">free/subsidised</span> devices, ALIMCO</span></div></div>
+    </div>
+
+    <div class="sub-section">
+      <div class="sub-title"><span class="sub-icon">🪪</span> UDID <span class="ih">प्रमाण-पत्र कैसे प्राप्त करें</span><span class="ie">How to Get UDID Certificate</span></div>
+      <div class="dtree">
+        <div class="dtree-q ih">चरण 1: ऑनलाइन आवेदन</div>
+        <div class="dtree-q ie">Step 1: Online Application</div>
+        <div class="dtree-opts">
+          swavlambancard.gov.in → "Apply for Disability Certificate & UDID Card" → अपना राज्य, जिला चुनें → फॉर्म भरें
+        </div>
+        <div class="dtree-q" style="margin-top:8px">चरण 2: Medical Board</div>
+        <div class="dtree-opts">
+          <span class="ih">जिला सिविल सर्जन के यहाँ Medical Board द्वारा परीक्षण → % दिव्यांगता निर्धारण</span>
+          <span class="ie">Examination by Medical Board at district Civil Surgeon → % disability determined</span>
+        </div>
+        <div class="dtree-q" style="margin-top:8px">चरण 3: UDID Card</div>
+        <div class="dtree-opts">
+          <span class="ih">प्रमाण-पत्र जारी → डिजिटल UDID Card → Digilocker में उपलब्ध</span>
+          <span class="ie">Certificate issued → Digital UDID Card → available on Digilocker</span>
+        </div>
+      </div>
+      <div class="info-box warning">
+        <strong>⚠️ <span class="ih">Medical Board विलंब</span><span class="ie">Medical Board Delay</span></strong>
+        <span class="ih">यदि Medical Board 3 माह में बैठक नहीं करती → CMO को RTI + Patna HC PIL में उद्धरण योग्य।</span>
+        <span class="ie">If Medical Board doesn't sit within 3 months → RTI to CMO + citable in Patna HC PIL.</span>
+      </div>
+    </div>
+
+    <div class="sub-section">
+      <div class="sub-title"><span class="sub-icon">📋</span> <span class="ih">RPwD Act 2016 — 21 मान्यता प्राप्त दिव्यांगताएं</span><span class="ie">RPwD Act 2016 — 21 Recognised Disabilities</span></div>
+      <table class="scheme-table">
+        <tr><th>#</th><th><span class="ih">दिव्यांगता</span><span class="ie">Disability</span></th><th><span class="ih">न्यूनतम %</span><span class="ie">Min %</span></th></tr>
+        <tr><td>1</td><td>Blindness / Low Vision</td><td>40%</td></tr>
+        <tr><td>2</td><td>Hearing Impairment (Deaf/Hard of Hearing)</td><td>40%</td></tr>
+        <tr><td>3</td><td>Locomotor Disability</td><td>40%</td></tr>
+        <tr><td>4</td><td>Intellectual Disability</td><td>35%</td></tr>
+        <tr><td>5</td><td>Mental Illness</td><td>40%</td></tr>
+        <tr><td>6</td><td>Autism Spectrum Disorder</td><td>—</td></tr>
+        <tr><td>7</td><td>Cerebral Palsy</td><td>—</td></tr>
+        <tr><td>8</td><td>Specific Learning Disabilities</td><td>—</td></tr>
+        <tr><td>9</td><td>Multiple Sclerosis</td><td>—</td></tr>
+        <tr><td>10</td><td>Speech and Language Disability</td><td>—</td></tr>
+        <tr><td colspan="3" style="color:#666;font-size:12px;padding:6px 10px">+ 11 more including Dwarfism, Muscular Dystrophy, Chronic Neurological, Blood Disorders, Acid Attack Victims, Parkinsons, Thalassemia, Haemophilia, Sickle Cell Disease, Multiple Disabilities, Deaf-Blindness</td></tr>
+      </table>
+    </div>
+
+    <div class="sub-section">
+      <div class="sub-title"><span class="sub-icon">📚</span> <span class="ih">मुफ्त शिक्षा (धारा 31)</span><span class="ie">Free Education (Section 31)</span></div>
+      <div class="info-box success">
+        <strong>✅ <span class="ih">हर दिव्यांग बच्चे को 18 वर्ष तक मुफ्त शिक्षा का अधिकार</span><span class="ie">Every disabled child entitled to free education up to 18 years</span></strong>
+        <span class="ih">RPwD Act 2016 की धारा 31 — विशेष विद्यालय या समावेशी विद्यालय में। यदि इनकार — CWSN नोडल अधिकारी को शिकायत → राज्य आयुक्त (दिव्यांग)।</span>
+        <span class="ie">RPwD S.31 — in special or inclusive school. If denied — complain to CWSN Nodal Officer → State Commissioner for PwD.</span>
+      </div>
+      <div class="info-box info">
+        <strong>📋 <span class="ih">उचित समायोजन (Reasonable Accommodation)</span><span class="ie">Reasonable Accommodation</span></strong>
+        <span class="ih">RPwD S.3(3) एवं Vikash Kumar v. UPSC (2021) — परीक्षाओं में Scribe, अतिरिक्त समय, Braille, large-print प्रदान करना संस्था का दायित्व है।</span>
+        <span class="ie">RPwD S.3(3) + Vikash Kumar v. UPSC (2021) — providing scribe, extra time, Braille in exams is an institution's binding obligation.</span>
+      </div>
+    </div>
+
+    <div class="sub-section">
+      <div class="sub-title"><span class="sub-icon">💼</span> <span class="ih">नौकरी में आरक्षण</span><span class="ie">Employment Reservation</span></div>
+      <div class="info-box success">
+        <strong>RPwD Act 2016 — S.34</strong>
+        <span class="ih">सरकारी नौकरियों में 4% आरक्षण: (क) 1% दृष्टिबाधित + कम दृष्टि, (ख) 1% श्रवण बाधित, (ग) 1% शारीरिक, (घ) 1% बहु-विकलांगता / मानसिक बीमारी / बौद्धिक। उच्च शिक्षा में 5%।</span>
+        <span class="ie">4% reservation in govt jobs: 1% VI/LV, 1% HI, 1% locomotor, 1% multiple/mental/intellectual. 5% in higher education.</span>
+      </div>
+    </div>
+
+    <div class="sub-section">
+      <div class="sub-title"><span class="sub-icon">⚖️</span> <span class="ih">महत्वपूर्ण न्याय-निर्णय</span><span class="ie">Key Case Law</span></div>
+      <div class="case-item">
+        <div class="case-name">Rajive Raturi v. Union of India, 2024 INSC 858 (SC)</div>
+        <div class="case-ratio ih">सभी सार्वजनिक स्थानों की भौतिक, डिजिटल और परिवहन पहुंच बाध्यकारी मानक के अनुसार सुनिश्चित की जाए। "Self-regulation" मान्य नहीं।</div>
+        <div class="case-ratio ie">Accessibility under RPwD S.40 + Rule 15 is a binding standard. Court rejected self-regulation by establishments. 2024 landmark.</div>
+      </div>
+      <div class="case-item">
+        <div class="case-name">Vikash Kumar v. UPSC, (2021) 5 SCC 370</div>
+        <div class="case-ratio ih">उचित समायोजन (reasonable accommodation) समानता का अंग है — Scribe प्रदान करना UPSC का दायित्व था।</div>
+        <div class="case-ratio ie">Reasonable accommodation is an enforceable facet of equality. UPSC was bound to provide scribe.</div>
+      </div>
+      <div class="case-item">
+        <div class="case-name">Jeeja Ghosh v. Union of India, (2016) 7 SCC 761</div>
+        <div class="case-ratio ih">PwD की गरिमा और reasonable accommodation अटल है। राज्य को सक्रिय रूप से अभिगम्यता सुनिश्चित करनी है।</div>
+        <div class="case-ratio ie">Dignity and reasonable accommodation for PwD are non-negotiable. State must proactively ensure accessibility.</div>
+      </div>
+    </div>
+
+    <div class="sub-section">
+      <div class="sub-title"><span class="sub-icon">✉️</span> <span class="ih">UDID आवेदन प्रारूप</span><span class="ie">UDID Application Draft</span></div>
+      <div class="draft-box" id="draft-udid">
+        <button class="copy-btn" onclick="copyDraft('draft-udid', this)">📋 Copy</button>सेवा में,
+श्रीमान मुख्य चिकित्सा पदाधिकारी (CMO) / Civil Surgeon
+जिला: __________, बिहार
+
+विषय: RPwD Act 2016 के अंतर्गत दिव्यांगता प्रमाण-पत्र एवं UDID कार्ड हेतु आवेदन।
+
+महोदय,
+
+1. मेरा नाम __________, आयु __________ वर्ष, पिता/माता का नाम __________, ग्राम __________, पंचायत __________, खंड __________ है।
+
+2. मुझे __________ (दिव्यांगता का प्रकार) की समस्या है जो RPwD Act 2016 की अनुसूची में मान्यता प्राप्त है।
+
+3. मैं diwyang disability certificate और UDID Card हेतु आवेदन प्रस्तुत कर रहा/रही हूँ।
+
+4. संलग्न दस्तावेज़:
+   (i) आधार कार्ड (स्व-अभिप्रमाणित)
+   (ii) फोटोग्राफ (2 पासपोर्ट आकार)
+   (iii) निवास प्रमाण
+   (iv) चिकित्सक का प्रारंभिक प्रमाण-पत्र (यदि उपलब्ध)
+
+5. अनुरोध है कि Medical Board की बैठक शीघ्र बुलाई जाए। swavlambancard.gov.in पर ऑनलाइन आवेदन संख्या __________ है।
+
+स्थान: __________          हस्ताक्षर: __________
+तारीख: __________          नाम + मोबाइल: __________</div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== CHAPTER 5: MENTAL HEALTH (DEEP) ===== -->
+<div class="chapter" data-section="mental" id="ch-mental">
+  <div class="chapter-head" onclick="toggleChapter(this)">
+    <h2>🧠 <span class="ih">अध्याय 5: मानसिक स्वास्थ्य कल्याण अधिकार</span><span class="ie">Chapter 5: Mental Health Welfare Rights</span>
+      <span class="chapter-badge deep">MHCA 2017</span>
+      <span class="chapter-badge new">DEEP</span></h2>
+    <span class="chapter-arrow">▼</span>
+  </div>
+  <div class="chapter-body">
+    <div class="info-box rights">
+      <strong>⚖️ <span class="ih">मूल अधिकार</span><span class="ie">Core Right</span></strong>
+      <span class="ih">Mental Healthcare Act 2017 (MHCA) — मानसिक बीमारी से पीड़ित हर व्यक्ति को <strong>सरकारी अस्पताल में मुफ्त इलाज, गरिमा, कानूनी क्षमता, और जबरन दाखिले से सुरक्षा</strong> का अधिकार है।</span>
+      <span class="ie">MHCA 2017 — every person with mental illness has a <strong>legal right to free government treatment, dignity, legal capacity, and protection from forced admission.</strong></span>
+    </div>
+    <div class="at-glance">
+      <div class="ag-item"><span class="ag-icon">🏥</span><div><span class="ag-label">MHCA S.18</span><span class="ag-val ih">मुफ्त इलाज का अधिकार — हर सरकारी अस्पताल में</span><span class="ag-val ie">Right to free treatment — every govt hospital</span></div></div>
+      <div class="ag-item"><span class="ag-icon">📜</span><div><span class="ag-label">MHCA S.5</span><span class="ag-val ih">अग्रिम निर्देश (Advance Directive) — अपने इलाज पर नियंत्रण</span><span class="ag-val ie">Advance Directive — control over own treatment</span></div></div>
+      <div class="ag-item"><span class="ag-icon">👥</span><div><span class="ag-label">MHCA S.14</span><span class="ag-val ih">Nominated Representative — परिवार या मित्र</span><span class="ag-val ie">Nominated Representative — family or friend</span></div></div>
+      <div class="ag-item"><span class="ag-icon">⚖️</span><div><span class="ag-label">MHRB</span><span class="ag-val ih">Mental Health Review Board — हर जिले में</span><span class="ag-val ie">Mental Health Review Board — in every district</span></div></div>
+    </div>
+
+    <div class="sub-section">
+      <div class="sub-title"><span class="sub-icon">📋</span> <span class="ih">MHCA 2017 — मुख्य अधिकार</span><span class="ie">MHCA 2017 — Key Rights</span></div>
+      <table class="scheme-table">
+        <tr><th>MHCA Section</th><th><span class="ih">अधिकार</span><span class="ie">Right</span></th><th><span class="ih">क्या करें यदि इनकार</span><span class="ie">If Denied</span></th></tr>
+        <tr><td>S.18</td><td><span class="ih">मुफ्त सरकारी उपचार</span><span class="ie">Free govt treatment</span></td><td><span class="ih">CMO → District Magistrate → MHRB</span></td></tr>
+        <tr><td>S.19</td><td><span class="ih">सामुदायिक देखभाल का अधिकार</span><span class="ie">Right to community care</span></td><td><span class="ih">DMHP प्रमुख को शिकायत</span><span class="ie">Complaint to DMHP head</span></td></tr>
+        <tr><td>S.20</td><td><span class="ih">Confidentiality (गोपनीयता)</span><span class="ie">Confidentiality</span></td><td><span class="ih">MHRB</span></td></tr>
+        <tr><td>S.89</td><td><span class="ih">जबरन भर्ती — केवल specific conditions</span><span class="ie">Involuntary admission — specific conditions only</span></td><td><span class="ih">MHRB में चुनौती दें</span><span class="ie">Challenge before MHRB</span></td></tr>
+        <tr><td>S.115</td><td><span class="ih">आत्मघात का प्रयास — गैर-आपराधिक</span><span class="ie">Suicide attempt — decriminalised</span></td><td>Treatment, not prosecution</td></tr>
+        <tr><td>RPwD S.13</td><td><span class="ih">कानूनी क्षमता — guardianship नहीं</span><span class="ie">Legal capacity — not guardianship</span></td><td><span class="ih">District Court में</span><span class="ie">District Court</span></td></tr>
+      </table>
+    </div>
+
+    <div class="sub-section">
+      <div class="sub-title"><span class="sub-icon">🏥</span> DMHP — <span class="ih">जिला मानसिक स्वास्थ्य कार्यक्रम</span><span class="ie">District Mental Health Programme</span></div>
+      <div class="info-box info">
+        <strong><span class="ih">DMHP क्या है?</span><span class="ie">What is DMHP?</span></strong>
+        <span class="ih">हर जिले में DMHP के अंतर्गत मुफ्त: OPD, दवाइयाँ, मनोवैज्ञानिक परामर्श, community outreach। Bihar में जिला अस्पताल/PMCH, Patna में उपलब्ध।</span>
+        <span class="ie">Every district has DMHP providing free: OPD, medicines, psychological counselling, community outreach. Available at district hospital/PMCH in Bihar.</span>
+      </div>
+    </div>
+
+    <div class="sub-section">
+      <div class="sub-title"><span class="sub-icon">⚠️</span> <span class="ih">जंजीर में बंधना — गैर-कानूनी</span><span class="ie">Chaining of Persons with Mental Illness — Illegal</span></div>
+      <div class="info-box warning">
+        <strong>🚨 <span class="ih">तत्काल हस्तक्षेप</span><span class="ie">Immediate Action Required</span></strong>
+        <span class="ih">यदि कोई व्यक्ति घर में जंजीर से बंधा है → MHCA S.97 के अंतर्गत CMO/DM को तत्काल सूचना → DMHP टीम + पुलिस द्वारा मुक्ति → जिला अस्पताल में भर्ती।</span>
+        <span class="ie">If a person is chained at home → Immediate intimation to CMO/DM under MHCA S.97 → DMHP team + police for liberation → admission to district hospital.</span>
+      </div>
+    </div>
+
+    <div class="sub-section">
+      <div class="sub-title"><span class="sub-icon">💰</span> <span class="ih">कल्याण योजनाएं — मानसिक बीमार पीड़ितों के लिए</span><span class="ie">Welfare Schemes for Persons with Mental Illness</span></div>
+      <div class="info-box success">
+        <span class="ih">• IGNDPS पेंशन: 80%+ मानसिक दिव्यांगता, BPL → ₹300+/माह<br>
+        • UDID Card: मानसिक बीमारी RPwD Act Schedule में मान्यता प्राप्त<br>
+        • National Trust Act 1999 — बौद्धिक दिव्यांगता, Cerebral Palsy, Autism, Multiple Disability: कानूनी Guardian + Corpus Fund<br>
+        • सरकारी नौकरी: 1% reservation (मानसिक/बौद्धिक/बहु-दिव्यांगता)</span>
+        <span class="ie">• IGNDPS pension: 80%+ mental disability, BPL → ₹300+/month<br>
+        • UDID: Mental illness recognised in RPwD Schedule<br>
+        • National Trust Act 1999 — ID/CP/Autism/Multiple: Legal Guardian + Corpus Fund<br>
+        • Govt jobs: 1% reservation (mental/intellectual/multiple disabilities)</span>
+      </div>
+    </div>
+
+    <div class="sub-section">
+      <div class="sub-title"><span class="sub-icon">✉️</span> <span class="ih">DMHP इलाज माँग प्रारूप</span><span class="ie">DMHP Treatment Request Draft</span></div>
+      <div class="draft-box" id="draft-mental">
+        <button class="copy-btn" onclick="copyDraft('draft-mental', this)">📋 Copy</button>सेवा में,
+श्रीमान जिला मानसिक स्वास्थ्य कार्यक्रम (DMHP) नोडल अधिकारी / मुख्य चिकित्सा पदाधिकारी
+जिला: __________, बिहार
+
+विषय: Mental Healthcare Act 2017 की धारा 18 के अंतर्गत मुफ्त मानसिक स्वास्थ्य उपचार हेतु आग्रह।
+
+महोदय/महोदया,
+
+1. __________ (पीड़ित व्यक्ति का नाम), आयु __________, निवासी __________, पिछले __________ माह/वर्ष से __________ (मानसिक बीमारी) से पीड़ित हैं।
+
+2. Mental Healthcare Act 2017 की धारा 18 के अंतर्गत प्रत्येक व्यक्ति को सरकारी स्वास्थ्य सेवाओं में मुफ्त मानसिक स्वास्थ्य उपचार का अधिकार है।
+
+3. आर्थिक स्थिति कमज़ोर होने के कारण निजी इलाज संभव नहीं है।
+
+4. अनुरोध है कि:
+   (क) DMHP OPD में पंजीकरण एवं नियमित उपचार;
+   (ख) मुफ्त दवाइयाँ एवं परामर्श;
+   (ग) यदि आवश्यक हो तो जिला अस्पताल में भर्ती।
+
+5. यदि 7 दिन में कोई उत्तर नहीं मिला तो Mental Health Review Board एवं जिलाधिकारी को शिकायत की जाएगी।
+
+स्थान: __________          हस्ताक्षर: __________
+तारीख: __________          नाम + संबंध + मोबाइल: __________</div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== CHAPTER 6: VICTIMS COMPENSATION (DEEP) ===== -->
+<div class="chapter" data-section="compensation" id="ch-compensation">
+  <div class="chapter-head" onclick="toggleChapter(this)">
+    <h2>⚖️ <span class="ih">अध्याय 6: पीड़ित मुआवजा अधिकार</span><span class="ie">Chapter 6: Victim Compensation Rights</span>
+      <span class="chapter-badge deep">NALSA · SVCS · S.357A</span>
+      <span class="chapter-badge new">DEEP</span></h2>
+    <span class="chapter-arrow">▼</span>
+  </div>
+  <div class="chapter-body">
+    <div class="info-box rights">
+      <strong>⚖️ <span class="ih">मूल अधिकार</span><span class="ie">Core Right</span></strong>
+      <span class="ih">पीड़ित मुआवजा एक <strong>लागू करने योग्य कानूनी अधिकार</strong> है — दान नहीं। BNSS धारा 395-398 (पूर्व CrPC 357A), NALSA योजनाएं, और Patna HC के आदेश इसे सुनिश्चित करते हैं।</span>
+      <span class="ie">Victim compensation is an <strong>enforceable legal right</strong> — not charity. BNSS S.395-398 (formerly CrPC 357A), NALSA schemes, and Patna HC orders guarantee it.</span>
+    </div>
+
+    <div class="at-glance">
+      <div class="ag-item"><span class="ag-icon">👩</span><div><span class="ag-label">बलात्कार पीड़ित / Rape Survivor</span><span class="ag-val">SVCS: ₹4–10 lakh | Bihar: min ₹3 lakh (interim ₹1 lakh)</span></div></div>
+      <div class="ag-item"><span class="ag-icon">👶</span><div><span class="ag-label">POCSO पीड़ित</span><span class="ag-val">SVCS: ₹3–7 lakh | Interim via DLSA within 7 days</span></div></div>
+      <div class="ag-item"><span class="ag-icon">🔥</span><div><span class="ag-label">Acid Attack</span><span class="ag-val">SVCS: ₹7–10 lakh | BNSS S.396(3): interim ₹1 lakh within 15 days</span></div></div>
+      <div class="ag-item"><span class="ag-icon">🚽</span><div><span class="ag-label"><span class="ih">सीवर/सेप्टिक मृत्यु</span><span class="ie">Sewer Death</span></span><span class="ag-val">₹10 lakh (SC direction) + ₹30 lakh (SC 2023 order)</span></div></div>
+    </div>
+
+    <div class="sub-section">
+      <div class="sub-title"><span class="sub-icon">📋</span> <span class="ih">मुआवजा कैसे माँगें</span><span class="ie">How to Claim Compensation</span></div>
+      <div class="dtree">
+        <div class="dtree-q ih">चरण 1: DLSA (जिला विधिक सेवा प्राधिकरण) में आवेदन</div>
+        <div class="dtree-q ie">Step 1: Apply to DLSA (District Legal Services Authority)</div>
+        <div class="dtree-opts">
+          <span class="ih">FIR की प्रति + मेडिकल रिपोर्ट + पहचान प्रमाण → DLSA Secretary को आवेदन → अंतरिम मुआवजे का आदेश (बलात्कार: 7 दिन; acid attack: 15 दिन)</span>
+          <span class="ie">Copy of FIR + medical report + ID proof → apply to DLSA Secretary → interim compensation order (rape: 7 days; acid attack: 15 days)</span>
+        </div>
+        <div class="dtree-q" style="margin-top:8px">चरण 2: Court Order (BNSS S.395)</div>
+        <div class="dtree-opts">
+          <span class="ih">न्यायालय दोषसिद्धि या रिहाई पर भी S.395 के अंतर्गत मुआवजा दे सकता है — advocate को prayer clause में माँगना चाहिए।</span>
+          <span class="ie">Court can order compensation under S.395 on conviction OR acquittal — advocate must include prayer in submissions.</span>
+        </div>
+        <div class="dtree-q" style="margin-top:8px">चरण 3: Writ if Denied</div>
+        <div class="dtree-opts">
+          <span class="ih">DLSA इनकार → Patna HC में अनु॰ 226 रिट → प्रतिपूर्ति + ब्याज + खर्च</span>
+          <span class="ie">DLSA refusal → Patna HC writ under Art. 226 → compensation + interest + costs</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="sub-section">
+      <div class="sub-title"><span class="sub-icon">📊</span> <span class="ih">SVCS — राज्यवार न्यूनतम मुआवजा (Bihar)</span><span class="ie">SVCS — Bihar Minimum Compensation</span></div>
+      <table class="scheme-table">
+        <tr><th><span class="ih">अपराध</span><span class="ie">Offence</span></th><th><span class="ih">न्यूनतम</span><span class="ie">Minimum</span></th><th><span class="ih">अंतरिम</span><span class="ie">Interim</span></th><th><span class="ih">समय-सीमा</span><span class="ie">Timeline</span></th></tr>
+        <tr><td>Rape / Gang Rape</td><td>₹3–10 lakh</td><td>₹1 lakh</td><td>7 days (DLSA)</td></tr>
+        <tr><td>POCSO (child sexual abuse)</td><td>₹3–7 lakh</td><td>₹1 lakh</td><td>7 days</td></tr>
+        <tr><td>Acid Attack</td><td>₹7–10 lakh</td><td>₹1 lakh</td><td>15 days</td></tr>
+        <tr><td>Human Trafficking</td><td>₹1–2 lakh</td><td>₹50,000</td><td>15 days</td></tr>
+        <tr><td>Dowry Death / Murder</td><td>₹2–5 lakh</td><td>₹25,000</td><td>30 days</td></tr>
+        <tr><td>Sewer / Manhole Death</td><td>₹10 lakh (SC direction) + ₹30 lakh (2023)</td><td>₹5 lakh</td><td>On application</td></tr>
+        <tr><td>Custodial Death / Torture</td><td>₹3–10 lakh</td><td>₹1 lakh</td><td>DM order</td></tr>
+      </table>
+    </div>
+
+    <div class="sub-section">
+      <div class="sub-title"><span class="sub-icon">⚖️</span> <span class="ih">महत्वपूर्ण निर्णय</span><span class="ie">Key Case Law</span></div>
+      <div class="case-item">
+        <div class="case-name">Nipun Saxena v. Union of India, (2019) 2 SCC 703</div>
+        <div class="case-ratio ih">बलात्कार पीड़ित की पहचान गुप्त रखी जाए; one-stop centres को सक्रिय किया जाए; SVCS को सभी राज्यों में लागू करने का निर्देश।</div>
+        <div class="case-ratio ie">Directions to maintain rape survivor anonymity; activate One-Stop Centres; implement SVCS in all states.</div>
+      </div>
+      <div class="case-item">
+        <div class="case-name">Parivartan Kendra v. Union of India, (2016) 3 SCC 571</div>
+        <div class="case-ratio ih">पीड़ित मुआवजा योजना लागू करना राज्य का दायित्व; NALSA नियम 2013 प्रभावी।</div>
+        <div class="case-ratio ie">State's duty to implement victim compensation scheme; NALSA rules 2013 are operative.</div>
+      </div>
+      <div class="case-item">
+        <div class="case-name">Delhi Jal Board v. National Campaign for Dignity & Rights of Sewerage & Allied Workers, (2011) 8 SCC 568</div>
+        <div class="case-ratio ih">सीवर में मृत्यु पर ₹10 लाख परिवार को मिलेगा; दोषी अधिकारियों पर कार्रवाई।</div>
+        <div class="case-ratio ie">₹10 lakh to families of sewer workers who die; action against responsible officials.</div>
+      </div>
+      <div class="case-item">
+        <div class="case-name">Rudul Sah v. State of Bihar, (1983) 4 SCC 141</div>
+        <div class="case-ratio ih">SC ने पहली बार Art. 32 के तहत मुआवजा दिया — constitutional compensation का आधार।</div>
+        <div class="case-ratio ie">SC awarded monetary compensation under Art. 32 for the first time — foundational case for constitutional compensation.</div>
+      </div>
+    </div>
+
+    <div class="sub-section">
+      <div class="sub-title"><span class="sub-icon">✉️</span> <span class="ih">DLSA मुआवजा आवेदन प्रारूप</span><span class="ie">DLSA Compensation Application Draft</span></div>
+      <div class="draft-box" id="draft-comp">
+        <button class="copy-btn" onclick="copyDraft('draft-comp', this)">📋 Copy</button>सेवा में,
+श्रीमान सचिव,
+जिला विधिक सेवा प्राधिकरण (DLSA)
+जिला: __________, बिहार
+
+विषय: BNSS धारा 395 / Bihar Victim Compensation Scheme के अंतर्गत पीड़ित मुआवजे हेतु आवेदन।
+
+महोदय/महोदया,
+
+1. आवेदिका/आवेदक का नाम: __________, आयु __________, पता __________।
+
+2. प्रकरण विवरण:
+   - अपराध का प्रकार: __________ (बलात्कार/POCSO/एसिड हमला/दहेज हत्या/अन्य)
+   - घटना की तिथि: __________
+   - FIR संख्या: __________, थाना: __________
+   - न्यायालय/पुलिस अनुसंधान की वर्तमान स्थिति: __________
+
+3. BNSS 2023 की धारा 395 एवं Bihar SVCS के अंतर्गत आवेदिका/पीड़ित ₹__________ के मुआवजे की हकदार हैं।
+
+4. अंतरिम मुआवजे के लिए प्रार्थना:
+   (क) __________ दिनों के भीतर ₹__________ का अंतरिम मुआवजा;
+   (ख) अंतिम मुआवजे का निर्धारण।
+
+5. संलग्न दस्तावेज़: FIR, मेडिकल रिपोर्ट, आधार, बैंक पासबुक, फोटो।
+
+स्थान: __________          हस्ताक्षर: __________
+तारीख: __________          नाम + मोबाइल: __________
+                             अधिवक्ता (यदि हो): __________</div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== CHAPTERS 7-10 (CONDENSED) ===== -->
+<div class="chapter" data-section="health" id="ch-health">
+  <div class="chapter-head" onclick="toggleChapter(this)">
+    <h2>🏥 <span class="ih">अध्याय 7: स्वास्थ्य संरक्षण</span><span class="ie">Chapter 7: Health Protection</span>
+      <span class="chapter-badge">PMJAY · ESIC</span></h2>
+    <span class="chapter-arrow">▼</span>
+  </div>
+  <div class="chapter-body">
+    <div class="at-glance">
+      <div class="ag-item"><span class="ag-icon">💳</span><div><span class="ag-label">Ayushman Bharat – PMJAY</span><span class="ag-val">₹5 lakh/family/year | SECC 2011 + State | Cashless at empanelled hospitals</span></div></div>
+      <div class="ag-item"><span class="ag-icon">🆓</span><div><span class="ag-label">AB-HWC</span><span class="ag-val ih">मुफ्त प्राथमिक देखभाल — NCD, मानसिक स्वास्थ्य, माँ-शिशु, आँख-दाँत</span><span class="ag-val ie">Free primary care — NCD, mental health, maternal, eye, dental</span></div></div>
+      <div class="ag-item"><span class="ag-icon">💼</span><div><span class="ag-label">ESIC</span><span class="ag-val">≤₹21k/month employees | Medical + Sickness (70% wages, 91 days) + Maternity</span></div></div>
+      <div class="ag-item"><span class="ag-icon">📞</span><div><span class="ag-label">Helplines</span><span class="ag-val">PMJAY: 14555 | ESIC: 1800-11-2526</span></div></div>
+    </div>
+    <div class="sub-section">
+      <div class="sub-title"><span class="sub-icon">⚠️</span> <span class="ih">PMJAY अस्वीकृति पैटर्न</span><span class="ie">PMJAY Rejection Patterns</span></div>
+      <div class="rejection-card">
+        <div class="rej-problem">🔴 <span class="ih">"SECC list में नाम नहीं"</span><span class="ie">"Name not in SECC list"</span></div>
+        <div class="rej-cure ih">✅ राज्य-विस्तारित सूची जाँचें (Bihar Chief Minister Jan Arogya Yojana); CSC पर Ayushman card बनाएं</div>
+        <div class="rej-cure ie">✅ Check state-extended list (Bihar CMJAY); make Ayushman card at CSC</div>
+      </div>
+      <div class="rejection-card">
+        <div class="rej-problem">🔴 <span class="ih">अस्पताल ने कैशलेस इनकार किया</span><span class="ie">Hospital denied cashless treatment</span></div>
+        <div class="rej-cure ih">✅ PMJAY helpline 14555; जिला SHA (State Health Agency) को शिकायत; Parmanand Katara v. UoI (1989) — emergency care देने से इनकार Art. 21 का उल्लंघन</div>
+        <div class="rej-cure ie">✅ Call PMJAY helpline 14555; complain to district SHA; Parmanand Katara v. UoI (1989) — refusal of emergency care violates Art. 21</div>
+      </div>
+    </div>
+    <div class="sub-section">
+      <div class="sub-title"><span class="sub-icon">✉️</span> <span class="ih">PMJAY शिकायत प्रारूप</span><span class="ie">PMJAY Complaint Draft</span></div>
+      <div class="draft-box" id="draft-pmjay">
+        <button class="copy-btn" onclick="copyDraft('draft-pmjay', this)">📋 Copy</button>सेवा में,
+श्रीमान जिला मुख्य चिकित्सा पदाधिकारी / State Health Agency (SHA) नोडल अधिकारी
+जिला: __________, बिहार
+
+विषय: PMJAY कैशलेस उपचार अस्वीकृति के विरुद्ध शिकायत।
+
+महोदय, __________ अस्पताल ने दिनांक __________ को __________ (रोगी का नाम) को PMJAY के अंतर्गत कैशलेस उपचार देने से इनकार किया। Ayushman Card संख्या __________ है। यह PMJAY Guidelines एवं Art. 21 (Parmanand Katara v. UoI 1989) का उल्लंघन है। कृपया 48 घंटे में हस्तक्षेप करें। Helpline 14555 पर भी शिकायत दर्ज है।
+नाम: __________, मोबाइल: __________</div>
+    </div>
+  </div>
+</div>
+
+<div class="chapter" data-section="housing" id="ch-housing">
+  <div class="chapter-head" onclick="toggleChapter(this)">
+    <h2>🏠 <span class="ih">अध्याय 8: आवास अधिकार</span><span class="ie">Chapter 8: Housing Rights</span>
+      <span class="chapter-badge">PMAY-G · PMAY-U</span></h2>
+    <span class="chapter-arrow">▼</span>
+  </div>
+  <div class="chapter-body">
+    <div class="at-glance">
+      <div class="ag-item"><span class="ag-icon">🏡</span><div><span class="ag-label">PMAY-G</span><span class="ag-val">SECC 2011 | ₹1.2 lakh (plains) + ₹12k toilet + 90 days MGNREGS</span></div></div>
+      <div class="ag-item"><span class="ag-icon">🏙️</span><div><span class="ag-label">PMAY-U (EWS)</span><span class="ag-val">Income ≤₹3 lakh | CLSS interest subsidy; pmaymis.gov.in</span></div></div>
+      <div class="ag-item"><span class="ag-icon">⚖️</span><div><span class="ag-label"><span class="ih">कानूनी आधार</span><span class="ie">Legal basis</span></span><span class="ag-val">Olga Tellis v. BMC 1986; Chameli Singh 1995 — Art. 21</span></div></div>
+      <div class="ag-item"><span class="ag-icon">📞</span><div><span class="ag-label">Portal</span><span class="ag-val">awaasoft.nic.in | pmaymis.gov.in</span></div></div>
+    </div>
+    <div class="sub-section">
+      <div class="sub-title"><span class="sub-icon">✉️</span> <span class="ih">PMAY-G RTI प्रारूप</span><span class="ie">PMAY-G RTI Draft</span></div>
+      <div class="draft-box" id="draft-pmay">
+        <button class="copy-btn" onclick="copyDraft('draft-pmay', this)">📋 Copy</button>सेवा में, श्रीमान PIO, BDO कार्यालय, खंड __________, जिला __________, बिहार | RTI Act 2005 के अंतर्गत आवेदन | जानकारी चाहिए: (i) वर्ष __________ में PMAY-G के अंतर्गत स्वीकृत/निरस्त/लंबित आवेदनों की सूची; (ii) __________ (आवेदक नाम) के आवेदन संख्या __________ की वर्तमान स्थिति एवं फाइल नोटिंग; (iii) AwaasSoft में प्रविष्टि की प्रति। शुल्क: ₹10 IPO संलग्न / BPL (fee exempt)। नाम: __________, पता: __________</div>
+    </div>
+  </div>
+</div>
+
+<div class="chapter" data-section="labour" id="ch-labour">
+  <div class="chapter-head" onclick="toggleChapter(this)">
+    <h2>⚒️ <span class="ih">अध्याय 9: श्रम कल्याण</span><span class="ie">Chapter 9: Labour Welfare</span>
+      <span class="chapter-badge">MGNREGS · BOCW · PM-SYM</span></h2>
+    <span class="chapter-arrow">▼</span>
+  </div>
+  <div class="chapter-body">
+    <div class="at-glance">
+      <div class="ag-item"><span class="ag-icon">🌾</span><div><span class="ag-label">MGNREGS</span><span class="ag-val">100 days/HH/yr (PwD/SC/ST: 150 days) | Job card in 15 days | Wages in 15 days</span></div></div>
+      <div class="ag-item"><span class="ag-icon">🏗️</span><div><span class="ag-label">BOCW</span><span class="ag-val">90+ days construction → Free registration → Pension, death comp, scholarship | bocwbihar.in</span></div></div>
+      <div class="ag-item"><span class="ag-icon">💰</span><div><span class="ag-label">PM-SYM</span><span class="ag-val">18–40, ≤₹15k/month, unorganised → ₹3,000/month pension at 60 | maandhan.in</span></div></div>
+      <div class="ag-item"><span class="ag-icon">⚖️</span><div><span class="ag-label"><span class="ih">वेतन देरी</span><span class="ie">Wage delay</span></span><span class="ag-val">MGNREGS: Compensation @ 0.05%/day beyond 15 days (MGNREGA S.3)</span></div></div>
+    </div>
+    <div class="sub-section">
+      <div class="sub-title"><span class="sub-icon">✉️</span> <span class="ih">MGNREGS मजदूरी माँग प्रारूप</span><span class="ie">MGNREGS Work Demand Draft</span></div>
+      <div class="draft-box" id="draft-mgnregs">
+        <button class="copy-btn" onclick="copyDraft('draft-mgnregs', this)">📋 Copy</button>सेवा में,
+श्रीमान ग्राम रोजगार सहायक / ग्राम पंचायत प्रमुख
+पंचायत __________, खंड __________, जिला __________, बिहार
+
+विषय: MGNREGA 2005 की धारा 3 के अंतर्गत रोजगार की माँग।
+
+महोदय, मैं __________, Job Card संख्या __________, रोजगार की माँग करता/करती हूँ। MGNREGA की धारा 3 के तहत आवेदन की तारीख से 15 दिन में काम देना अनिवार्य है। यदि 15 दिन में काम नहीं मिला तो बेरोजगारी भत्ता देय होगा। यदि मजदूरी 15 दिन में नहीं मिली तो 0.05% प्रतिदिन मुआवजा देय है।
+तारीख: __________    नाम: __________    Job Card No.: __________</div>
+    </div>
+  </div>
+</div>
+
+<div class="chapter" data-section="scholarship" id="ch-scholarship">
+  <div class="chapter-head" onclick="toggleChapter(this)">
+    <h2>📚 <span class="ih">अध्याय 10: छात्रवृत्ति</span><span class="ie">Chapter 10: Scholarships</span>
+      <span class="chapter-badge">NSP · SC/ST/OBC/Minority</span></h2>
+    <span class="chapter-arrow">▼</span>
+  </div>
+  <div class="chapter-body">
+    <div class="at-glance">
+      <div class="ag-item"><span class="ag-icon">📖</span><div><span class="ag-label">Pre-Matric (9-10)</span><span class="ag-val">SC/ST/OBC/Minority: ₹225–1,100/month</span></div></div>
+      <div class="ag-item"><span class="ag-icon">🎓</span><div><span class="ag-label">Post-Matric</span><span class="ag-val">SC/ST: ₹1,000–3,000/month + fees | Minority: ₹3,000–8,000/month</span></div></div>
+      <div class="ag-item"><span class="ag-icon">♿</span><div><span class="ag-label">PwD Scholarship</span><span class="ag-val">40%+ disability | ₹500–3,800/month | scholarships.gov.in</span></div></div>
+      <div class="ag-item"><span class="ag-icon">📱</span><div><span class="ag-label">Portal</span><span class="ag-val">scholarships.gov.in | NSP Helpline: 0120-6619540</span></div></div>
+    </div>
+    <div class="rejection-card">
+      <div class="rej-problem">🔴 <span class="ih">जाति प्रमाण-पत्र में नाम Aadhaar से अलग</span><span class="ie">Name on caste cert differs from Aadhaar</span></div>
+      <div class="rej-cure ih">✅ दोनों में नाम एकसमान करें — UIDAI पर Aadhaar नाम सुधार या Revenue office से caste cert में सुधार</div>
+      <div class="rej-cure ie">✅ Harmonise names — UIDAI Aadhaar name correction OR Revenue office caste cert correction</div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== CHAPTER 11: FIELD DRAFTS HUB ===== -->
+<div class="chapter" data-section="drafts" id="ch-drafts">
+  <div class="chapter-head" onclick="toggleChapter(this)">
+    <h2>✉️ <span class="ih">अध्याय 11: फील्ड प्रारूप केंद्र</span><span class="ie">Chapter 11: Field Drafts Hub</span>
+      <span class="chapter-badge">RTI · Writ · Notice</span></h2>
+    <span class="chapter-arrow">▼</span>
+  </div>
+  <div class="chapter-body">
+    <div class="info-box info">
+      <strong><span class="ih">उपयोग निर्देश</span><span class="ie">Usage Instructions</span></strong>
+      <span class="ih">नीचे दिए गए प्रारूपों में __________ की जगह भरें। "Copy" बटन दबाएं → WhatsApp पर भेजें या प्रिंट करें।</span>
+      <span class="ie">Fill in the blanks marked __________ in each draft. Press "Copy" → send via WhatsApp or print.</span>
+    </div>
+
+    <div class="sub-section">
+      <div class="sub-title"><span class="sub-icon">📝</span> RTI — <span class="ih">सामान्य कल्याण RTI</span><span class="ie">General Welfare RTI</span></div>
+      <div class="draft-box" id="draft-rti">
+        <button class="copy-btn" onclick="copyDraft('draft-rti', this)">📋 Copy</button>सेवा में,
+श्रीमान जन सूचना अधिकारी (PIO)
+कार्यालय __________ (BDO/DSWO/PMAY Cell), खंड __________, जिला __________, बिहार
+
+विषय: सूचना का अधिकार अधिनियम 2005 के अंतर्गत आवेदन।
+
+1. आवेदक का नाम: __________
+2. पूर्ण पता: __________
+3. मोबाइल / ईमेल: __________
+4. शुल्क: ₹10 IPO / BPL (शुल्क मुक्त — BPL कार्ड संलग्न)
+
+माँगी गई सूचना (__________ योजना के संबंध में __________ से __________ तक, पंचायत/खंड/जिला __________ के लिए):
+
+(i) कुल प्राप्त आवेदनों की संख्या एवं सूची।
+(ii) स्वीकृत आवेदनों की सूची (नाम, आधार अंतिम 4 अंक, स्वीकृति तिथि, राशि)।
+(iii) अस्वीकृत आवेदनों की सूची (नाम, तिथि, कारण)।
+(iv) लंबित आवेदनों की सूची — आयु-वार विवरण।
+(v) लागू योजना दिशानिर्देश एवं कार्यालय आदेशों की प्रति।
+(vi) आवेदन संख्या __________ (आवेदक: __________, तिथि: __________) की फाइल नोटिंग एवं गतिविधि।
+
+सूचना का माध्यम: प्रमाणित छायाप्रतियाँ, डाक द्वारा उपरोक्त पते पर।
+
+मैं भारत का नागरिक हूँ। [BPL → BPL कार्ड की प्रति संलग्न, शुल्क मुक्त।]
+
+स्थान: __________          हस्ताक्षर: __________
+तारीख: __________          नाम: __________</div>
+    </div>
+
+    <div class="sub-section">
+      <div class="sub-title"><span class="sub-icon">⚖️</span> <span class="ih">कानूनी नोटिस (रिट पूर्व)</span><span class="ie">Legal Notice (Pre-Writ)</span></div>
+      <div class="draft-box" id="draft-notice">
+        <button class="copy-btn" onclick="copyDraft('draft-notice', this)">📋 Copy</button>कानूनी नोटिस
+
+प्रेषक: [अधिवक्ता का नाम एवं पता], नामांकन संख्या: __________
+अपने मुवक्किल की ओर से: __________, निवासी __________
+
+सेवा में:
+1. राज्य, बिहार, सचिव के माध्यम से, __________ विभाग
+2. जिलाधिकारी, __________
+3. खंड विकास पदाधिकारी, __________
+
+विषय: __________ योजना के अंतर्गत पात्र लाभ की स्वीकृति/भुगतान हेतु 15 दिन का अंतिम नोटिस — अनुपालन न होने पर पटना उच्च न्यायालय में अनु॰ 226 के तहत रिट याचिका।
+
+मेरे निर्देश पर सूचित किया जाता है:
+
+1. मेरे मुवक्किल ने दिनांक __________ को __________ योजना हेतु BDO कार्यालय में आवेदन दिया था।
+
+2. RTPS Bihar 2011 / लागू नियमों के तहत __________ दिन की समय-सीमा समाप्त हो चुकी है।
+
+3. यह विलंब/इनकार अनु॰ 14 (मनमानापन) एवं अनु॰ 21 (गरिमा सहित जीवन का अधिकार) का उल्लंघन है।
+
+4. इस नोटिस के प्राप्ति के 15 दिन के भीतर निम्नलिखित अनुतोष प्रदान करें:
+   (क) पेंशन/लाभ की तत्काल स्वीकृति
+   (ख) पात्रता तिथि से बकाया राशि
+   (ग) 6% वार्षिक ब्याज
+
+5. यदि 15 दिन में अनुपालन नहीं हुआ तो पटना उच्च न्यायालय में रिट याचिका बिना आगे सूचना के दायर की जाएगी।
+
+स्थान: __________          [अधिवक्ता हस्ताक्षर एवं मुहर]
+तारीख: __________</div>
+    </div>
+
+    <div class="sub-section">
+      <div class="sub-title"><span class="sub-icon">🧾</span> <span class="ih">शिकायत प्रारूप (सामान्य — किसी भी योजना के लिए)</span><span class="ie">General Grievance Draft (any scheme)</span></div>
+      <div class="draft-box" id="draft-grievance">
+        <button class="copy-btn" onclick="copyDraft('draft-grievance', this)">📋 Copy</button>सेवा में,
+श्रीमान जिलाधिकारी / जिला शिकायत निवारण पदाधिकारी
+जिला __________, बिहार
+
+विषय: बिहार लोक शिकायत निवारण अधिकार अधिनियम 2015 के अंतर्गत — __________ योजना में विलंब/अस्वीकृति के विरुद्ध।
+
+महोदय,
+
+1. मैं __________, ग्राम __________, पंचायत __________, खंड __________ ने __________ योजना हेतु दिनांक __________ को आवेदन किया था (रसीद संख्या __________)।
+
+2. निर्धारित __________ दिन की समय-सीमा समाप्त हो गई है; अब तक कोई निर्णय नहीं लिया गया।
+
+3. यह विलंब Bihar RTPS Act 2011 + Lok Shikayat Adhiniyam 2015 + Art. 14 + Art. 21 का उल्लंघन है।
+
+4. अनुरोध है:
+   (क) __________ दिन में स्पष्ट, लिखित निर्णय;
+   (ख) लाभ की तत्काल स्वीकृति एवं बकाया भुगतान;
+   (ग) Lok Shikayat Act S.6 के तहत क्षतिपूर्ति।
+
+5. 15 दिन में उत्तर नहीं मिला तो पटना उच्च न्यायालय में रिट याचिका दायर होगी।
+
+स्थान: __________    तारीख: __________    नाम + हस्ताक्षर + मोबाइल: __________</div>
+    </div>
+
+    <div class="sub-section">
+      <div class="sub-title"><span class="sub-icon">📞</span> <span class="ih">महत्वपूर्ण हेल्पलाइन</span><span class="ie">Key Helplines</span></div>
+      <div class="helpline-row">
+        <div class="helpline-chip">📞 PMJAY: 14555</div>
+        <div class="helpline-chip">📞 <span class="ih">राशन: 1967</span><span class="ie">Ration: 1967</span></div>
+        <div class="helpline-chip">📞 MGNREGS: 1800-110-707</div>
+        <div class="helpline-chip">📞 NSP: 0120-6619540</div>
+        <div class="helpline-chip">📞 ESIC: 1800-11-2526</div>
+        <div class="helpline-chip">📞 Bihar CM Helpline: 1800-345-6188</div>
+        <div class="helpline-chip">📞 NALSA: 15100</div>
+        <div class="helpline-chip">📞 DLSA: 06122-2222-xxx</div>
+        <div class="helpline-chip">📞 CHILDLINE: 1098</div>
+        <div class="helpline-chip">📞 One-Stop Centre: 181</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div><!-- /content -->
+
+<!-- FOOTER -->
+<div class="footer">
+  <div>
+    <strong style="color:var(--gold)">Janman People's Foundation</strong> | Jan Nyaya Abhiyan<br>
+    <span class="ih">यह हैंडबुक PLV, पैरालीगल, वकीलों और सामाजिक कार्यकर्ताओं के लिए नि:शुल्क है।</span>
+    <span class="ie">This handbook is free for PLVs, paralegals, lawyers, and social workers.</span>
+  </div>
+  <div class="footer-links">
+    <a href="https://jan-sahayak-pro.vercel.app">Jan Sahayak App</a>
+    <a href="https://jan-sahayak-pro.vercel.app/schemes.html">Schemes Page</a>
+    <a href="https://janman-training.github.io">Training Course</a>
+    <a href="Janman_Welfare_Rights_Handbook.pdf" download>Download PDF</a>
+    <a href="mailto:shashwat@janmanindia.org">Contact</a>
+  </div>
+  <div style="margin-top:8px;color:#888;font-size:11px">
+    v2.0 · May 2026 · CC BY-NC-SA 4.0 | 
+    <span class="ih">कानूनी आधार: RPwD 2016 · NFSA 2013 · MHCA 2017 · MGNREGA 2005 · BNSS 2023</span>
+    <span class="ie">Legal basis: RPwD 2016 · NFSA 2013 · MHCA 2017 · MGNREGA 2005 · BNSS 2023</span>
+  </div>
+</div>
+
+<script>
+// ============================================================
+// LANGUAGE TOGGLE
+// ============================================================
+function toggleLang(){
+  const html=document.documentElement;
+  const lang=html.getAttribute('data-lang')==='hi'?'en':'hi';
+  html.setAttribute('data-lang',lang);
+  localStorage.setItem('lang',lang);
+}
+(function(){
+  const saved=localStorage.getItem('lang');
+  if(saved) document.documentElement.setAttribute('data-lang',saved);
+})();
+
+// ============================================================
+// SECTION NAVIGATION
+// ============================================================
+function showSection(sec, btn){
+  document.querySelectorAll('.cat-btn').forEach(b=>b.classList.remove('active'));
+  if(btn) btn.classList.add('active');
+  document.querySelectorAll('.chapter').forEach(ch=>{
+    if(sec==='all') ch.style.display='block';
+    else ch.style.display=(ch.dataset.section===sec)?'block':'none';
+  });
+}
+
+// ============================================================
+// CHAPTER ACCORDION
+// ============================================================
+function toggleChapter(head){
+  const ch=head.parentElement;
+  ch.classList.toggle('open');
+}
+
+// ============================================================
+// COPY-A-LETTER
+// ============================================================
+function copyDraft(id, btn){
+  const box=document.getElementById(id);
+  // Get text excluding the copy button text
+  const lines=[];
+  box.childNodes.forEach(n=>{
+    if(n.nodeType===Node.TEXT_NODE) lines.push(n.textContent);
+  });
+  const text=box.innerText.replace(/📋 Copy\s*/,'').trim();
+  navigator.clipboard.writeText(text).then(()=>{
+    btn.textContent='✅ Copied!';
+    btn.classList.add('copied');
+    setTimeout(()=>{btn.textContent='📋 Copy';btn.classList.remove('copied');},2000);
+  }).catch(()=>{
+    // Fallback for older browsers
+    const ta=document.createElement('textarea');
+    ta.value=text;ta.style.position='fixed';ta.style.opacity='0';
+    document.body.appendChild(ta);ta.select();document.execCommand('copy');
+    document.body.removeChild(ta);
+    btn.textContent='✅ Copied!';
+    setTimeout(()=>{btn.textContent='📋 Copy';},2000);
+  });
+}
+
+// ============================================================
+// SEARCH INDEX
+// ============================================================
+const SEARCH_INDEX=[
+  {title:'राशन कार्ड / Ration Card',keywords:'ration card nfsa aay phh bpl food antyodaya राशन खाना pds grain',section:'food',anchor:'ch-food'},
+  {title:'PMGKAY — मुफ्त अनाज / Free Grain',keywords:'pmgkay free grain muft anaaj covid',section:'food',anchor:'ch-food'},
+  {title:'IGNOAPS — वृद्धावस्था पेंशन / Old Age Pension',keywords:'ignoaps old age pension vridha budhapa pension nsap mvpy 60 years',section:'pension',anchor:'ch-pension'},
+  {title:'IGNWPS — विधवा पेंशन / Widow Pension',keywords:'widow pension vidhwa ignwps nsap 40 years',section:'pension',anchor:'ch-pension'},
+  {title:'IGNDPS — दिव्यांग पेंशन / Disability Pension',keywords:'disability pension divyang igndps 80 percent bpl',section:'pension',anchor:'ch-pension'},
+  {title:'NFBS — राष्ट्रीय परिवार लाभ / Family Benefit Scheme',keywords:'nfbs family benefit mrityu death breadwinner 20000',section:'pension',anchor:'ch-pension'},
+  {title:'Bihar MVPY — मुख्यमंत्री वृद्धजन पेंशन',keywords:'mvpy mukhyamantri vriddha jeevan pension bihar 400 500',section:'pension',anchor:'ch-pension'},
+  {title:'PMMVY — मातृत्व लाभ / Maternity Benefit',keywords:'pmmvy maternity pregnancy motherhood 5000 6500 pregnant woman',section:'maternity',anchor:'ch-maternity'},
+  {title:'JSY — जननी सुरक्षा योजना',keywords:'jsy janani suraksha institutional delivery prasav 1400',section:'maternity',anchor:'ch-maternity'},
+  {title:'JSSK — मुफ्त प्रसव / Free Delivery',keywords:'jssk free delivery hospital delivery drugs test blood transport',section:'maternity',anchor:'ch-maternity'},
+  {title:'UDID Card — दिव्यांगता प्रमाण-पत्र',keywords:'udid disability certificate rpwd act divyang card swavlamban 21 types',section:'disability',anchor:'ch-disability'},
+  {title:'ADIP — सहायक उपकरण / Assistive Devices',keywords:'adip assistive devices wheelchair hearing aid prosthetics alimco',section:'disability',anchor:'ch-disability'},
+  {title:'RPwD — आरक्षण / Reservation',keywords:'rpwd reservation 4 percent 5 percent education employment quota section 34',section:'disability',anchor:'ch-disability'},
+  {title:'मुफ्त शिक्षा / Free Education (Section 31)',keywords:'free education 18 years rpwd section 31 cwsn inclusive special school',section:'disability',anchor:'ch-disability'},
+  {title:'Mental Healthcare Act 2017 — मुफ्त इलाज',keywords:'mhca mental health act free treatment dmhp psychiatric hospital right section 18',section:'mental',anchor:'ch-mental'},
+  {title:'जबरन भर्ती / Involuntary Admission',keywords:'forced involuntary admission jabardasti bhart mhca section 89 mhrb',section:'mental',anchor:'ch-mental'},
+  {title:'जंजीर / Chaining — गैर-कानूनी',keywords:'chaining zanjeer illegal mhca section 97 liberation dmhp',section:'mental',anchor:'ch-mental'},
+  {title:'Advance Directive — अग्रिम निर्देश',keywords:'advance directive mhca section 5 treatment control',section:'mental',anchor:'ch-mental'},
+  {title:'बलात्कार मुआवजा / Rape Compensation',keywords:'rape compensation svcs nalsa bnss 395 357a dlsa 3 lakh',section:'compensation',anchor:'ch-compensation'},
+  {title:'POCSO पीड़ित मुआवजा / POCSO Compensation',keywords:'pocso child compensation dlsa 7 days interim',section:'compensation',anchor:'ch-compensation'},
+  {title:'Acid Attack मुआवजा',keywords:'acid attack compensation svcs 7 lakh 10 lakh 15 days',section:'compensation',anchor:'ch-compensation'},
+  {title:'सीवर/मैनहोल मृत्यु मुआवजा / Sewer Death Compensation',keywords:'sewer manhole death compensation 10 lakh 30 lakh safai karamchari',section:'compensation',anchor:'ch-compensation'},
+  {title:'दहेज हत्या मुआवजा / Dowry Death Compensation',keywords:'dowry death compensation dahej hatya svcs dlsa',section:'compensation',anchor:'ch-compensation'},
+  {title:'Ayushman Bharat — PMJAY',keywords:'pmjay ayushman health 5 lakh cashless hospital secc',section:'health',anchor:'ch-health'},
+  {title:'ESIC — कर्मचारी बीमा',keywords:'esic employees insurance sickness maternity disablement 21000',section:'health',anchor:'ch-health'},
+  {title:'PMAY-G — ग्रामीण आवास',keywords:'pmay gramin rural housing 1.2 lakh toilet secc awaasoft',section:'housing',anchor:'ch-housing'},
+  {title:'PMAY-U — शहरी आवास',keywords:'pmay urban ews lig clss interest subsidy pmaymis',section:'housing',anchor:'ch-housing'},
+  {title:'MGNREGS — रोजगार गारंटी',keywords:'mgnrega mgnregs 100 days job card wage delay unemployment allowance',section:'labour',anchor:'ch-labour'},
+  {title:'BOCW — निर्माण मजदूर कल्याण',keywords:'bocw construction workers welfare board registration bocwbihar',section:'labour',anchor:'ch-labour'},
+  {title:'PM-SYM — पेंशन योजना (असंगठित)',keywords:'pm sym shram yogi maandhan pension 3000 60 years unorganised',section:'labour',anchor:'ch-labour'},
+  {title:'SC/ST छात्रवृत्ति / Scholarship',keywords:'sc st scholarship pre matric post matric national scholarship portal nsp',section:'scholarship',anchor:'ch-scholarship'},
+  {title:'OBC / Minority छात्रवृत्ति',keywords:'obc minority scholarship maulana azad nsp income',section:'scholarship',anchor:'ch-scholarship'},
+  {title:'RTI आवेदन प्रारूप',keywords:'rti application welfare information right to information pio',section:'drafts',anchor:'ch-drafts'},
+  {title:'शिकायत प्रारूप / Grievance Draft',keywords:'grievance shikayat complaint delay denial pension ration',section:'drafts',anchor:'ch-drafts'},
+  {title:'कानूनी नोटिस / Legal Notice',keywords:'legal notice writ art 226 patna hc advocate pre-writ',section:'drafts',anchor:'ch-drafts'},
+];
+
+function doSearch(q){
+  const res=document.getElementById('searchResults');
+  if(!q||q.length<2){res.classList.remove('active');return;}
+  q=q.toLowerCase().trim();
+  const matches=SEARCH_INDEX.filter(item=>
+    item.title.toLowerCase().includes(q)||
+    item.keywords.toLowerCase().includes(q)
+  ).slice(0,8);
+  if(matches.length===0){
+    res.innerHTML='<div class="sr-empty">कोई परिणाम नहीं / No results found</div>';
+    res.classList.add('active');return;
+  }
+  res.innerHTML=matches.map(m=>`
+    <div class="sr-item" onclick="goToResult('${m.section}','${m.anchor}')">
+      <div class="sr-item-title">${m.title}</div>
+    </div>`).join('');
+  res.classList.add('active');
+}
+
+function goToResult(section, anchor){
+  showSection(section, null);
+  // activate correct nav button
+  document.querySelectorAll('.cat-btn').forEach(b=>{
+    if((b.onclick+'').includes(`'${section}'`)) b.classList.add('active');
+    else b.classList.remove('active');
+  });
+  document.getElementById('searchResults').classList.remove('active');
+  document.getElementById('searchInput').value='';
+  // open chapter and scroll
+  const ch=document.getElementById(anchor);
+  if(ch){ch.classList.add('open');setTimeout(()=>ch.scrollIntoView({behavior:'smooth',block:'start'}),100);}
+}
+
+// Close search on outside click
+document.addEventListener('click',e=>{
+  if(!e.target.closest('.search-wrap'))
+    document.getElementById('searchResults').classList.remove('active');
+});
+
+// ============================================================
+// ELIGIBILITY CHECKER
+// ============================================================
+const ELIG_QUESTIONS=[
+  {id:'age',q_hi:'व्यक्ति की आयु क्या है?',q_en:'What is the person\'s age?',
+   opts:[{v:'<18',l_hi:'18 से कम'},
+         {v:'18-39',l_hi:'18-39 वर्ष',l_en:'18-39 years'},
+         {v:'40-59',l_hi:'40-59 वर्ष',l_en:'40-59 years'},
+         {v:'60-79',l_hi:'60-79 वर्ष',l_en:'60-79 years'},
+         {v:'80+',l_hi:'80 वर्ष या अधिक',l_en:'80 years or more'}]},
+  {id:'gender',q_hi:'लिंग?',q_en:'Gender?',
+   opts:[{v:'female',l_hi:'महिला',l_en:'Female'},
+         {v:'male',l_hi:'पुरुष',l_en:'Male'},
+         {v:'other',l_hi:'अन्य/TG',l_en:'Other/TG'}]},
+  {id:'bpl',q_hi:'क्या BPL/AAY/PHH राशन कार्ध है?',q_en:'Does the person have BPL/AAY/PHH ration card?',
+   opts:[{v:'aay',l_hi:'हाँ — AAY',l_en:'Yes — AAY'},
+         {v:'phh',l_hi:'हाँ — PHH',l_en:'Yes — PHH'},
+         {v:'no',l_hi:'नहीं',l_en:'No'}]},
+  {id:'disability',q_hi:'कोई दिव्यांगता है?',q_en:'Any disability?',
+   opts:[{v:'80+',l_hi:'हाँ — 80% या अधिक',l_en:'Yes — 80% or more'},
+         {v:'40-79',l_hi:'हाँ — 40–79%',l_en:'Yes — 40-79%'},
+         {v:'no',l_hi:'नहीं',l_en:'No'}]},
+  {id:'status',q_hi:'पारिवारिक/श्रम स्थिति?',q_en:'Family / labour status?',
+   opts:[{v:'widow',l_hi:'विधवा',l_en:'Widow'},
+         {v:'construction',l_hi:'निर्माण मजदूर',l_en:'Construction worker'},
+         {v:'pregnant',l_hi:'गर्भवती/धात्री',l_en:'Pregnant/lactating'},
+         {v:'none',l_hi:'इनमें से कोई नहीं',l_en:'None of these'}]},
+];
+
+let eligAnswers={};
+let eligStep=0;
+
+function openElig(){
+  eligAnswers={};eligStep=0;
+  document.getElementById('eligModal').classList.add('open');
+  renderEligStep();
+}
+function closeElig(){
+  document.getElementById('eligModal').classList.remove('open');
+}
+document.getElementById('eligModal').addEventListener('click',e=>{
+  if(e.target===e.currentTarget) closeElig();
+});
+
+function renderEligStep(){
+  const body=document.getElementById('eligBody');
+  const isHi=document.documentElement.getAttribute('data-lang')!=='en';
+  if(eligStep>=ELIG_QUESTIONS.length){
+    // Show results
+    const results=computeElig();
+    body.innerHTML=`
+      <div class="elig-results">
+        <h3>${isHi?'✅ आपके लिए उपयुक्त योजनाएं':'✅ Applicable Schemes for This Person'}</h3>
+        ${results.map(r=>`
+          <div class="elig-result-item">
+            <strong>${r.scheme}</strong>
+            ${isHi?r.desc_hi:r.desc_en}
+          </div>`).join('')}
+      </div>
+      <button class="elig-restart" onclick="openElig()">${isHi?'🔄 दोबारा जाँचें':'🔄 Check Again'}</button>`;
+    return;
+  }
+  const q=ELIG_QUESTIONS[eligStep];
+  body.innerHTML=`
+    <div style="font-size:12px;color:#888;margin-bottom:8px">${isHi?'प्रश्न':'Question'} ${eligStep+1} / ${ELIG_QUESTIONS.length}</div>
+    <div class="elig-q">${isHi?q.q_hi:q.q_en}</div>
+    <div class="elig-options">
+      ${q.opts.map(o=>`
+        <button class="elig-opt${eligAnswers[q.id]===o.v?' sel':''}" 
+          onclick="selectElig('${q.id}','${o.v}',this)">
+          ${isHi?(o.l_hi||o.l_en||o.v):(o.l_en||o.l_hi||o.v)}
+        </button>`).join('')}
+    </div>
+    <div class="elig-nav">
+      ${eligStep>0?`<button class="btn-secondary" onclick="eligBack()">${isHi?'◀ पीछे':'◀ Back'}</button>`:''}
+      <button class="btn-primary" onclick="eligNext()" ${!eligAnswers[q.id]?'disabled':''} id="eligNextBtn">
+        ${eligStep===ELIG_QUESTIONS.length-1?(isHi?'परिणाम देखें ▶':'See Results ▶'):(isHi?'आगे ▶':'Next ▶')}
+      </button>
+    </div>`;
+}
+
+function selectElig(qid, val, btn){
+  eligAnswers[qid]=val;
+  btn.closest('.elig-options').querySelectorAll('.elig-opt').forEach(b=>b.classList.remove('sel'));
+  btn.classList.add('sel');
+  const nb=document.getElementById('eligNextBtn');
+  if(nb) nb.removeAttribute('disabled');
+}
+
+function eligNext(){
+  if(!eligAnswers[ELIG_QUESTIONS[eligStep].id]) return;
+  eligStep++;
+  renderEligStep();
+}
+function eligBack(){
+  if(eligStep>0){eligStep--;renderEligStep();}
+}
+
+function computeElig(){
+  const a=eligAnswers;
+  const results=[];
+  // Food
+  if(a.bpl==='aay'||a.bpl==='phh'){
+    results.push({scheme:'🌾 '+(a.bpl==='aay'?'AAY Ration Card':'PHH Ration Card'),
+      desc_hi:a.bpl==='aay'?'35 किग्रा अनाज/माह मुफ्त':'5 किग्रा/व्यक्ति/माह ₹1-3 में',
+      desc_en:a.bpl==='aay'?'35 kg grain/month free':'5 kg/person/month at ₹1-3'});
+  }
+  // Pension
+  if((a.age==='60-79'||a.age==='80+')&&(a.bpl==='aay'||a.bpl==='phh')){
+    results.push({scheme:'👴 IGNOAPS + Bihar MVPY',
+      desc_hi:a.age==='80+'?'₹500/माह (80+)':'₹400/माह (Bihar MVPY — BPL की शर्त नहीं!)',
+      desc_en:a.age==='80+'?'₹500/month (80+)':'₹400/month (Bihar MVPY — no BPL condition!)'});
+  } else if(a.age==='60-79'||a.age==='80+'){
+    results.push({scheme:'👴 Bihar MVPY',
+      desc_hi:'सभी 60+ बिहार नागरिक पात्र — BPL की शर्त नहीं! ₹400–500/माह',
+      desc_en:'All Bihar residents 60+ eligible — NO BPL condition! ₹400–500/month'});
+  }
+  // Widow pension
+  if(a.status==='widow'&&(a.age==='40-59'||a.age==='60-79')&&(a.bpl==='aay'||a.bpl==='phh')){
+    results.push({scheme:'👩 IGNWPS — विधवा पेंशन',
+      desc_hi:'40–79 वर्ष BPL विधवा → ₹300/माह + राज्य सहायता',
+      desc_en:'BPL widow 40–79 → ₹300/month + state supplement'});
+  }
+  // Disability
+  if(a.disability==='80+'&&(a.bpl==='aay'||a.bpl==='phh')){
+    results.push({scheme:'♿ IGNDPS — दिव्यांग पेंशन',
+      desc_hi:'80%+ दिव्यांगता, BPL → ₹300/माह + बिहार सप्लीमेंट',
+      desc_en:'80%+ disability, BPL → ₹300/month + Bihar supplement'});
+  }
+  if(a.disability==='40-79'||a.disability==='80+'){
+    results.push({scheme:'🪪 UDID Card + Bihar Disability Pension',
+      desc_hi:'40%+ → UDID Card + ₹400/माह पेंशन + 4% नौकरी आरक्षण + ADIP उपकरण',
+      desc_en:'40%+ → UDID Card + ₹400/month pension + 4% job quota + ADIP devices'});
+    results.push({scheme:'📚 Disability Scholarship (PwD)',
+      desc_hi:'₹500–3,800/माह | scholarships.gov.in',
+      desc_en:'₹500–3,800/month | scholarships.gov.in'});
+  }
+  // Maternity
+  if(a.status==='pregnant'){
+    results.push({scheme:'🤱 PMMVY 2.0',
+      desc_hi:'पहला बच्चा: ₹5,000 | पहली बेटी: ₹6,500 — ASHA/Anganwadi से आवेदन करें',
+      desc_en:'First child ₹5,000 | First girl ₹6,500 — apply via ASHA/Anganwadi'});
+    results.push({scheme:'🏥 JSY + JSSK',
+      desc_hi:'संस्थागत प्रसव: ₹1,400 + मुफ्त दवा/जाँच/भोजन/परिवहन',
+      desc_en:'Institutional delivery ₹1,400 + free drugs/tests/food/transport'});
+  }
+  // Construction worker
+  if(a.status==='construction'){
+    results.push({scheme:'🏗️ BOCW — निर्माण मजदूर कल्याण बोर्ड',
+      desc_hi:'90+ दिन काम → नि:शुल्क पंजीकरण → मृत्यु/दुर्घटना मुआवजा, छात्रवृत्ति, पेंशन | bocwbihar.in',
+      desc_en:'90+ days work → free registration → death/accident comp, scholarship, pension | bocwbihar.in'});
+  }
+  // PMJAY for all BPL
+  if(a.bpl==='aay'||a.bpl==='phh'){
+    results.push({scheme:'🏥 Ayushman Bharat — PMJAY',
+      desc_hi:'₹5 लाख/परिवार/वर्ष — cashless अस्पताल | Ayushman Card CSC या अस्पताल में बनाएं',
+      desc_en:'₹5 lakh/family/year cashless hospitalisation | Make Ayushman card at CSC or hospital'});
+  }
+  // MGNREGS for all
+  results.push({scheme:'🌾 MGNREGS — 100 दिन रोजगार',
+    desc_hi:'हर परिवार को 100 दिन (SC/ST/PwD: 150 दिन) — Job Card पंचायत से बनाएं',
+    desc_en:'Every HH gets 100 days (SC/ST/PwD: 150 days) — get Job Card from Panchayat'});
+  if(results.length===0){
+    results.push({scheme:'ℹ️ अधिक जानकारी चाहिए',
+      desc_hi:'अधिवक्ता या PLV से मिलें। Jan Sahayak App पर सभी योजनाएं देखें।',
+      desc_en:'Please consult a PLV or advocate. See all schemes on Jan Sahayak App.'});
+  }
+  return results;
+}
+
+// ============================================================
+// SERVICE WORKER (inline blob for single-file deployment)
+// ============================================================
+if('serviceWorker' in navigator){
+  const swCode=`
+const CACHE='jansahayak-handbook-v2';
+const ASSETS=['/welfare-handbook.html','https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;600;700&display=swap'];
+self.addEventListener('install',e=>e.waitUntil(
+  caches.open(CACHE).then(c=>c.addAll(ASSETS).catch(()=>{}))
+));
+self.addEventListener('fetch',e=>e.respondWith(
+  caches.match(e.request).then(r=>r||fetch(e.request).then(resp=>{
+    if(resp.ok&&e.request.url.startsWith('http')){
+      const clone=resp.clone();
+      caches.open(CACHE).then(c=>c.put(e.request,clone));
+    }
+    return resp;
+  }).catch(()=>caches.match(e.request)))
+));`;
+  try{
+    const blob=new Blob([swCode],{type:'application/javascript'});
+    const url=URL.createObjectURL(blob);
+    navigator.serviceWorker.register(url).catch(()=>{});
+  }catch(e){}
+}
+
+// ============================================================
+// INIT
+// ============================================================
+document.addEventListener('DOMContentLoaded',()=>{
+  // Open first chapter by default
+  const first=document.querySelector('.chapter');
+  if(first) first.classList.add('open');
+});
+</script>
+</body>
+</html>
